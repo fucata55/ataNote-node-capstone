@@ -1,16 +1,22 @@
 {
-  "name": "lightning-bold-node-capstone-project",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "dependencies": {
-    "express": "^4.16.2"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "author": "",
-  "license": "ISC"
+    "name": "lightning-bold-node-capstone-project",
+    "version": "1.0.0",
+    "description": "Taking your Google search to the next level",
+    "main": "server.js",
+    "dependencies": {
+        "chai": "^4.1.2",
+        "chai-http": "^3.0.0",
+        "express": "^4.16.2",
+        "faker": "^4.1.0",
+        "mocha": "^4.0.1",
+        "mongo": "^0.1.0",
+        "mongoose": "^4.12.4"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "mocha",
+        "start": "node server.js"
+    },
+    "author": "Stephen Liong",
+    "license": "ISC"
 }
