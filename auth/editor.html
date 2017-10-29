@@ -1,0 +1,39 @@
+<!doctype html>
+
+<html lang="en">
+
+    <head>
+    <meta charset="utf-8">
+    <title>home page</title>
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css?family=Karla|Rubik" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class='logo'></div>
+        <nav class='menu'>
+            <ul>
+                <a href="#"><img src='../public/logo.png' class='logo' id='home' /></a>
+                <li><a href="#">Editor</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Sign Out</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <form action="#">
+            <input type="text" placeholder="title">
+            <textarea name="note" cols="100" rows="30"></textarea>
+            <input type="submit" title='Saved to Home' value="Save Privately">
+            <input type="submit" title='Saved to Home and Profile' value="Save Publicly">
+            <!--            for v1, delete will have a pop up to confirm user's decision-->
+            <!--            for MVP, use alert to confirm-->
+            <input type="submit" value="Delete">
+        </form>
+    </main>
+
+</body>
+<script src="app.js"></script>
+
+</html>

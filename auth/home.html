@@ -1,0 +1,45 @@
+<!doctype html>
+
+<html lang="en">
+
+    <head>
+    <meta charset="utf-8">
+    <title>home page</title>
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css?family=Karla|Rubik" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class='logo'></div>
+        <nav class='menu'>
+            <ul>
+                <a href="#"><img src='../public/logo.png' class='logo' id='home' /></a>
+                <li><a href="#">Editor</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Sign Out</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!--       for V1, adjust "s" on "note" with the number of note. Singular or plural.-->
+        <!--       for MVP, keep the "notes" wheter its singular or plural-->
+        <p>You have <span class='number-public-notes'>0</span> notes on public and <span class='number-private-notes'>0</span> notes private </p>
+        <!--        for v1, add css to trim rigth bottom corner of the box. notes saved public are blue, private are green. Text displays have "..." if notes are longer than 20 characters-->
+        <!--        for MVP, plain box display 20 character of the note.-->
+        <div class='rows'>
+            <div class='notes-icon' id='note1'>Add note</div>
+            <div class='notes-icon' id='note2'></div>
+            <div class='notes-icon' id='note3'></div>
+        </div>
+        <div class='rows'>
+            <div class='notes-icon' id='note4'></div>
+            <div class='notes-icon' id='note5'></div>
+            <div class='notes-icon' id='note6'></div>
+        </div>
+    </main>
+
+</body>
+<script src="app.js"></script>
+
+</html>

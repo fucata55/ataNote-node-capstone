@@ -1,0 +1,43 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>home page</title>
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css?family=Karla|Rubik" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class='logo'></div>
+        <nav class='menu'>
+            <ul>
+                <a href="#"><img src='logo.png' class='sign-in-logo' /></a>
+                <li><a href="#">Sign In</a></li>
+                <li><a href="#">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!--    For V1, add Sliding home page with button to click like ExploRestaurant project For MVP, Straight to registration-->
+        <form action="#">
+            <!--
+       For V1, Add margin-bottom for each input box for red text
+       adjust margin as red text going.
+       For MVP, just add pop up alert when error
+-->
+            <input type="text" class='input-first-name' required='true' placeholder="First Name">
+            <input type="text" class='input-last-name' required='true' placeholder="Last Name">
+            <input type="text" class='input-email' required='true' placeholder="Email">
+            <input type="text" class='input-username' required='true' placeholder="Username" title='Username has to be at least contain 6 characters'>
+            <input type="text" class='input-password' required='true' placeholder="Password" title='Password has to be at least contain 6 characters'>
+            <input type="text" class='input-re-enter-password' required='true' placeholder="Re-enter Password" title='Both passwords must match'>
+            <input type="submit" placeholder="Sign Up">
+        </form>
+    </main>
+</body>
+<script src="app.js"></script>
+
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+
+<html lang="en">
+
+    <head>
+    <meta charset="utf-8">
+    <title>home page</title>
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css?family=Karla|Rubik" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class='logo'></div>
+        <nav class='menu'>
+            <ul>
+                <a href="#"><img src='../public/logo.png' class='logo' id='home' /></a>
+                <li><a href="#">Editor</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Sign Out</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!--       for V1, generate image and add to html-->
+        <!--       for MVP, just username-->
+        <span class='username'></span>
+        <!--        for v1, add css to trim rigth bottom corner of the box. notes saved public are blue, private are green. Text displays have "..." if notes are longer than 20 characters-->
+        <!--        for MVP, plain box display 20 character of the note.-->
+        <div class='rows'>
+            <div class='notes-icon' id='note1'></div>
+            <div class='notes-icon' id='note2'></div>
+        </div>
+        <div class='rows'>
+            <div class='notes-icon' id='note4'></div>
+            <div class='notes-icon' id='note5'></div>
+        </div>
+    </main>
+
+</body>
+<script src="app.js"></script>
+
+</html>
