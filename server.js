@@ -7,7 +7,7 @@ mongoose.Promise = global.promise;
 //const {PORT, DATABASE_URL} = require('./config')
 
 
-app.use(express.static('public'));
-app.listen(process.env.PORT || 8082);
+app.use(express.static('public/landing-page'));
+app.listen(process.env.PORT || 8081);
 
 exports.app = app
