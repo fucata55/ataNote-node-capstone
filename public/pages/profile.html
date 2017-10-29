@@ -11,30 +11,28 @@
 
 <body>
     <header>
-        <a href="home.html"><img src='../public/logo.png' class='small-logo' id='home' /></a>
+        <a href="home.html"><img src='../images/logo.png' class='small-logo' id='home' /></a>
         <nav class='menu'>
             <ul>
                 <li class='nav-item'><a class='nav-item-link' href="editor.html">Editor</a></li>
                 <li class='nav-item'><a class='nav-item-link' href="profile.html">Profile</a></li>
-                <li class='nav-item'><a class='nav-item-link' href="../public/login.html">Sign Out</a></li>
+                <li class='nav-item'><a class='nav-item-link' href="login.html">Sign Out</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <!--       for V1, adjust "s" on "note" with the number of note. Singular or plural.-->
-        <!--       for MVP, keep the "notes" wheter its singular or plural-->
-        <p>You have <span class='number-public-notes'>0</span> notes on public and <span class='number-private-notes'>0</span> notes private </p>
+        <!--       for V1, generate image and add to html-->
+        <!--       for MVP, just username-->
+        <span class='username'></span>
         <!--        for v1, add css to trim rigth bottom corner of the box. notes saved public are blue, private are green. Text displays have "..." if notes are longer than 20 characters-->
         <!--        for MVP, plain box display 20 character of the note.-->
         <div class='rows'>
-            <div class='notes-icon' id='note1'>Add note</div>
+            <div class='notes-icon' id='note1'></div>
             <div class='notes-icon' id='note2'></div>
-            <div class='notes-icon' id='note3'></div>
         </div>
         <div class='rows'>
             <div class='notes-icon' id='note4'></div>
             <div class='notes-icon' id='note5'></div>
-            <div class='notes-icon' id='note6'></div>
         </div>
     </main>
 

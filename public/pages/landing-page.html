@@ -11,7 +11,7 @@
 
 <body>
     <header>
-        <a href="#"><img src='logo.png' class='small-logo' /></a>
+        <a href="landing-page.html"><img src='../images/logo.png' class='small-logo' /></a>
         <nav class='menu'>
             <ul>
                 <li class='nav-item'><a class='nav-item-link' href="login.html">Sign In</a></li>
@@ -20,18 +20,18 @@
     </header>
     <main>
         <!--    For V1, add Sliding home page with button to click like ExploRestaurant project For MVP, Straight to registration-->
-        <form action="#">
+        <form id='sign-up-form' action="#">
             <!--
        For V1, Add margin-bottom for each input box for red text
        adjust margin as red text going.
        For MVP, just add pop up alert when error
 -->
-            <input type="text" class='input-first-name' required='true' placeholder="First Name">
-            <input type="text" class='input-last-name' required='true' placeholder="Last Name">
-            <input type="text" class='input-email' required='true' placeholder="Email">
-            <input type="text" class='input-username' required='true' placeholder="Username" title='Username has to be at least contain 6 characters'>
-            <input type="text" class='input-password' required='true' placeholder="Password" title='Password has to be at least contain 6 characters'>
-            <input type="text" class='input-re-enter-password' required='true' placeholder="Re-enter Password" title='Both passwords must match'>
+            <input type="text" class='input' id='first-name' required='true' placeholder="First Name">
+            <input type="text" class='input' id='last-name' required='true ' placeholder="Last Name">
+            <input type="text" class='input ' required='true ' placeholder="Email">
+            <input type="text" class='input ' required='true ' placeholder="Username" title='Username has to be at least contain 6 characters '>
+            <input type="text" class='input ' required='true ' placeholder="Password" title='Password has to be at least contain 6 characters '>
+            <input type="text" class='input ' required='true ' placeholder="Re-enter Password" title='Both passwords must match '>
             <input type="submit" value="Sign Up">
         </form>
     </main>
