@@ -1,7 +1,58 @@
+/*CSS Reset*/
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    box-sizing: border-box;
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-before: 0px;
+    -webkit-padding-after: 0px;
+    -webkit-padding-start: 0px;
+    -webkit-padding-end: 0px;
+}
+
+* {
+    Font-Family: 'Rubik', Sans-Serif;
+    Font-Size: 45px;
+}
+
+header {
+    background-color: black;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-right: 15px;
+}
+
+nav {
+    display: inline-block;
+    float: right;
+}
+
+.nav-item {
+    display: inline-block;
+}
+
+.nav-item-link {
+    font-size: 20px;
+    color: rgb(34, 190, 234);
+    text-decoration: none;
+}
+
+.small-logo {
+    width: 150px;
+}
+
+
+/*for user inputs*/
+
+
 /*
-Font-Family: 'Rubik',
-Sans-Serif;
-Font-Size: 45px;
 Font-Family: 'Karla',
 Sans-Serif;
-Font-Size: 16px;*/
+Font-Size: 16px;
+*/
