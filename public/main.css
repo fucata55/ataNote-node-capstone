@@ -28,7 +28,7 @@ header {
     padding-right: 15px;
 }
 
-#sign-up-form {
+.forms {
     text-align: center;
     margin-top: 60px;
     width: 600px;
@@ -37,7 +37,10 @@ header {
     background-color: #e9ebee;
     padding: 15px;
     border-radius: 5px;
+}
 
+.help {
+    display: block;
 }
 
 .input {
@@ -65,7 +68,7 @@ nav {
     display: inline-block;
 }
 
-.nav-item-link {
+a {
     font-size: 20px;
     color: rgb(34, 190, 234);
     text-decoration: none;
