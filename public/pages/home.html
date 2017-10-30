@@ -14,22 +14,30 @@
         <a href="home.html"><img src='../images/logo.png' class='small-logo' id='home' /></a>
         <nav class='menu'>
             <ul>
-                <li class='nav-item'><a class='nav-item-link' href="editor.html">Editor</a></li>
-                <li class='nav-item'><a class='nav-item-link' href="profile.html">Profile</a></li>
-                <li class='nav-item'><a class='nav-item-link' href="login.html">Sign Out</a></li>
+                <li class='nav-item'><a class='nav-item-link help' href="editor.html">Editor</a></li>
+                <li class='nav-item'><a class='nav-item-link help' href="profile.html">Profile</a></li>
+                <li class='nav-item'><a class='nav-item-link help' href="login.html">Sign Out</a></li>
             </ul>
         </nav>
     </header>
-    <main>
+    <main class='home'>
         <!--       for V1, adjust "s" on "note" with the number of note. Singular or plural.-->
         <!--       for MVP, keep the "notes" wheter its singular or plural-->
-        <p>You have <span class='number-public-notes'>0</span> notes on public and <span class='number-private-notes'>0</span> notes private </p>
+        <p class='help' id='notification'>You have <span class='number-public-notes'>0</span> notes on public and <span class='number-private-notes'>0</span> notes private </p>
         <!--        for v1, add css to trim rigth bottom corner of the box. notes saved public are blue, private are green. Text displays have "..." if notes are longer than 20 characters-->
         <!--        for MVP, plain box display 20 character of the note.-->
+        <!--        for v1, adjust small-note height to fit title inside-->
+        <!--        for MVP, only small-note-->
         <div class='rows'>
-            <div class='notes-icon' id='note1'>Add note</div>
-            <div class='notes-icon' id='note2'></div>
-            <div class='notes-icon' id='note3'></div>
+            <div class='notes-icon' id='note1'>
+                <h3>Add note</h3>
+            </div>
+            <div class='notes-icon' id='note2'>
+                <p class='small-note'>it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with </p>
+            </div>
+            <div class='notes-icon' id='note3'>
+                <p class='small-note'>t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+            </div>
         </div>
         <div class='rows'>
             <div class='notes-icon' id='note4'></div>
