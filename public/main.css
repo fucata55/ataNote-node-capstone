@@ -149,7 +149,7 @@ legend {
     font-family: 'Karla', Sans-Serif;
     font-size: 16px;
     width: 4.5rem;
-    height: 180px;
+    height: 150px;
     display: block;
 }
 
@@ -184,4 +184,24 @@ nav {
 
 .username {
     color: rgb(34, 190, 234);
+}
+
+.function-container {
+    padding-top: 10px;
+    padding-right: 25px;
+    height: 20px;
+    text-align: center;
+}
+
+.function-icon {
+    vertical-align: top;
+    display: inline-block;
+    height: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.function-icon img {
+    vertical-align: top;
+    max-height: 100%;
 }
