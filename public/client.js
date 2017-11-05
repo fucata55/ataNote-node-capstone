@@ -142,7 +142,7 @@ function trash(note) {
 
 
 //Define functions in home.html
-//adjust number of number of public and private notes based on the amount in database
+//adjust number of public and private notes based on the amount in database
 function adjustNotesAmount(account) {
     //in server.js, send the amount of notes private and public
     //GET request to server
@@ -156,10 +156,27 @@ function adjustNotesAmount(account) {
     $('.number-private-notes').append(amountOfPrivateNotes);
 }
 
+//adjust notes icon base on the user
+function adjustNotesIcon(account) {
+    //Looping the amount of notes in database and adding them to home.html
+    //in server.js, set dataSchema right
+    //Link note.body to the editor.html with the note
+    Object.keys(account.notes).map(note => {
+        $('#note1').append(`<div class='notes-icon'>
+<h3>${note.title}</h3>
+<a href='url to editor with ${note.id}'><p class='small-note'>${note.body}</p>
+<div class='function-container'>
+<a href="url to editor with ${note.id}" class='function-icon'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
+<a href="url to save note publically request with ${note.id}" class='function-icon'><img src="../images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></a>
+<a href="url to DELETE request with ${note.id}" class='function-icon'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
+</div>
+</div>`)
+    })
+}
 
 //When a specific page is loaded, execute functions
 $(document).ready(function () {
     if (window.location.pathname === 'home url') {
-        $(.getJSON('url to get all of the data of a specific user', account, [adjustNotesAmount]))
+        $(.getJSON('url to get all of the data of a specific user', account, [adjustNotesAmount, adjustNotesIcon]))
     }
 })
