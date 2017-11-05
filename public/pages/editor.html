@@ -21,15 +21,15 @@
         </nav>
     </header>
     <main class='editor'>
-        <form action="#">
+        <form action="#" id='note-form'>
             <input type="text" class='input note-title' placeholder="title">
-            <textarea name="note" cols="80" rows="30"></textarea>
+            <textarea name="note" cols="80" rows="30" id='note' required=true></textarea>
             <div class='saves-box'>
-                <input type="submit" class='input save private' title='Saved to Home' value="Save Privately">
-                <input type="submit" class='input save' title='Saved to Home and Profile' value="Save Publicly">
+                <input type="submit" name='action' class='input save private' title='Saved to Home' value="Save Privately">
+                <input type="submit" name='action' class='input save' title='Saved to Home and Profile' value="Save Publicly">
                 <!--            for v1, delete will have a pop up to confirm user's decision-->
                 <!--            for MVP, use alert to confirm-->
-                <input type="submit" class='input delete' value="Delete">
+                <input type="submit" name='action' class='input delete' value="Delete">
             </div>
         </form>
     </main>

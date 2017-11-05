@@ -79,4 +79,58 @@ function showLoginResult() {
     //if user and password combination is correct, direct to the user's home
     //define variable for client.js use from database JSON response
     //respond POST request to add appropriate user data to home, editor, profile HTMLs
+};
+
+
+//Define functions in editor.html
+//receive input
+function receiveNote() {
+    $('#note-form').submit(event => {
+        event.preventDefault();
+        const _note = {
+            noteTitle: `${$('.note-title').val()}`,
+            noteBody: `${$('#note').val()}`
+        }
+        const note = JSON.stringify(_note);
+        processNote(note);
+    });
+};
+
+//distribute note to save privately, save publically, or delete function
+function processNote(note) {
+    const note = note;
+    $('.input save private').submit(event => {
+        savePrivate(note);
+        window.open(home.html);
+    });
+    $('.input save').submit(event => {
+        savePublic(note);
+        window.open(home.html);
+    });
+    $('input delete').submit(event => {
+        trash(note);
+        window.open(home.html);
+    });
+}
+
+//save notes privately, only shown in home.html
+function savePrivate(note) {
+//    do i need acallbackfunction
+    $.getJSON('a neutral url that can POST or PUT', note, alert('Successful to save note privately'))
+    //in server.js, direct note to POST or PUT request by determining the existence of ID in database
+}
+
+//save notes publicly, shown in home.html and profile.html
+function savePublic(note) {
+    //do i need acallbackfunction
+    .getJSON('a neutral url that can POST or PUT', note, alert('Successful to save note publicly'))
+    //in server.js, direct note to POST or PUT request by determining the existence of ID in database
+}
+
+//confirm user's decision and delete note from database
+function trash(note) {
+    //do i need acallbackfunction
+    .getJSON('a neutral url that can DELETE', note, alert('Successful to save note publicly'))
+    //in server.js, direct note to DELETE Request by determining the existence of ID in database
+
 }
