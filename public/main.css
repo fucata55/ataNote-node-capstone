@@ -39,6 +39,10 @@ header {
     text-align: center;
 }
 
+.profile {
+    width: 15rem;
+}
+
 textarea {
     font-family: 'Karla', Sans-Serif;
     Font-size: 16px;

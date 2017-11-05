@@ -162,7 +162,7 @@ function adjustNotesIcon(account) {
     //in server.js, set dataSchema right
     //Link note.body to the editor.html with the note
     Object.keys(account.notes).map(note => {
-        $('#note1').append(`<div class='notes-icon'>
+        $('#note1').after(`<div class='notes-icon'>
 <h3>${note.title}</h3>
 <a href='url to editor with ${note.id}'><p class='small-note'>${note.body}</p>
 <div class='function-container'>
@@ -178,5 +178,35 @@ function adjustNotesIcon(account) {
 $(document).ready(function () {
     if (window.location.pathname === 'home url') {
         $(.getJSON('url to get all of the data of a specific user', account, [adjustNotesAmount, adjustNotesIcon]))
+    } else if (window.location.pathname === 'profile url') {
+        $(.getJSON('url to get all of the data of a specific user', account, [displayUserName, adjustNotesIconPrivate]))
     }
 })
+
+
+//Define functions in profile.html
+//display username
+function displayUserName(account) {
+    const userName = $ {
+        account.userName
+    };
+    $('span .username').text(userName)
+}
+
+function adjustNotesIconPrivate(account) {
+    //shows the notes that are open to public
+    Object.keys(account.notes).map(note => {
+        if (note.type === 'public') {
+            $('.profile notes').after(`<div class='notes-icon public'>
+<h3>${note.title}</h3>
+<p class='small-note'>${note.body}</p>
+<div class='function-container'>
+<a href="#" class='function-icon'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
+<a href="#" class='function-icon'><img src="../images/save-private-icon.png" alt="save note to home icon" title='move note to home' /></a>
+<a href="#" class='function-icon'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
+</div>
+</div>`)
+        }
+        console.log(`note is private`)
+    });
+};
