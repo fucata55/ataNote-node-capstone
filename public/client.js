@@ -1,3 +1,6 @@
+//define account from login or register, and use it in home, profile, editor HTMLs
+let account
+
 //Define functions working in landing-page.html
 //receive user registration in landing-page.html and send it to process function
 //input values will not be null because HTML <input required: true>
@@ -40,7 +43,7 @@ function processRegistration(firstName, lastName, email, userName, password, con
 }
 
 //show response from database to landing-page.html
-function showRegistrationResult() {
+function showRegistrationResult(account) {
     //if registration fails, alert the reason
     console.error(`registration is failed because user name adasdas is already exist`)
     alert(`registration is failed because user name adasdas is already exist`)
@@ -49,6 +52,7 @@ function showRegistrationResult() {
     //define variable for client.js use from database JSON response
     //respond POST request to add appropriate user data to home, editor, profile HTMLs that also works for login
     window.open('home.html with url of user data')
+    account = account
 }
 
 //Define functions working in login.html
@@ -71,7 +75,7 @@ function processLogin(userName, password) {
     $.getJson('GETbyUserPassurl', JSON.stringify(userData), showLoginResult)
 };
 
-function showLoginResult() {
+function showLoginResult(account) {
     //if user does not exists or password is not correct, alert user does not exist or password does not match'
     //keep the input value, don't erase them so user can analyze their wrong input
     console.error('invalid user and password combination');
@@ -79,6 +83,7 @@ function showLoginResult() {
     //if user and password combination is correct, direct to the user's home
     //define variable for client.js use from database JSON response
     //respond POST request to add appropriate user data to home, editor, profile HTMLs
+    account = account
 };
 
 
@@ -115,7 +120,7 @@ function processNote(note) {
 
 //save notes privately, only shown in home.html
 function savePrivate(note) {
-//    do i need acallbackfunction
+    //    do i need acallbackfunction
     $.getJSON('a neutral url that can POST or PUT', note, alert('Successful to save note privately'))
     //in server.js, direct note to POST or PUT request by determining the existence of ID in database
 }
@@ -134,3 +139,27 @@ function trash(note) {
     //in server.js, direct note to DELETE Request by determining the existence of ID in database
 
 }
+
+
+//Define functions in home.html
+//adjust number of number of public and private notes based on the amount in database
+function adjustNotesAmount(account) {
+    //in server.js, send the amount of notes private and public
+    //GET request to server
+    //define the numbers
+    let amountOfPublicNotes = 2 //account.amountOfPublic
+    let amountOfPrivateNotes = 4 //account.amountOfPrivate
+    //change DOM in #notification
+    $('.number-public-notes').empty();
+    $('.number-public-notes').append(amountOfPublicNotes);
+    $('.number-private-notes').empty();
+    $('.number-private-notes').append(amountOfPrivateNotes);
+}
+
+
+//When a specific page is loaded, execute functions
+$(document).ready(function () {
+    if (window.location.pathname === 'home url') {
+        $(.getJSON('url to get all of the data of a specific user', account, [adjustNotesAmount]))
+    }
+})
