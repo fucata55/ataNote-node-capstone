@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+
+//For v1, make Notes displayed public available for other users to see
+//For MVP, keep notes to the publisher only
 const userSchema = new mongoose.Schema({
     firstName: {
         type: string,
@@ -30,3 +33,6 @@ const userSchema = new mongoose.Schema({
 });
 
 Const User = mongoose.model('User', userSchema)
+module.exports = {
+    User
+}

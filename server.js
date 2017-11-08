@@ -21,6 +21,6 @@ app.use('/profile', profileRouter);
 app.use('/register', registerRouter);
 
 
-app.listen(process.env.PORT || 8081);
+app.listen(process.env.PORT || 8081, () => console.log('app is listening'));
 
 exports.app = app
