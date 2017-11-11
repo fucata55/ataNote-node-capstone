@@ -19,6 +19,7 @@ app.use('/login', loginRouter);
 app.use('/home', homeRouter);
 app.use('/profile', profileRouter);
 app.use('/register', registerRouter);
+app.use('/user', userRouter);
 
 
 app.listen(process.env.PORT || 8081, () => console.log('app is listening'));

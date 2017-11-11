@@ -88,33 +88,32 @@ function showLoginResult(account) {
 
 
 //Define functions in editor.html
-//receive input
-function receiveNote() {
-    $('#note-form').submit(event => {
-        event.preventDefault();
-        const _note = {
-            noteTitle: `${$('.note-title').val()}`,
-            noteBody: `${$('#note').val()}`
-        }
-        const note = JSON.stringify(_note);
-        processNote(note);
-    });
-};
+//receive note
+$('#note-form').submit(event => {
+    event.preventDefault();
+    const _note = {
+        noteTitle: `${$('.note-title').val()}`,
+        noteBody: `${$('#note').val()}`
+    }
+    console.loge(_note)
+    const note = JSON.stringify(_note);
+    processNote(note);
+});
 
 //distribute note to save privately, save publically, or delete function
 function processNote(note) {
     const note = note;
     $('.input save private').submit(event => {
         savePrivate(note);
-        window.open(home.html);
+        location.replace('./pages/home');
     });
     $('.input save').submit(event => {
         savePublic(note);
-        window.open(home.html);
+        location.replace('./pages/home');
     });
     $('input delete').submit(event => {
         trash(note);
-        window.open(home.html);
+        location.replace('./pages/home');
     });
 }
 

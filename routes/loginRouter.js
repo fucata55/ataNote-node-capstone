@@ -28,10 +28,11 @@ app.post('/', (req, res) => {
 
     //check if username exists in db
     User
+        //find an object that has username as entered
         .findOne({
             username: req.body.username
         }),
-        function (err, item) {
+        function (err, items) {
             if (err) {
                 return res.status(500).json({
                     message: 'Internal server error'
@@ -46,6 +47,7 @@ app.post('/', (req, res) => {
                 });
                 //integrate JWT token and passport
                 //when client.js receives username and password, use the username to GET request of notes in db
+                //send the whole object to client
             } else {
                 console.log('login successful');
                 return res.status(200).json(items)
