@@ -25,11 +25,22 @@
             <input type="text" class='input note-title' placeholder="title">
             <textarea name="note" cols="80" rows="30" id='note' required=true></textarea>
             <div class='saves-box'>
-                <input type="submit" name='action' class='input save private' title='Saved to Home' value="Save Privately">
-                <input type="submit" name='action' class='input save' title='Saved to Home and Profile' value="Save Publicly">
+                <label class='box' for="#">
+                <input type="radio" name='action' class='input save private' title='Save to Home' required checked>
+                <img src="./images/save-private-icon.png" alt="Save Privately">
+                </label>
+                <label class='box' for="#">
+                <input type="radio" name='action' class='input save' title='Save to Home and Profile'>
+                <img src="./images/save-public-icon.png" alt="Save Publicly">
+                </label>
                 <!--            for v1, delete will have a pop up to confirm user's decision-->
                 <!--            for MVP, use alert to confirm-->
-                <input type="submit" name='action' class='input delete' value="Delete">
+                <label class='box' for="#">
+                <input type="radio" name='action' class='input delete' title='trash'>
+                <img src="./images/trash-icon.png" alt="">
+                </label>
+                <input type="submit" name='action' class='input' value='execute'>
+
             </div>
         </form>
     </main>

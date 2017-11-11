@@ -13,7 +13,7 @@ const editorRouter = require('./routes/editorRouter');
 const homeRouter = require('./routes/homeRouter');
 const profileRouter = require('./routes/profileRouter')
 
-app.use(express.static('public/pages'));
+app.use(express.static('public'));
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/home', homeRouter);

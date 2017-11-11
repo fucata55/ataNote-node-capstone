@@ -96,6 +96,30 @@ legend {
     font-size: 16px;
 }
 
+.box {
+    margin: 0px 40px;
+}
+
+.save,
+.delete {
+    display: inline-block;
+    width: 20px;
+}
+
+
+/*
+label>input {
+    visibility: hidden;
+    position: absolute;
+}
+*/
+
+label>input:checked+img {
+    border: 2px solid #67ae55;
+}
+
+
+/*
 .save {
     display: inline;
     margin-left: auto;
@@ -110,11 +134,17 @@ legend {
     background: linear-gradient(#67ae55, #578843);
     color: white;
 }
+*/
 
+
+/*
 .private {
     background: linear-gradient(#3469D1, #2851A1)
 }
+*/
 
+
+/*
 .delete {
     display: inline;
     margin-left: auto;
@@ -129,6 +159,7 @@ legend {
     background: linear-gradient(#fA3e3e, #a82a2a);
     color: white;
 }
+*/
 
 .saves-box {
     text-align: center;
