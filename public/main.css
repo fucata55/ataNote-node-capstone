@@ -237,6 +237,16 @@ nav {
     max-height: 100%;
 }
 
+@media only screen and (max-width: 915px) {
+    .editor {
+        width: 95%;
+    }
+    #note-form {
+        /*        width: 95%;*/
+        margin: 0px auto;
+    }
+}
+
 @media only screen and (max-width: 695px) {
     .profile {
         width: 100%
@@ -258,6 +268,19 @@ nav {
     }
     .input {
         min-width: 230px;
+    }
+    #save-public,
+    #save-private,
+    #delete {
+        width: 25px;
+        min-width: 25px;
+    }
+    .box {
+        margin: 0px auto;
+    }
+    .note-title,
+    .execute {
+        min-width: 212px;
     }
 }
 
