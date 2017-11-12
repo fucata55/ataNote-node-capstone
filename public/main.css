@@ -106,13 +106,13 @@ legend {
     width: 20px;
 }
 
-
-/*
-label>input {
-    visibility: hidden;
-    position: absolute;
+.execute {
+    width: 28%;
+    font-family: 'Karla', Sans-Serif;
+    font-size: 16px;
+    background: linear-gradient(#67ae55, #578843);
+    color: white;
 }
-*/
 
 label>input:checked+img {
     border: 2px solid #67ae55;
