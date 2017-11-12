@@ -237,6 +237,12 @@ nav {
     max-height: 100%;
 }
 
+@media only screen and (max-width: 695px) {
+    .profile {
+        width: 100%
+    }
+}
+
 @media only screen and (max-width: 600px) {
     .forms {
         width: 100%;
@@ -292,6 +298,9 @@ nav {
     #notification {
         font-size: 16px;
         margin: 20px;
+    }
+    .profile>.username {
+        font-size: 25px;
     }
     #notification>span {
         font-size: 25px;
