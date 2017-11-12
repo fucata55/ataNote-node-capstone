@@ -26,17 +26,17 @@
             <textarea name="note" cols="80" rows="30" id='note' required=true></textarea>
             <div class='saves-box'>
                 <label class='box' for="#">
-                <input type="radio" name='action' class='input save private' title='Save to Home' required checked>
+                <input type="radio" name='action' class='input save private' id='save-private' title='Save to Home' required checked>
                     <img src="./images/save-private-icon.png" alt="Save Privately" title='Save to Home'>
                 </label>
                 <label class='box' for="#">
-                <input type="radio" name='action' class='input save' title='Save to Home and Profile'>
+                <input type="radio" name='action' class='input save' id='save-public' title='Save to Home and Profile'>
                     <img src="./images/save-public-icon.png" alt="Save Publicly" title='Save to Home and Profile'>
                 </label>
                 <!--            for v1, delete will have a pop up to confirm user's decision-->
                 <!--            for MVP, use alert to confirm-->
                 <label class='box' for="#">
-                <input type="radio" name='action' class='input delete' title='trash'>
+                <input type="radio" name='action' class='input delete' id='delete' title='trash'>
                     <img src="./images/trash-icon.png" alt="trash" title='trash'>
                 </label>
                 <input type="submit" name='action' class='input execute' value='execute'>

@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
         type: string,
         required: true
     },
-    userName: {
+    username: {
         type: string,
         required: true
     },
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
         type: string,
         required: true
     },
-    Notes: [{
+    notes: [{
         title: string,
         body: string,
         type: string

@@ -1,5 +1,21 @@
 //define account from login or register, and use it in home, profile, editor HTMLs
-let account
+let account = {
+    firstName: 'Stephen',
+    lastName: 'Fucata',
+    username: 'Fucata',
+    password: 'Thinkful',
+    confirmPassword: 'Thinkful',
+    notes: [{
+            title: 'The Flash Beats Zoom',
+            body: 'In The Flash season 2, Flash beats Zoom on \'1 on 1\` fight. Flash created another of him by using time remnant',
+            type: 'private'
+    },
+        {
+            title: 'The Flash Beats Savatar',
+            body: 'In The Flash season 3, Flash beats Savatar by team work. Thanks to Killer Frost who changed her mind to help the Flash after helping Savatar throughout the season.',
+            type: 'public'
+    }]
+}
 
 //Define functions working in landing-page.html
 //receive user registration in landing-page.html and send it to process function
@@ -91,30 +107,69 @@ function showLoginResult(account) {
 //receive note
 $('#note-form').submit(event => {
     event.preventDefault();
-    const _note = {
-        noteTitle: `${$('.note-title').val()}`,
-        noteBody: `${$('#note').val()}`
+    //update one of the user notes
+    let note = account.notes[0]
+    note = {
+        title: `${$('.note-title').val()}`,
+        body: `${$('#note').val()}`
     }
-    console.loge(_note)
-    const note = JSON.stringify(_note);
+    //control API request of note execution in editor.html
+    $('#save-public').click(event => {
+        note.type = 'public'
+    });
+    $('#save-private').click(event => {
+        note.type = 'private'
+    });
+    $('#delete').click(event => {
+        note.type = 'trash'
+    });
+    console.loge(note)
     processNote(note);
 });
 
-//distribute note to save privately, save publically, or delete function
-function processNote(note) {
-    const note = note;
-    $('.input save private').submit(event => {
-        savePrivate(note);
-        location.replace('./pages/home');
-    });
-    $('.input save').submit(event => {
-        savePublic(note);
-        location.replace('./pages/home');
-    });
-    $('input delete').submit(event => {
-        trash(note);
-        location.replace('./pages/home');
-    });
+
+
+//Make different request that determined by _note.type
+function processNote(_note) {
+    const note = JSON.stringify(_note);
+    if (_note.type === 'trash') {
+        $.ajax({
+                method: 'DELETE',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: note,
+                //Make possible to make request to specific object
+                url: '/user',
+            })
+            .done(function () {
+                console.log('Note deleted');
+                location.replace('./pages/home');
+            })
+            .fail(function (jqXHR, error, errorThrown) {
+                console.log(jqXHR);
+                console.log(error);
+                console.log(errorThrown);
+            });
+    } else {
+
+        $.ajax({
+                method: 'DELETE',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: note,
+                //Make possible to make request to specific object
+                url: '/user',
+            })
+            .done(function () {
+                console.log('Note deleted');
+                location.replace('./pages/home');
+            })
+            .fail(function (jqXHR, error, errorThrown) {
+                console.log(jqXHR);
+                console.log(error);
+                console.log(errorThrown);
+            });
+    }
 }
 
 //save notes privately, only shown in home.html
@@ -209,3 +264,5 @@ function adjustNotesIconPrivate(account) {
         console.log(`note is private`)
     });
 };
+
+//Triggering functions starts below this line
