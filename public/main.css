@@ -236,3 +236,21 @@ nav {
     vertical-align: top;
     max-height: 100%;
 }
+
+@media only screen and (max-width: 600px) {
+    .forms {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    #first-name,
+    #last-name {
+        display: block;
+        width: 90%;
+        min-width: 230px;
+    }
+    .input {
+        min-width: 230px;
+    }
+}

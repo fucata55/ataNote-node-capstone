@@ -151,9 +151,8 @@ function processNote(_note) {
                 console.log(errorThrown);
             });
     } else {
-
         $.ajax({
-                method: 'DELETE',
+                method: 'PUT',
                 dataType: 'json',
                 contentType: 'application/json',
                 data: note,
@@ -161,7 +160,7 @@ function processNote(_note) {
                 url: '/user',
             })
             .done(function () {
-                console.log('Note deleted');
+                console.log(`Note saved ${_note.type}`);
                 location.replace('./pages/home');
             })
             .fail(function (jqXHR, error, errorThrown) {
@@ -170,28 +169,6 @@ function processNote(_note) {
                 console.log(errorThrown);
             });
     }
-}
-
-//save notes privately, only shown in home.html
-function savePrivate(note) {
-    //    do i need acallbackfunction
-    $.getJSON('a neutral url that can POST or PUT', note, alert('Successful to save note privately'))
-    //in server.js, direct note to POST or PUT request by determining the existence of ID in database
-}
-
-//save notes publicly, shown in home.html and profile.html
-function savePublic(note) {
-    //do i need acallbackfunction
-    .getJSON('a neutral url that can POST or PUT', note, alert('Successful to save note publicly'))
-    //in server.js, direct note to POST or PUT request by determining the existence of ID in database
-}
-
-//confirm user's decision and delete note from database
-function trash(note) {
-    //do i need acallbackfunction
-    .getJSON('a neutral url that can DELETE', note, alert('Successful to save note publicly'))
-    //in server.js, direct note to DELETE Request by determining the existence of ID in database
-
 }
 
 
