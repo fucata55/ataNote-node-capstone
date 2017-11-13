@@ -104,30 +104,7 @@ function showLoginResult(account) {
 
 
 //Define functions in editor.html
-//receive note
-$('#note-form').submit(event => {
-    event.preventDefault();
-    //update one of the user notes
-    let note = account.notes[0]
-    note = {
-        title: `${$('.note-title').val()}`,
-        body: `${$('#note').val()}`
-    }
-    //control API request of note execution in editor.html
-    $('#save-public').click(event => {
-        note.type = 'public'
-    });
-    $('#save-private').click(event => {
-        note.type = 'private'
-    });
-    $('#delete').click(event => {
-        note.type = 'trash'
-    });
-    console.loge(note)
-    processNote(note);
-});
-
-
+//receive note. ^Search "//receive note"
 
 //Make different request that determined by _note.type
 function processNote(_note) {
@@ -159,7 +136,7 @@ function processNote(_note) {
                 //Make possible to make request to specific object
                 url: '/user',
             })
-            .done(function () {
+            .done(function (data) {
                 console.log(`Note saved ${_note.type}`);
                 location.replace('./pages/home');
             })
@@ -243,3 +220,25 @@ function adjustNotesIconPrivate(account) {
 };
 
 //Triggering functions starts below this line
+//receive note
+$('#note-form').submit(event => {
+    event.preventDefault();
+    //update one of the user notes
+    let note = account.notes[0]
+    note = {
+        title: `${$('.note-title').val()}`,
+        body: `${$('#note').val()}`
+    }
+    //control API request of note execution in editor.html
+    $('#save-public').click(event => {
+        note.type = 'public'
+    });
+    $('#save-private').click(event => {
+        note.type = 'private'
+    });
+    $('#delete').click(event => {
+        note.type = 'trash'
+    });
+    console.loge(note)
+    processNote(note);
+});
