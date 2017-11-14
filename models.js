@@ -25,12 +25,23 @@ const userSchema = new mongoose.Schema({
         type: string,
         required: true
     },
-    notes: [{
-        title: string,
-        body: string,
-        type: string
-    }]
+    notes: [noteSchema]
 });
+
+const noteSchema = new mongoose.Schema({
+    title: {
+        type: string,
+        required: false
+    },
+    body: {
+        type: string,
+        required: false
+    },
+    type: {
+        type: string,
+        required: false
+    }
+})
 
 Const User = mongoose.model('User', userSchema)
 module.exports = {

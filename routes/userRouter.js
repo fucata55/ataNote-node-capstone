@@ -14,3 +14,6 @@ const {
 
 //find by ID or username
 app.get('/')
+
+//pretend receving request to from triggers at home.html
+app.get('user/note/:id')

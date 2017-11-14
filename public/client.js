@@ -19,20 +19,7 @@ let account = {
 
 //Define functions working in landing-page.html
 //receive user registration in landing-page.html and send it to process function
-//input values will not be null because HTML <input required: true>
-function receiveRegisteration() {
-    $('#registration').submit(event => {
-        event.preventDefault();
-        const firstName = $('#first-name').val();
-        const lastName = $('#last-name').val();
-        const email = $('#email').val();
-        const userName = $('#username').val();
-        const password = $('#password').val();
-        const confirmPassword = $('#confirmPassword').val();
-        console.log(`Your first name is ${firstName}, last name is ${lastName}, email is ${email}, username is ${userName}, and pasword is secret`);
-        processRegistration(firstName, lastName, email, userName, password, confirmPassword);
-    })
-}
+
 
 //return back regitration that doesn't have a consistent password
 //send user data to database to be registered
@@ -55,33 +42,49 @@ function processRegistration(firstName, lastName, email, userName, password, con
     };
     //set url to POST request.
     //set endpoint at server.js
-    $.getJSON('url', JSON.stringify(userData), showRegistrationResult)
+    $.ajax({
+            type: "POST",
+            url: "/user/signup",
+            dataType: 'json',
+            data: JSON.stringify(userData),
+            contentType: 'application/json'
+            success: function (data) {
+                showRegistrationResult
+            }
+        })
+        //expect request POST will respond user data
+        .done(function (result) {
+            showRegistrationResult();
+        })
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+        });
 }
 
+
+
+get.json
+for showRegistrationResult
+
+
 //show response from database to landing-page.html
-function showRegistrationResult(account) {
+function showRegistrationResult(_account) {
     //if registration fails, alert the reason
-    console.error(`registration is failed because user name adasdas is already exist`)
+    console.error(`registration is failed because username ${account.username} is already exist`)
     alert(`registration is failed because user name adasdas is already exist`)
     $('#username').val('');
     //if registration is success, direct to home
     //define variable for client.js use from database JSON response
     //respond POST request to add appropriate user data to home, editor, profile HTMLs that also works for login
-    window.open('home.html with url of user data')
-    account = account
+    account = _account
+    location.replace('./home');
+    adjustNotesAmount()
 }
 
 //Define functions working in login.html
 //receive login data, send data to database, direct to home page of the user or error
-//input values will not be null because HTML <input required: true>
-function receiveLogin() {
-    $('#login').submit(event => {
-        event.preventDefault();
-        const userName: $('#login-username').val();
-        const password: $('#login-password').val();
-        processLogin(userName, password);
-    });
-}
 
 function processLogin(userName, password) {
     const userData = {
@@ -101,6 +104,70 @@ function showLoginResult(account) {
     //respond POST request to add appropriate user data to home, editor, profile HTMLs
     account = account
 };
+
+//Define functions in home.html
+//adjust number of public and private notes based on the amount in database
+function adjustNotesAmount() {
+    //in server.js, send the amount of notes private and public
+    //GET request to server
+    //define the numbers of notes on public and private
+    let amountOfPublicNotes = function () {
+        let count = 0;
+        account.notes.forEach(note => {
+            if (note.type == 'public') {
+                count++
+            };
+        });
+        return count
+    };
+    let amountOfPrivateNotes = function () {
+        let count = 0;
+        account.notes.forEach(note => {
+            if (note.type == 'private') {
+                count++
+            };
+        });
+        return count
+    }; //account.amountOfPrivate
+    //change DOM in #notification
+    $('.number-public-notes').empty();
+    $('.number-public-notes').append(amountOfPublicNotes);
+    $('.number-private-notes').empty();
+    $('.number-private-notes').append(amountOfPrivateNotes);
+}
+
+//adjust notes icon base on the user
+function adjustNotesIcon() {
+    account.notes.forEach.map(note => {
+        $('#note1').after(`<div class='notes-icon ${note.id} editor-js'>
+<h3 class='${note.id} editor-js'>${note.title}</h3>
+<a href='./editor' class='${note.id} editor-js'><p class='small-note'>${note.body.slice(1, 90)}</p>
+<div class='function-container'>
+<a href='./editor' class='function-icon editor-js ${note.id}'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
+<a href='./profile' class='function-icon ${note.id} save-public-js'><img src="../images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></a>
+<a href='./home' class='function-icon ${note.id}'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
+</div>
+</div>`)
+    })
+}
+
+function updateNote(note) {
+    note.type = 'public';
+    console.log(`Note received by FupdateNote is ${note}, and its type supposed to be 'public`)
+    $.ajax({
+            type: "PUT",
+            url: "/user/notes" + note.id,
+            dataType: 'json',
+            data: JSON.stringify(note),
+            contentType: 'application/json'
+        })
+        .done()
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+        });
+}
 
 
 //Define functions in editor.html
@@ -148,64 +215,42 @@ function processNote(_note) {
     }
 }
 
-
-//Define functions in home.html
-//adjust number of public and private notes based on the amount in database
-function adjustNotesAmount(account) {
-    //in server.js, send the amount of notes private and public
-    //GET request to server
-    //define the numbers
-    let amountOfPublicNotes = 2 //account.amountOfPublic
-    let amountOfPrivateNotes = 4 //account.amountOfPrivate
-    //change DOM in #notification
-    $('.number-public-notes').empty();
-    $('.number-public-notes').append(amountOfPublicNotes);
-    $('.number-private-notes').empty();
-    $('.number-private-notes').append(amountOfPrivateNotes);
+//populate editor page from ID
+function adjustEditor(note) {
+    console.log(`note is ${note}`)
+    $('.note-title').val(note.title)
+    $('textarea').val(note.body)
+    $("input[type='radio']").addClass(note.id)
 }
+//add ID to PUT and DELETE requests triggerd in editor
 
-//adjust notes icon base on the user
-function adjustNotesIcon(account) {
-    //Looping the amount of notes in database and adding them to home.html
-    //in server.js, set dataSchema right
-    //Link note.body to the editor.html with the note
-    Object.keys(account.notes).map(note => {
-        $('#note1').after(`<div class='notes-icon'>
-<h3>${note.title}</h3>
-<a href='url to editor with ${note.id}'><p class='small-note'>${note.body}</p>
-<div class='function-container'>
-<a href="url to editor with ${note.id}" class='function-icon'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
-<a href="url to save note publically request with ${note.id}" class='function-icon'><img src="../images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></a>
-<a href="url to DELETE request with ${note.id}" class='function-icon'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
-</div>
-</div>`)
-    })
-}
-
-//When a specific page is loaded, execute functions
-$(document).ready(function () {
-    if (window.location.pathname === 'home url') {
-        $(.getJSON('url to get all of the data of a specific user', account, [adjustNotesAmount, adjustNotesIcon]))
-    } else if (window.location.pathname === 'profile url') {
-        $(.getJSON('url to get all of the data of a specific user', account, [displayUserName, adjustNotesIconPrivate]))
-    }
+//In home.html, when a small note is clicked, load editor with the note
+$('.editor-js').click(event => {
+    const thisID = this.attr('id');
+    console.log(this, `ID selected is ${thisID}`);
+    $.getJSON('/user/notes/' + thisID, adjustEditor);
 })
+//In home.html, when a save-to-public button is clicked, share the note selected to public
+$('save-public-js').click(() => {
+            const thisID = this.atter('id');
+            console.log(this, `ID selected is ${thisID}`);
+            $.getJSON('/user/notes/' + thisID, updateNote)
+        }
 
+        //Define functions in profile.html
+        //display username
+        function displayUserName(account) {
+            const userName = $ {
+                account.userName
+            };
+            $('span .username').text(userName)
+        }
 
-//Define functions in profile.html
-//display username
-function displayUserName(account) {
-    const userName = $ {
-        account.userName
-    };
-    $('span .username').text(userName)
-}
-
-function adjustNotesIconPrivate(account) {
-    //shows the notes that are open to public
-    Object.keys(account.notes).map(note => {
-        if (note.type === 'public') {
-            $('.profile notes').after(`<div class='notes-icon public'>
+        function adjustNotesIconPrivate(account) {
+            //shows the notes that are open to public
+            Object.keys(account.notes).map(note => {
+                if (note.type === 'public') {
+                    $('.profile notes').after(`<div class='notes-icon public'>
 <h3>${note.title}</h3>
 <p class='small-note'>${note.body}</p>
 <div class='function-container'>
@@ -214,31 +259,65 @@ function adjustNotesIconPrivate(account) {
 <a href="#" class='function-icon'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
 </div>
 </div>`)
-        }
-        console.log(`note is private`)
-    });
-};
+                }
+                console.log(`note is private`)
+            });
+        };
 
-//Triggering functions starts below this line
-//receive note
-$('#note-form').submit(event => {
-    event.preventDefault();
-    //update one of the user notes
-    let note = account.notes[0]
-    note = {
-        title: `${$('.note-title').val()}`,
-        body: `${$('#note').val()}`
-    }
-    //control API request of note execution in editor.html
-    $('#save-public').click(event => {
-        note.type = 'public'
-    });
-    $('#save-private').click(event => {
-        note.type = 'private'
-    });
-    $('#delete').click(event => {
-        note.type = 'trash'
-    });
-    console.loge(note)
-    processNote(note);
-});
+        //Triggering functions starts below this line
+
+
+        //receive note
+        $('#note-form').submit(event => {
+            event.preventDefault();
+            //update one of the user notes
+            let note = account.notes[0]
+            note = {
+                title: `${$('.note-title').val()}`,
+                body: `${$('#note').val()}`
+            }
+            //control API request of note execution in editor.html
+            $('#save-public').click(event => {
+                note.type = 'public'
+            });
+            $('#save-private').click(event => {
+                note.type = 'private'
+            });
+            $('#delete').click(event => {
+                note.type = 'trash'
+            });
+            console.loge(note)
+            processNote(note);
+        });
+
+        //receive user registration in landing-page.html and send it to process function
+        //input values will not be null because HTML <input required: true>
+        $('#registration').submit(event => {
+            event.preventDefault();
+            const firstName = $('#first-name').val();
+            const lastName = $('#last-name').val();
+            const email = $('#email').val();
+            const userName = $('#username').val();
+            const password = $('#password').val();
+            const confirmPassword = $('#confirmPassword').val();
+            console.log(`Your first name is ${firstName}, last name is ${lastName}, email is ${email}, username is ${userName}, and pasword is secret`);
+            processRegistration(firstName, lastName, email, userName, password, confirmPassword);
+        })
+
+        //receive login data, send data to database, direct to home page of the user or error
+        //input values will not be null because HTML <input required: true>
+        $('#login').submit(event => {
+            event.preventDefault();
+            const userName: $('#login-username').val();
+            const password: $('#login-password').val();
+            processLogin(userName, password);
+        });
+
+        //When a specific page is loaded, execute functions
+        $(document).ready(function () {
+            if (window.location.pathname === 'home url') {
+                $(.getJSON('url to get all of the data of a specific user', account, [adjustNotesAmount, adjustNotesIcon]))
+            } else if (window.location.pathname === 'profile url') {
+                $(.getJSON('url to get all of the data of a specific user', account, [displayUserName, adjustNotesIconPrivate]))
+            }
+        })
