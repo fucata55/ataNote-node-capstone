@@ -24,9 +24,9 @@ const userSchema = new mongoose.Schema({
     confirmPassword: {
         type: string,
         required: true
-    },
-    notes: [noteSchema]
+    }
 });
+
 
 const noteSchema = new mongoose.Schema({
     title: {
@@ -40,6 +40,10 @@ const noteSchema = new mongoose.Schema({
     type: {
         type: string,
         required: false
+    },
+    username: {
+        type: string,
+        required: true
     }
 })
 

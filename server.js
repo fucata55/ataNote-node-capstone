@@ -4,24 +4,27 @@ var app = express();
 const mongoose = require('mongoose');
 mongoose.Promise = global.promise;
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+const {
+    User
+} = require('../models');
+
 //const {PORT, DATABASE_URL} = require('./config')
 
-//route urls
-const registerRouter = require('./routes/registerRouter');
-const loginRouter = require('./routes/loginRouter');
-const editorRouter = require('./routes/editorRouter');
-const homeRouter = require('./routes/homeRouter');
-const profileRouter = require('./routes/profileRouter')
 
 app.use(express.static('public'));
-app.use('/register', registerRouter);
 app.use('/login', loginRouter);
-app.use('/home', homeRouter);
-app.use('/profile', profileRouter);
 app.use('/register', registerRouter);
-app.use('/user', userRouter);
 
 
 app.listen(process.env.PORT || 8081, () => console.log('app is listening'));
+
+Get a note
+app.get('/user/notes/:id', (req, res) => {
+
+})
+
 
 exports.app = app
