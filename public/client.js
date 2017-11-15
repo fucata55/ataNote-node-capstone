@@ -260,6 +260,71 @@ function adjustNotesIconPrivate(account) {
 
 //Triggering functions starts below this line
 
+//When page loads
+$('#login-navbar').show();
+$('#registration-section').show();
+$('#home-navbar').hide();
+$('#login-section').hide();
+$('#home-section').hide();
+$('#editor-section').hide();
+$('#profile-section').hide();
+
+
+
+//Sections hide and show
+
+
+$('.show-registration-section').click(() => {
+    $('#login-navbar').show();
+    $('#regisration-section').show();
+    $('#home-navbar').hide();
+    $('#login-section').hide();
+    $('#home-section').hide();
+    $('#editor-section').hide();
+    $('#profile-section').hide();
+});
+
+$('.show-login-section').click(() => {
+    $('#login-navbar').show();
+    $('#login-section').show();
+    $('#home-navbar').hide();
+    $('#registration-section').hide();
+    $('#home-section').hide();
+    $('#editor-section').hide();
+    $('#profile-section').hide();
+});
+
+$('.show-home-section').click(() => {
+    $('#home-navbar').show();
+    $('#home-section').show();
+    $('#login-navbar').hide();
+    $('#registration-section').hide();
+    $('#login-section').hide();
+    $('#editor-section').hide();
+    $('#profile-section').hide();
+});
+
+$('.show-editor-section').click(() => {
+    $('#home-navbar').show();
+    $('#editor-section').show();
+    $('#login-navbar').hide();
+    $('#regisration-section').hide();
+    $('#login-section').hide();
+    $('#home-section').hide();
+    $('#profile-section').hide();
+});
+
+$('.show-profile-section').click(() => {
+    $('#home-navbar').show();
+    $('#profile-section').show();
+    $('#login-navbar').hide();
+    $('#regisration-section').show();
+    $('#login-section').hide();
+    $('#home-section').hide();
+    $('#editor-section').hide();
+
+})
+
 //Listeners in index
 //receive user registration in landing-page.html and send it to process function
 //input values will not be null because HTML <input required: true>
