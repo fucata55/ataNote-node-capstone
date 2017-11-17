@@ -18,10 +18,44 @@ let account = {
     }]
 }
 
-//Define functions working in landing-page.html
-//receive user registration in landing-page.html and send it to process function
 
+//section Hide and show (1/2)
+function showRegistrationSection() {
+    $('.show-registration-section').click(() => {
+        $('#login-navbar').show();
+        $('#regisration-section').show();
+        $('#home-navbar').hide();
+        $('#login-section').hide();
+        $('#home-section').hide();
+        $('#editor-section').hide();
+        $('#profile-section').hide();
+    });
+}
 
+function showLoginSection() {
+    $('.show-login-section').click(() => {
+        $('#login-navbar').show();
+        $('#login-section').show();
+        $('#home-navbar').hide();
+        $('#registration-section').hide();
+        $('#home-section').hide();
+        $('#editor-section').hide();
+        $('#profile-section').hide();
+    });
+}
+
+function showHomeSection() {
+    $('.show-home-section').click(() => {
+        $('#home-navbar').show();
+        $('#home-section').show();
+        $('#login-navbar').hide();
+        $('#registration-section').hide();
+        $('#login-section').hide();
+        $('#editor-section').hide();
+        $('#profile-section').hide();
+    });
+}
+//Define functions working in registration section
 //return back regitration that doesn't have a consistent password
 //send user data to database to be registered
 function processRegistration(firstName, lastName, email, userName, password, confirmPassword) {
@@ -38,48 +72,32 @@ function processRegistration(firstName, lastName, email, userName, password, con
         lastName: lastName,
         email: email,
         userName: userName,
-        password: password,
-        confirmPassword: confirmPassword
+        password: password
     };
     //set url to POST request.
     //set endpoint at server.js
     $.ajax({
-            type: "POST",
-            url: "/user/signup",
+            type: 'POST',
+            url: '/user/signup',
             dataType: 'json',
             data: JSON.stringify(userData),
-            contentType: 'application/json',
-            success: function (data) {
-                showRegistrationResult(data);
-            }
+            contentType: 'application/json'
         })
         //expect request POST will respond user data
         .done(function (result) {
-            showRegistrationResult(data);
+            //show registration result
+            account = result;
+            adjustNotesAmount();
+            adjustNotesIcon();
+            showHomeSection();
         })
         .fail(function (jqXHR, error, errorThrown) {
             console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
+            $('#username').val('');
         });
-}
-
-
-
-
-//show response from database to landing-page.html
-function showRegistrationResult(_account) {
-    //if registration fails, alert the reason
-    console.error(`registration is failed because username ${account.username} is already exist`)
-    alert(`registration is failed because user name adasdas is already exist`)
-    $('#username').val('');
-    //if registration is success, direct to home
-    //define variable for client.js use from database JSON response
-    //respond POST request to add appropriate user data to home, editor, profile HTMLs that also works for login
-    account = _account
-    location.replace('./home');
-    adjustNotesAmount()
-}
+};
 
 //Define functions working in login.html
 //receive login data, send data to database, direct to home page of the user or error
@@ -268,41 +286,12 @@ $('#login-section').hide();
 $('#home-section').hide();
 $('#editor-section').hide();
 $('#profile-section').hide();
-
+$(showRegistrationSection());
+$(showLoginSection());
+$(showHomeSection());
 
 
 //Sections hide and show
-
-
-$('.show-registration-section').click(() => {
-    $('#login-navbar').show();
-    $('#regisration-section').show();
-    $('#home-navbar').hide();
-    $('#login-section').hide();
-    $('#home-section').hide();
-    $('#editor-section').hide();
-    $('#profile-section').hide();
-});
-
-$('.show-login-section').click(() => {
-    $('#login-navbar').show();
-    $('#login-section').show();
-    $('#home-navbar').hide();
-    $('#registration-section').hide();
-    $('#home-section').hide();
-    $('#editor-section').hide();
-    $('#profile-section').hide();
-});
-
-$('.show-home-section').click(() => {
-    $('#home-navbar').show();
-    $('#home-section').show();
-    $('#login-navbar').hide();
-    $('#registration-section').hide();
-    $('#login-section').hide();
-    $('#editor-section').hide();
-    $('#profile-section').hide();
-});
 
 $('.show-editor-section').click(() => {
     $('#home-navbar').show();
@@ -407,14 +396,14 @@ $('#note-form').submit(event => {
 
 
 
-//When a specific page is loaded, execute functions
-$(document).ready(function () {
-    if (window.location.pathname === 'home url') {
-        //set user id
-        $.getJSON('/users/notes', account, [adjustNotesAmount, adjustNotesIcon])
-    }
-    //set user id
-    else if (window.location.pathname === 'profile url') {
-        $.getJSON('/users/notes', account, [displayUserName, adjustNotesIconPrivate])
-    }
-})
+////When a specific page is loaded, execute functions
+//$(document).ready(function () {
+//    if (window.location.pathname === 'home url') {
+//        //set user id
+//        $.getJSON('/users/notes', account, [adjustNotesAmount, adjustNotesIcon])
+//    }
+//    //set user id
+//    else if (window.location.pathname === 'profile url') {
+//        $.getJSON('/users/notes', account, [displayUserName, adjustNotesIconPrivate])
+//    }
+//})

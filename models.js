@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs')
 
 
 //For v1, make Notes displayed public available for other users to see
@@ -20,13 +21,18 @@ const userSchema = new mongoose.Schema({
     password: {
         type: string,
         required: true
-    },
-    confirmPassword: {
-        type: string,
-        required: true
     }
 });
 
+userSchema.methods.validatePassword = function (password, callback) {
+    bcrypt.compare(password, this.password, (err, isValid) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+        callback(null, isValid);
+    });
+};
 
 const noteSchema = new mongoose.Schema({
     title: {
