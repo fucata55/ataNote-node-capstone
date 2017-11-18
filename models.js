@@ -6,20 +6,20 @@ const bcrypt = require('bcryptjs')
 //For MVP, keep notes to the publisher only
 const userSchema = new mongoose.Schema({
     firstName: {
-        type: string,
+        type: String,
         required: true
     },
     lastName: {
-        type: string,
+        type: String,
         required: true
     },
     username: {
-        type: string,
+        type: String,
         required: true
     },
     //edit password system with passport
     password: {
-        type: string,
+        type: String,
         required: true
     }
 });
@@ -36,24 +36,24 @@ userSchema.methods.validatePassword = function (password, callback) {
 
 const noteSchema = new mongoose.Schema({
     title: {
-        type: string,
+        type: String,
         required: false
     },
     body: {
-        type: string,
+        type: String,
         required: false
     },
     type: {
-        type: string,
+        type: String,
         required: false
     },
     username: {
-        type: string,
+        type: String,
         required: true
     }
 })
 
-Const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
 module.exports = {
     User
 }

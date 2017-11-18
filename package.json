@@ -4,6 +4,8 @@
     "description": "Taking your Google search to the next level",
     "main": "server.js",
     "dependencies": {
+        "bcrypt": "^1.0.3",
+        "bcryptjs": "^2.4.3",
         "chai": "^4.1.2",
         "chai-http": "^3.0.0",
         "express": "^4.16.2",

@@ -2,18 +2,19 @@ var express = require('express');
 var app = express();
 
 const mongoose = require('mongoose');
-mongoose.Promise = global.promise;
+mongoose.Promise = global.Promise;
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-const bcrypt = require('bcryptjs');
+
 const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
+const bcrypt = require('bcryptjs');
 
 const {
     User
-} = require('../models');
+} = require('./models');
 
 //const {PORT, DATABASE_URL} = require('./config')
 
@@ -31,7 +32,7 @@ app.post('/user/signup', (req, res) => {
         const message = `registration is failed because username ${account.username} is already exist`;
         alert(`registration is failed because user name adasdas is already exist`)
         console.error(message);
-        require res.status(400).send(message);
+        return res.status(400).send(message);
     }
 
     //if data sent is good, both passwords match, and the username is unique, register the user into db
@@ -69,9 +70,9 @@ app.post('/user/signup', (req, res) => {
 
 app.listen(process.env.PORT || 8080, () => console.log('app is listening'));
 
-Get a note app.get('/user/notes/:id', (req, res) => {
-
-})
+//Get a note app.get('/user/notes/:id', (req, res) => {
+//
+//})
 
 
 exports.app = app
