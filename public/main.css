@@ -332,7 +332,8 @@ nav {
     }
 }
 
-.addNote {
+.addNote,
+.openNote {
     text-decoration: none;
     display: inline-block;
     height: 150px;

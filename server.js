@@ -46,24 +46,24 @@ app.post('/user/signup', (req, res) => {
             }
             User
                 .create({
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    email: req.body.email,
-                    username: req.body.username,
-                    password: hash
-                }),
-                function (err, item) {
-                    if (err) {
-                        return res.status(500).json({
-                            message: 'Internal server error'
-                        });
-                    }
-                    //return data for client use
-                    if (item) {
-                        console.log('Sign up successful!');
-                        return res.json(item)
-                    }
-                }
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName,
+                        email: req.body.email,
+                        username: req.body.username,
+                        password: hash
+                    },
+                    function (err, item) {
+                        if (err) {
+                            return res.status(500).json({
+                                message: 'Internal server error'
+                            });
+                        }
+                        //return data for client use
+                        if (item) {
+                            console.log('Sign up successful!');
+                            return res.json(item)
+                        }
+                    });
         })
     }
 })
@@ -73,38 +73,38 @@ app.get('/user/signin', (req, res) => {
     User
         //find an object that has username as entered
         .findOne({
-            username: req.body.username
-        }),
-        function (err, items) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Internal server error'
-                });
-            }
+                username: req.body.username
+            },
+            function (err, items) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Internal server error'
+                    });
+                }
 
-            //check if username exists in db
-            if (!items) {
-                console.error('Invalid username and password combination');
-                return res.status(401).json({
-                    message: 'Invalid username and password combination'
-                });
-                //when client.js receives username and password, use the username to GET request of notes in db
-                //send the whole object to client
-            } else {
-                items.validatePassword(req.body.password, (err, isValid) => {
-                    if (err) {
-                        alert('Invalid username and password combination')
-                    } else if (!isValid) {
-                        return res.status(401).json({
-                            message: 'Invalid username and password combination'
-                        });
-                    } else {
-                        console.log('login successful');
-                        return res.status(200).json(items)
-                    }
-                });
-            };
-        };
+                //check if username exists in db
+                if (!items) {
+                    console.error('Invalid username and password combination');
+                    return res.status(401).json({
+                        message: 'Invalid username and password combination'
+                    });
+                    //when client.js receives username and password, use the username to GET request of notes in db
+                    //send the whole object to client
+                } else {
+                    items.validatePassword(req.body.password, (err, isValid) => {
+                        if (err) {
+                            alert('Invalid username and password combination')
+                        } else if (!isValid) {
+                            return res.status(401).json({
+                                message: 'Invalid username and password combination'
+                            });
+                        } else {
+                            console.log('login successful');
+                            return res.status(200).json(items)
+                        }
+                    });
+                };
+            });
 });
 
 app.post('/user/notes', (req, res) => {
@@ -114,7 +114,7 @@ app.post('/user/notes', (req, res) => {
             body: req.body.body,
             type: req.body.type,
             username: req.body.username
-        }), (err, item) => {
+        }, (err, item) => {
             if (err) {
                 return res.status(500).json({
                     message: 'Internal server error'
@@ -124,8 +124,24 @@ app.post('/user/notes', (req, res) => {
                 console.log('A new note is created, and ID is assigned to trigger buttons');
                 return res.status(200).json(item);
             }
-        };
+        });
 })
+
+app.get('/user/notes', (req, res) => {
+    Note
+        .find({
+            username: req.body.username
+        }, (err, item) => {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Internal server error'
+                });
+            }
+            if (item) {
+                return res.status(200).json(item);
+            }
+        });
+});
 app.listen(process.env.PORT || 8082, () => console.log('app is listening'));
 
 //Get a note app.get('/user/notes/:id', (req, res) => {

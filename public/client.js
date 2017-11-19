@@ -108,8 +108,7 @@ function processRegistration(firstName, lastName, email, userName, password, con
         .done(function (result) {
             //show registration result
             account = result;
-            adjustNotesAmount();
-            adjustNotesIcon();
+            getNotes(result)
             showHomeSection();
         })
         .fail(function (jqXHR, error, errorThrown) {
@@ -137,8 +136,7 @@ function processLogin(userName, password) {
         .done(function (result) {
             account = result;
             console.log(`account is ${account}`)
-            adjustNotesAmount();
-            adjustNotesIcon();
+            getNotes(account);
             showHomeSection();
         })
         .fail(function (jqXHR, error, errorThrown) {
@@ -149,41 +147,38 @@ function processLogin(userName, password) {
         });
 };
 
-//Define functions in home.html
+//Define functions in home section
 //adjust number of public and private notes based on the amount in database
-function adjustNotesAmount() {
+function getNotes(account) {
     //in server.js, send the amount of notes private and public
     //GET request to server
     //define the numbers of notes on public and private
-    let amountOfPublicNotes = function () {
-        let count = 0;
-        account.notes.forEach(note => {
-            if (note.type == 'public') {
-                count++
-            };
+    $.ajax({
+            type: 'GET',
+            url: '/user/notes',
+            dataType: 'json',
+            data: JSON.stringify(account),
+            contentType: 'application/json'
+        })
+        .done(function (notes) {
+            adjustNotesIcon(notes);
+            adjustNotesAmount(notes);
+
+        })
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+            alert('Loading notes number has failed')
         });
-        return count
-    };
-    let amountOfPrivateNotes = function () {
-        let count = 0;
-        account.notes.forEach(note => {
-            if (note.type == 'private') {
-                count++
-            };
-        });
-        return count
-    }; //account.amountOfPrivate
-    //change DOM in #notification
-    $('.number-public-notes').empty();
-    $('.number-public-notes').append(amountOfPublicNotes);
-    $('.number-private-notes').empty();
-    $('.number-private-notes').append(amountOfPrivateNotes);
+
 }
 
 //adjust notes icon base on the user
-function adjustNotesIcon() {
-    account.notes.forEach.map(note => {
+function adjustNotesIcon(notes) {
+    notes.forEach.map(note => {
         $('#note1').after(`<div class='notes-icon ${note.id} editor-js'>
+<a href="#" class='show-editor-section openNote ${note.id}' />
 <h3 class='${note.id} editor-js'>${note.title}</h3>
 <a href='./editor' class='${note.id} editor-js'><p class='small-note'>${note.body.slice(1, 90)}</p>
 <div class='function-container'>
@@ -192,7 +187,34 @@ function adjustNotesIcon() {
 <a href='./home' class='function-icon ${note.id} delete-js'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
 </div>
 </div>`)
-    })
+    });
+};
+
+function adjustNotesAmount(notes) {
+    console.log(`${account.username} note/(s/) is loaded`);
+    let amountOfPublicNotes = function () {
+        let count = 0;
+        notes.forEach(note => {
+            if (note.type == 'public') {
+                count++
+            }
+        })
+        return count
+    };
+    let amountOfPrivateNotes = function () {
+        let count = 0;
+        account.notes.forEach(note => {
+            if (note.type == 'private') {
+                count++
+            }
+        })
+        return count
+    };
+    //change DOM in #notification
+    $('.number-public-notes').empty();
+    $('.number-public-notes').append(amountOfPublicNotes);
+    $('.number-private-notes').empty();
+    $('.number-private-notes').append(amountOfPrivateNotes);
 }
 
 //share note in home to public
@@ -283,7 +305,7 @@ function adjustEditor(note) {
 //display username
 function displayUserName(account) {
     const userName = `${account.userName}`;
-    $('span .username').text(userName)
+    $('.username').text(userName)
 }
 
 function adjustNotesIconPrivate(account) {
@@ -437,18 +459,3 @@ $('#note-form').submit(event => {
 });
 
 //Listeners in profile
-
-
-
-
-////When a specific page is loaded, execute functions
-//$(document).ready(function () {
-//    if (window.location.pathname === 'home url') {
-//        //set user id
-//        $.getJSON('/users/notes', account, [adjustNotesAmount, adjustNotesIcon])
-//    }
-//    //set user id
-//    else if (window.location.pathname === 'profile url') {
-//        $.getJSON('/users/notes', account, [displayUserName, adjustNotesIconPrivate])
-//    }
-//})
