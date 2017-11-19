@@ -13,7 +13,8 @@ const BasicStrategy = require('passport-http').BasicStrategy;
 const bcrypt = require('bcryptjs');
 
 const {
-    User
+    User,
+    Note
 } = require('./models');
 
 //const {PORT, DATABASE_URL} = require('./config')
@@ -105,6 +106,26 @@ app.get('/user/signin', (req, res) => {
             };
         };
 });
+
+app.post('/user/notes', (req, res) => {
+    Note
+        .create({
+            title: req.body.title,
+            body: req.body.body,
+            type: req.body.type,
+            username: req.body.username
+        }), (err, item) => {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Internal server error'
+                });
+            }
+            if (item) {
+                console.log('A new note is created, and ID is assigned to trigger buttons');
+                return res.status(200).json(item);
+            }
+        };
+})
 app.listen(process.env.PORT || 8082, () => console.log('app is listening'));
 
 //Get a note app.get('/user/notes/:id', (req, res) => {

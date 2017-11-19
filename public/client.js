@@ -22,44 +22,59 @@ const emptyNote = {
     title: '',
     body: '',
     type: 'private'
+    user: account.username
 }
 
 
-//section Hide and show (1/2)
+//Hide and show functions
 function showRegistrationSection() {
-    $('.show-registration-section').click(() => {
-        $('#login-navbar').show();
-        $('#regisration-section').show();
-        $('#home-navbar').hide();
-        $('#login-section').hide();
-        $('#home-section').hide();
-        $('#editor-section').hide();
-        $('#profile-section').hide();
-    });
+    $('#login-navbar').show();
+    $('#regisration-section').show();
+    $('#home-navbar').hide();
+    $('#login-section').hide();
+    $('#home-section').hide();
+    $('#editor-section').hide();
+    $('#profile-section').hide();
 }
 
 function showLoginSection() {
-    $('.show-login-section').click(() => {
-        $('#login-navbar').show();
-        $('#login-section').show();
-        $('#home-navbar').hide();
-        $('#registration-section').hide();
-        $('#home-section').hide();
-        $('#editor-section').hide();
-        $('#profile-section').hide();
-    });
+    $('#login-navbar').show();
+    $('#login-section').show();
+    $('#home-navbar').hide();
+    $('#registration-section').hide();
+    $('#home-section').hide();
+    $('#editor-section').hide();
+    $('#profile-section').hide();
 }
 
 function showHomeSection() {
-    $('.show-home-section').click(() => {
-        $('#home-navbar').show();
-        $('#home-section').show();
-        $('#login-navbar').hide();
-        $('#registration-section').hide();
-        $('#login-section').hide();
-        $('#editor-section').hide();
-        $('#profile-section').hide();
-    });
+    $('#home-navbar').show();
+    $('#home-section').show();
+    $('#login-navbar').hide();
+    $('#registration-section').hide();
+    $('#login-section').hide();
+    $('#editor-section').hide();
+    $('#profile-section').hide();
+}
+
+function showEditorSection() {
+    $('#home-navbar').show();
+    $('#editor-section').show();
+    $('#login-navbar').hide();
+    $('#regisration-section').hide();
+    $('#login-section').hide();
+    $('#home-section').hide();
+    $('#profile-section').hide();
+}
+
+function showProfileSection() {
+    $('#home-navbar').show();
+    $('#profile-section').show();
+    $('#login-navbar').hide();
+    $('#regisration-section').show();
+    $('#login-section').hide();
+    $('#home-section').hide();
+    $('#editor-section').hide();
 }
 //Define functions working in registration section
 //return back regitration that doesn't have a consistent password
@@ -257,10 +272,10 @@ function processNote(_note) {
 
 //populate editor page from ID
 function adjustEditor(note) {
-    console.log(`note is ${note}`)
-    $('.note-title').val(note.title).addClass(note.id)
-    $('textarea').val(note.body).addClass(note.id)
-    $("input[type='radio']").addClass(note.id)
+    console.log(`note is ${note}`);
+    $('.note-title').val(note.title).addClass(note.id);
+    $('textarea').val(note.body).addClass(note.id);
+    $("input[type='radio']").addClass(note.id);
 }
 
 
@@ -299,32 +314,27 @@ $('#login-section').hide();
 $('#home-section').hide();
 $('#editor-section').hide();
 $('#profile-section').hide();
-$(showRegistrationSection());
-$(showLoginSection());
-$(showHomeSection());
 
 
-//Sections hide and show
+//Sections hide and show (USE the functions at AJAX done instead)
+$('.show-home-section').click(() => {
+    showHomeSection();
+})
+
+$('show-registration-section').click(() => {
+    showRegistrationSection();
+})
 
 $('.show-editor-section').click(() => {
-    $('#home-navbar').show();
-    $('#editor-section').show();
-    $('#login-navbar').hide();
-    $('#regisration-section').hide();
-    $('#login-section').hide();
-    $('#home-section').hide();
-    $('#profile-section').hide();
+    showEditorSection();
+});
+
+$('.show-login-section').click(() => {
+    showLoginSection();
 });
 
 $('.show-profile-section').click(() => {
-    $('#home-navbar').show();
-    $('#profile-section').show();
-    $('#login-navbar').hide();
-    $('#regisration-section').show();
-    $('#login-section').hide();
-    $('#home-section').hide();
-    $('#editor-section').hide();
-
+    showProfileSection();
 })
 
 //Listeners in index
@@ -368,21 +378,18 @@ $('.addNote').click(event => {
             data: JSON.stringify(emptyNote),
             contentType: 'application/json'
         })
-        //expect request POST will respond user data
-        .done(function (result) {
-            //show registration result
-            account = result;
-            adjustNotesAmount();
-            adjustNotesIcon();
-            showHomeSection();
+        //POST will respond an empty note with unique ID
+        .done(function (note) {
+            adjustEditor(note);
+            showEditorSection();
         })
         .fail(function (jqXHR, error, errorThrown) {
             console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
-            $('#username').val('');
         });
 })
+
 //In home.html, when a small note is clicked, load editor with the note
 $('.editor-js').click(event => {
     const thisID = this.attr('id');
