@@ -16,6 +16,12 @@ let account = {
             body: 'In The Flash season 3, Flash beats Savatar by team work. Thanks to Killer Frost who changed her mind to help the Flash after helping Savatar throughout the season.',
             type: 'public'
     }]
+};
+
+const emptyNote = {
+    title: '',
+    body: '',
+    type: 'private'
 }
 
 
@@ -77,7 +83,7 @@ function processRegistration(firstName, lastName, email, userName, password, con
     //set url to POST request.
     //set endpoint at server.js
     $.ajax({
-            type: 'POST',
+            method: 'POST',
             url: '/user/signup',
             dataType: 'json',
             data: JSON.stringify(userData),
@@ -101,24 +107,31 @@ function processRegistration(firstName, lastName, email, userName, password, con
 
 //Define functions working in login.html
 //receive login data, send data to database, direct to home page of the user or error
-
 function processLogin(userName, password) {
     const userData = {
         userName: userName,
         password: password
     };
-    $.getJson('GETbyUserPassurl', JSON.stringify(userData), showLoginResult)
-};
-
-function showLoginResult(account) {
-    //if user does not exists or password is not correct, alert user does not exist or password does not match'
-    //keep the input value, don't erase them so user can analyze their wrong input
-    console.error('invalid user and password combination');
-    alert('user does not exist or password does not match');
-    //if user and password combination is correct, direct to the user's home
-    //define variable for client.js use from database JSON response
-    //respond POST request to add appropriate user data to home, editor, profile HTMLs
-    account = account
+    $.ajax({
+            type: 'GET',
+            url: '/user/signin',
+            dataType: 'json',
+            data: JSON.stringify(userData),
+            contentType: 'application/json'
+        }) //show login result
+        .done(function (result) {
+            account = result;
+            console.log(`account is ${account}`)
+            adjustNotesAmount();
+            adjustNotesIcon();
+            showHomeSection();
+        })
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+            alert('invalid user and password combination')
+        });
 };
 
 //Define functions in home.html
@@ -338,6 +351,7 @@ $('#login').submit(event => {
     event.preventDefault();
     const userName = $('#login-username').val();
     const password = $('#login-password').val();
+    console.log(`username and password are ${userName} ${password}`);
     processLogin(userName, password);
 });
 
@@ -345,6 +359,30 @@ $('#login').submit(event => {
 
 
 //Listeners in home
+//create note
+$('.addNote').click(event => {
+    $.ajax({
+            method: 'POST',
+            url: '/user/notes',
+            dataType: 'json',
+            data: JSON.stringify(emptyNote),
+            contentType: 'application/json'
+        })
+        //expect request POST will respond user data
+        .done(function (result) {
+            //show registration result
+            account = result;
+            adjustNotesAmount();
+            adjustNotesIcon();
+            showHomeSection();
+        })
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+            $('#username').val('');
+        });
+})
 //In home.html, when a small note is clicked, load editor with the note
 $('.editor-js').click(event => {
     const thisID = this.attr('id');
@@ -352,13 +390,13 @@ $('.editor-js').click(event => {
     $.getJSON('/user/notes/' + thisID, adjustEditor);
 })
 //In home.html, when a save-to-public button is clicked, share the note selected to public
-$('save-public-js').click(event => {
+$('.save-public-js').click(event => {
     const thisID = this.attr('id');
     console.log(this, `ID selected is ${thisID}`);
     $.getJSON('/user/notes/' + thisID, updateNote)
 });
 //In home.html, when a delete button is clicked, delete button
-$('delete-js').click(event => {
+$('.delete-js').click(event => {
     const thisID = this.attr('id');
     console.log(this, `ID selected is ${thisID}`);
     $.getJSON('/user/notes/' + thisID, deleteNote)

@@ -22,7 +22,7 @@ const {
 app.use(express.static('public'));
 
 
-//integrate JWT token and passport
+//responding user registration
 app.post('/user/signup', (req, res) => {
     //check if username used to registered unique in database
     if (User.findOne({
@@ -67,8 +67,45 @@ app.post('/user/signup', (req, res) => {
     }
 })
 
+//responding user login
+app.get('/user/signin', (req, res) => {
+    User
+        //find an object that has username as entered
+        .findOne({
+            username: req.body.username
+        }),
+        function (err, items) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Internal server error'
+                });
+            }
 
-app.listen(process.env.PORT || 8080, () => console.log('app is listening'));
+            //check if username exists in db
+            if (!items) {
+                console.error('Invalid username and password combination');
+                return res.status(401).json({
+                    message: 'Invalid username and password combination'
+                });
+                //when client.js receives username and password, use the username to GET request of notes in db
+                //send the whole object to client
+            } else {
+                items.validatePassword(req.body.password, (err, isValid) => {
+                    if (err) {
+                        alert('Invalid username and password combination')
+                    } else if (!isValid) {
+                        return res.status(401).json({
+                            message: 'Invalid username and password combination'
+                        });
+                    } else {
+                        console.log('login successful');
+                        return res.status(200).json(items)
+                    }
+                });
+            };
+        };
+});
+app.listen(process.env.PORT || 8082, () => console.log('app is listening'));
 
 //Get a note app.get('/user/notes/:id', (req, res) => {
 //

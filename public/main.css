@@ -218,7 +218,6 @@ nav {
 }
 
 .function-container {
-    padding-top: 10px;
     padding-right: 25px;
     height: 20px;
     text-align: center;
@@ -331,4 +330,10 @@ nav {
     .home {
         margin-top: 20px;
     }
+}
+
+.addNote {
+    text-decoration: none;
+    display: inline-block;
+    height: 150px;
 }
