@@ -17,56 +17,112 @@ const {
     Note
 } = require('./models');
 
-//const {PORT, DATABASE_URL} = require('./config')
+const config = require('./config');
 
 
 app.use(express.static('public'));
 
+// ---------------- RUN/CLOSE SERVER -----------------------------------------------------
+let server = undefined;
+
+function runServer(urlToUse) {
+    return new Promise((resolve, reject) => {
+        mongoose.connect(urlToUse, err => {
+            if (err) {
+                return reject(err);
+            }
+            server = app.listen(config.PORT, () => {
+                console.log(`Listening on localhost:${config.PORT}`);
+                resolve();
+            }).on('error', err => {
+                mongoose.disconnect();
+                reject(err);
+            });
+        });
+    });
+}
+
+if (require.main === module) {
+    runServer(config.DATABASE_URL).catch(err => console.error(err));
+}
+
+function closeServer() {
+    return mongoose.disconnect().then(() => new Promise((resolve, reject) => {
+        console.log('Closing server');
+        server.close(err => {
+            if (err) {
+                return reject(err);
+            }
+            resolve();
+        });
+    }));
+}
+
 
 //responding user registration
 app.post('/user/signup', (req, res) => {
+    console.log(req.body.firstName, req.body.lastName, req.body.email, req.body.userName, req.body.password);
     //check if username used to registered unique in database
-    if (User.findOne({
-            username: req.body.username
-        })) {
-        //if registration fails, alert the reason
-        const message = `registration is failed because username ${account.username} is already exist`;
-        alert(`registration is failed because user name adasdas is already exist`)
-        console.error(message);
-        return res.status(400).send(message);
-    }
-
-    //if data sent is good, both passwords match, and the username is unique, register the user into db
-    else {
-        bycrypt.genSalt(10, (err, salt) => {
+    User
+        .find({
+            username: req.body.userName
+        }, (err, item) => {
             if (err) {
                 return res.status(500).json({
                     message: 'Internal server error'
-                });
+                })
             }
-            User
-                .create({
-                        firstName: req.body.firstName,
-                        lastName: req.body.lastName,
-                        email: req.body.email,
-                        username: req.body.username,
-                        password: hash
-                    },
-                    function (err, item) {
+            if (item) {
+                //if registration fails, alert the reason
+                const message = `registration is failed because username ${req.body.userName} is already exist`;
+
+                console.error(message);
+                return res.status(400).send(message);
+            }
+
+            //if data sent is good, both passwords match, and the username is unique, register the user into db
+            else {
+
+                let username = req.body.userName;
+                username = username.trim();
+                let password = req.body.password;
+                password = password.trim();
+                bcrypt.genSalt(10, (err, salt) => {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'Internal server error'
+                        });
+                    }
+
+                    bcrypt.hash(password, salt, (err, hash) => {
                         if (err) {
                             return res.status(500).json({
                                 message: 'Internal server error'
                             });
                         }
-                        //return data for client use
-                        if (item) {
-                            console.log('Sign up successful!');
-                            return res.json(item)
-                        }
+
+                        User.create({
+                            firstName: req.body.firstName,
+                            lastName: req.body.lastName,
+                            email: req.body.email,
+                            username: username,
+                            password: hash
+                        }, (err, item) => {
+                            if (err) {
+                                return res.status(500).json({
+                                    message: 'Internal Server Error'
+                                });
+                            }
+                            if (item) {
+                                console.log(`User \`${username}\` created.`);
+                                return res.json(item);
+                            }
+                        });
                     });
-        })
-    }
-})
+                });
+            };
+        });
+});
 
 //responding user login
 app.get('/user/signin', (req, res) => {
@@ -142,6 +198,43 @@ app.get('/user/notes', (req, res) => {
             }
         });
 });
+
+app.get('/user/notes/:id', (req, res) => {
+    Note
+        .findById(req.params.id)
+        .then((note) => {
+            return res.json(note);
+        })
+        .catch(function (achievements) {
+            console.error(err);
+            res.status(500).json({
+                message: 'Internal Server Error'
+            });
+
+        })
+})
+
+app.put('user/notes/:id', (req, res) => {
+    let toUpdate = {};
+    let updateableFields = ['title', 'body', 'type'];
+    updateableFields.forEach(function (field) {
+        if (field in req.body) {
+            toUpdate[field] = req.body[field];
+        }
+    });
+    Note
+        .findByIdAndUpdate(req.params.id, {
+            $set: toUpdate
+        })
+        .then(function (note) {
+            return res.status(204).json(note);
+        })
+        .catch(function (err) {
+            return res.status(500).json({
+                message: 'Internal Server Error'
+            });
+        });
+});
 app.listen(process.env.PORT || 8082, () => console.log('app is listening'));
 
 //Get a note app.get('/user/notes/:id', (req, res) => {
@@ -149,4 +242,4 @@ app.listen(process.env.PORT || 8082, () => console.log('app is listening'));
 //})
 
 
-exports.app = app
+exports.app = app;

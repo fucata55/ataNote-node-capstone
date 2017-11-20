@@ -21,7 +21,7 @@ let account = {
 const emptyNote = {
     title: '',
     body: '',
-    type: 'private'
+    type: 'private',
     user: account.username
 }
 
@@ -68,6 +68,7 @@ function showEditorSection() {
 }
 
 function showProfileSection() {
+    $
     $('#home-navbar').show();
     $('#profile-section').show();
     $('#login-navbar').hide();
@@ -98,7 +99,7 @@ function processRegistration(firstName, lastName, email, userName, password, con
     //set url to POST request.
     //set endpoint at server.js
     $.ajax({
-            method: 'POST',
+            type: 'POST',
             url: '/user/signup',
             dataType: 'json',
             data: JSON.stringify(userData),
@@ -177,18 +178,23 @@ function getNotes(account) {
 //adjust notes icon base on the user
 function adjustNotesIcon(notes) {
     notes.forEach.map(note => {
-        $('#note1').after(`<div class='notes-icon ${note.id} editor-js'>
-<a href="#" class='show-editor-section openNote ${note.id}' />
-<h3 class='${note.id} editor-js'>${note.title}</h3>
-<a href='./editor' class='${note.id} editor-js'><p class='small-note'>${note.body.slice(1, 90)}</p>
+        $('#note1').after(`<div class='notes-icon'>
+<input type='hidden' class="note-id" value='${note.id}'>
+<a href="#" class='show-editor-section openNote' />
+<h3>${note.title}</h3>
+<p class='small-note'>${note.body.slice(1, 90)}</p>
 <div class='function-container'>
-<a href='./editor' class='function-icon editor-js ${note.id}'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
-<a href='./profile' class='function-icon ${note.id} save-public-js'><img src="../images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></a>
-<a href='./home' class='function-icon ${note.id} delete-js'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
+<a href='#' class='function-icon openNote'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
+<a href='#' class='function-icon save-public-js'><img src="../images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></a>
+<a href='#' class='function-icon delete-js'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
 </div>
 </div>`)
     });
 };
+
+$('.openNote').click(event => {
+    let noteIDValue = $(this).parent().parent().find(".note-id").val();
+})
 
 function adjustNotesAmount(notes) {
     console.log(`${account.username} note/(s/) is loaded`);
@@ -217,24 +223,6 @@ function adjustNotesAmount(notes) {
     $('.number-private-notes').append(amountOfPrivateNotes);
 }
 
-//share note in home to public
-function updateNote(note) {
-    note.type = 'public';
-    console.log(`Note received by FupdateNote is ${note}, and its type supposed to be 'public`)
-    $.ajax({
-            type: "PUT",
-            url: "/user/notes" + note.id,
-            dataType: 'json',
-            data: JSON.stringify(note),
-            contentType: 'application/json'
-        })
-        .done()
-        .fail(function (jqXHR, error, errorThrown) {
-            console.log(jqXHR);
-            console.log(error);
-            console.log(errorThrown);
-        });
-}
 
 //delete note
 function deleteNote(note) {
@@ -308,8 +296,8 @@ function displayUserName(account) {
     $('.username').text(userName)
 }
 
-function adjustNotesIconPrivate(account) {
-    //shows the notes that are open to public
+function adjustNotesIconPublic(account) {
+
     Object.keys(account.notes).map(note => {
         if (note.type === 'public') {
             $('.profile notes').after(`<div class='notes-icon public'>
@@ -413,7 +401,7 @@ $('.addNote').click(event => {
 })
 
 //In home.html, when a small note is clicked, load editor with the note
-$('.editor-js').click(event => {
+$('.openNote').click(event => {
     const thisID = this.attr('id');
     console.log(this, `ID selected is ${thisID}`);
     $.getJSON('/user/notes/' + thisID, adjustEditor);
@@ -422,7 +410,25 @@ $('.editor-js').click(event => {
 $('.save-public-js').click(event => {
     const thisID = this.attr('id');
     console.log(this, `ID selected is ${thisID}`);
-    $.getJSON('/user/notes/' + thisID, updateNote)
+    const updateNoteObject = {
+        type: 'public'
+    };
+    $.ajax({
+            method: 'PUT',
+            url: '/user/notes/' + thisID,
+            dataType: 'json',
+            data: JSON.stringify(updateNoteObject),
+            contentType: 'application/json'
+        })
+        //POST will respond an empty note with unique ID
+        .done(function (note) {
+            showProfileSection();
+        })
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+        });
 });
 //In home.html, when a delete button is clicked, delete button
 $('.delete-js').click(event => {

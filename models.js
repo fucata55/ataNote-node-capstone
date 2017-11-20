@@ -4,23 +4,29 @@ const bcrypt = require('bcryptjs')
 
 //For v1, make Notes displayed public available for other users to see
 //For MVP, keep notes to the publisher only
+
+
 const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true
+        required: false
     },
     lastName: {
         type: String,
-        required: true
+        required: false
+    },
+    email: {
+        type: String,
+        required: false
     },
     username: {
         type: String,
-        required: true
+        required: false
     },
     //edit password system with passport
     password: {
         type: String,
-        required: true
+        required: false
     }
 });
 
