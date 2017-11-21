@@ -130,68 +130,51 @@ app.post('/user/signup', (req, res) => {
 });
 
 //responding user login
-app.get('/user/signin', (req, res) => {
+app.post('/user/signin', (req, res) => {
     User
-        //find an object that has username as entered
         .findOne({
-                username: req.body.username
-            },
-            function (err, items) {
-                if (err) {
-                    return res.status(500).json({
-                        message: 'Internal server error'
-                    });
-                }
-
-                //check if username exists in db
-                if (!items) {
-                    console.error('Invalid username and password combination');
-                    return res.status(401).json({
-                        message: 'Invalid username and password combination'
-                    });
-                    //when client.js receives username and password, use the username to GET request of notes in db
-                    //send the whole object to client
-                } else {
-                    items.validatePassword(req.body.password, (err, isValid) => {
-                        if (err) {
-                            alert('Invalid username and password combination')
-                        } else if (!isValid) {
-                            return res.status(401).json({
-                                message: 'Invalid username and password combination'
-                            });
-                        } else {
-                            console.log('login successful');
-                            return res.status(200).json(items)
-                        }
-                    });
-                };
-            });
-});
-
-app.post('/user/notes', (req, res) => {
-    Note
-        .create({
-            title: req.body.title,
-            body: req.body.body,
-            type: req.body.type,
             username: req.body.username
-        }, (err, item) => {
+        }, (err, items) => {
             if (err) {
                 return res.status(500).json({
-                    message: 'Internal server error'
+                    message: "Internal server error"
+                })
+            }
+            if (!items) {
+                //check if username exists in db
+                console.log(items, req.body.username);
+                console.error('Invalid username and password combination');
+                return res.status(401).json({
+                    message: 'Invalid username and password combination'
                 });
-            }
-            if (item) {
-                console.log('A new note is created, and ID is assigned to trigger buttons');
-                return res.status(200).json(item);
-            }
+                //when client.js receives username and password, use the username to GET request of notes in db
+                //send the whole object to client
+            } else {
+                items.validatePassword(req.body.password, (err, isValid) => {
+                    if (err) {
+                        alert('Invalid username and password combination')
+                    }
+                    if (!isValid) {
+                        return res.status(401).json({
+                            message: 'Invalid username and password combination'
+                        });
+                    } else {
+                        console.log('login successful');
+                        console.log(items)
+                        var logInTime = new Date();
+                        console.log("User logged in: " + req.body.username + ' at ' + logInTime);
+                        return res.status(200).json(items)
+                    }
+                });
+            };
         });
-})
+});
 
-app.get('/user/notes', (req, res) => {
+//Retrieve user's note(s)
+app.get('/user/notes/:user', (req, res) => {
     Note
         .find({
-            username: req.body.username
+            username: req.params.user
         }, (err, item) => {
             if (err) {
                 return res.status(500).json({
@@ -204,42 +187,64 @@ app.get('/user/notes', (req, res) => {
         });
 });
 
-app.get('/user/notes/:id', (req, res) => {
-    Note
-        .findById(req.params.id)
-        .then((note) => {
-            return res.json(note);
-        })
-        .catch(function (achievements) {
-            console.error(err);
-            res.status(500).json({
-                message: 'Internal Server Error'
-            });
 
-        })
-})
+//app.post('/user/notes', (req, res) => {
+//    Note
+//        .create({
+//            title: req.body.title,
+//            body: req.body.body,
+//            type: req.body.type,
+//            username: req.body.username
+//        }, (err, item) => {
+//            if (err) {
+//                return res.status(500).json({
+//                    message: 'Internal server error'
+//                });
+//            }
+//            if (item) {
+//                console.log('A new note is created, and ID is assigned to trigger buttons');
+//                return res.status(200).json(item);
+//            }
+//        });
+//})
 
-app.put('user/notes/:id', (req, res) => {
-    let toUpdate = {};
-    let updateableFields = ['title', 'body', 'type'];
-    updateableFields.forEach(function (field) {
-        if (field in req.body) {
-            toUpdate[field] = req.body[field];
-        }
-    });
-    Note
-        .findByIdAndUpdate(req.params.id, {
-            $set: toUpdate
-        })
-        .then(function (note) {
-            return res.status(204).json(note);
-        })
-        .catch(function (err) {
-            return res.status(500).json({
-                message: 'Internal Server Error'
-            });
-        });
-});
+
+//app.get('/user/notes/:id', (req, res) => {
+//    Note
+//        .findById(req.params.id)
+//        .then((note) => {
+//            return res.json(note);
+//        })
+//        .catch(function (achievements) {
+//            console.error(err);
+//            res.status(500).json({
+//                message: 'Internal Server Error'
+//            });
+//
+//        })
+//})
+//
+//app.put('user/notes/:id', (req, res) => {
+//    let toUpdate = {};
+//    let updateableFields = ['title', 'body', 'type'];
+//    updateableFields.forEach(function (field) {
+//        if (field in req.body) {
+//            toUpdate[field] = req.body[field];
+//        }
+//    });
+//    Note
+//        .findByIdAndUpdate(req.params.id, {
+//            $set: toUpdate
+//        })
+//        .then(function (note) {
+//            return res.status(204).json(note);
+//        })
+//        .catch(function (err) {
+//            return res.status(500).json({
+//                message: 'Internal Server Error'
+//            });
+//        });
+//});
 app.listen(process.env.PORT || 8082, () => console.log('app is listening'));
 
 //Get a note app.get('/user/notes/:id', (req, res) => {

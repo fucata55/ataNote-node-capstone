@@ -108,9 +108,9 @@ function processRegistration(firstName, lastName, email, username, password, con
         //expect request POST will respond user data
         .done(function (result) {
             //show registration result
-            account = result;
-            getNotes(result)
-            showHomeSection();
+            showLoginSection();
+            console.log('signup sucessful');
+
         })
         .fail(function (jqXHR, error, errorThrown) {
             alert(jqXHR.responseJSON.message);
@@ -130,8 +130,9 @@ function processLogin(username, password) {
         username: username,
         password: password
     };
+    console.log(userData);
     $.ajax({
-            type: 'GET',
+            type: 'POST',
             url: '/user/signin',
             dataType: 'json',
             data: JSON.stringify(userData),
@@ -139,30 +140,26 @@ function processLogin(username, password) {
         }) //show login result
         .done(function (result) {
             account = result;
-            console.log(`account is ${account}`)
-            getNotes(account);
+            console.log(`account is ${result.username}`)
+            getNotes(result.username);
             showHomeSection();
         })
         .fail(function (jqXHR, error, errorThrown) {
+            alert('invalid user and password combination')
             console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
-            alert('invalid user and password combination')
+
         });
 };
 
 //Define functions in home section
-//adjust number of public and private notes based on the amount in database
-function getNotes(account) {
-    //in server.js, send the amount of notes private and public
-    //GET request to server
+function getNotes(username) {
+    //populate home with user's note
     //define the numbers of notes on public and private
     $.ajax({
             type: 'GET',
-            url: '/user/notes',
-            dataType: 'json',
-            data: JSON.stringify(account),
-            contentType: 'application/json'
+            url: '/user/notes/' + username
         })
         .done(function (notes) {
             adjustNotesIcon(notes);
@@ -370,7 +367,7 @@ $('#registration').submit(event => {
 //Listeners in login
 //receive login data, send data to database, direct to home page of the user or error
 //input values will not be null because HTML <input required: true>
-$('#login').submit(event => {
+$('.login').submit(event => {
     event.preventDefault();
     const username = $('#login-username').val();
     const password = $('#login-password').val();
