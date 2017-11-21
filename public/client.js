@@ -80,7 +80,7 @@ function showProfileSection() {
 //Define functions working in registration section
 //return back regitration that doesn't have a consistent password
 //send user data to database to be registered
-function processRegistration(firstName, lastName, email, userName, password, confirmPassword) {
+function processRegistration(firstName, lastName, email, username, password, confirmPassword) {
     if (password !== confirmPassword) {
         console.error('password does not match');
         alert("please enter matching passwords");
@@ -93,7 +93,7 @@ function processRegistration(firstName, lastName, email, userName, password, con
         firstName: firstName,
         lastName: lastName,
         email: email,
-        userName: userName,
+        username: username,
         password: password
     };
     //set url to POST request.
@@ -113,18 +113,21 @@ function processRegistration(firstName, lastName, email, userName, password, con
             showHomeSection();
         })
         .fail(function (jqXHR, error, errorThrown) {
+            alert(jqXHR.responseJSON.message);
             console.log(jqXHR);
+            console.log(jqXHR.responseJSON.message);
             console.log(error);
             console.log(errorThrown);
-            $('#username').val('');
+            //            $('#username').val('');
+
         });
 };
 
 //Define functions working in login.html
 //receive login data, send data to database, direct to home page of the user or error
-function processLogin(userName, password) {
+function processLogin(username, password) {
     const userData = {
-        userName: userName,
+        username: username,
         password: password
     };
     $.ajax({
@@ -291,9 +294,9 @@ function adjustEditor(note) {
 
 //Define functions in profile.html
 //display username
-function displayUserName(account) {
-    const userName = `${account.userName}`;
-    $('.username').text(userName)
+function displayUsername(account) {
+    const username = `${account.username}`;
+    $('.username').text(username)
 }
 
 function adjustNotesIconPublic(account) {
@@ -355,11 +358,11 @@ $('#registration').submit(event => {
     const firstName = $('#first-name').val();
     const lastName = $('#last-name').val();
     const email = $('#email').val();
-    const userName = $('#username').val();
+    const username = $('#username').val();
     const password = $('#password').val();
     const confirmPassword = $('#confirmPassword').val();
-    console.log(`Your first name is ${firstName}, last name is ${lastName}, email is ${email}, username is ${userName}, and pasword is secret`);
-    processRegistration(firstName, lastName, email, userName, password, confirmPassword);
+    console.log(`Your first name is ${firstName}, last name is ${lastName}, email is ${email}, username is ${username}, and pasword is secret`);
+    processRegistration(firstName, lastName, email, username, password, confirmPassword);
 });
 
 
@@ -369,10 +372,10 @@ $('#registration').submit(event => {
 //input values will not be null because HTML <input required: true>
 $('#login').submit(event => {
     event.preventDefault();
-    const userName = $('#login-username').val();
+    const username = $('#login-username').val();
     const password = $('#login-password').val();
-    console.log(`username and password are ${userName} ${password}`);
-    processLogin(userName, password);
+    console.log(`username and password are ${username} ${password}`);
+    processLogin(username, password);
 });
 
 
