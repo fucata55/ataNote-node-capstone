@@ -188,26 +188,26 @@ app.get('/user/notes/:user', (req, res) => {
         });
 });
 
-
-//app.post('/user/notes', (req, res) => {
-//    Note
-//        .create({
-//            title: req.body.title,
-//            body: req.body.body,
-//            type: req.body.type,
-//            username: req.body.username
-//        }, (err, item) => {
-//            if (err) {
-//                return res.status(500).json({
-//                    message: 'Internal server error'
-//                });
-//            }
-//            if (item) {
-//                console.log('A new note is created, and ID is assigned to trigger buttons');
-//                return res.status(200).json(item);
-//            }
-//        });
-//})
+//Save notes in db
+app.post('/user/notes', (req, res) => {
+    Note
+        .create({
+            title: req.body.title,
+            body: req.body.body,
+            type: req.body.type,
+            username: req.body.username
+        }, (err, item) => {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Internal server error'
+                });
+            }
+            if (item) {
+                console.log(`A new note is created. note is ${item}`);
+                return res.status(200).json(item);
+            }
+        });
+})
 
 
 //app.get('/user/notes/:id', (req, res) => {

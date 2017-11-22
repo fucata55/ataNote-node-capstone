@@ -11,7 +11,7 @@
 
 <body>
     <header id='login-navbar'>
-        <a href="#" class='show-registration-section'><img src='./images/logo.png' class='small-logo' /></a>
+        <a href="" class='show-registration-section'><img src='./images/logo.png' class='small-logo' /></a>
         <nav class='menu'>
             <ul>
                 <li class='nav-item'><a class='nav-item-link help show-login-section'>Sign In</a></li>
@@ -20,12 +20,12 @@
         </nav>
     </header>
     <header class='multi-buttons' id='home-navbar'>
-        <a href="#" class='show-home-section'><img src='./images/logo.png' class='small-logo' id='home' /></a>
+        <a href="" class='show-home-section'><img src='./images/logo.png' class='small-logo' id='home' /></a>
         <nav class='menu'>
             <ul>
-                <li class='nav-item'><a class='nav-item-link help show-editor-section' href="#">Editor</a></li>
-                <li class='nav-item'><a class='nav-item-link help show-profile-section' href="#">Profile</a></li>
-                <li class='nav-item'><a class='nav-item-link help  show-login-section show-login-navbar' href="#">Sign Out</a></li>
+                <li class='nav-item'><a class='nav-item-link help show-editor-section' href="">Editor</a></li>
+                <li class='nav-item'><a class='nav-item-link help show-profile-section' href="">Profile</a></li>
+                <li class='nav-item'><a class='nav-item-link help  show-login-section show-login-navbar' href="">Sign Out</a></li>
             </ul>
         </nav>
     </header>
@@ -120,24 +120,25 @@
         </section>
         <section class='editor' id='editor-section'>
             <form action="#" id='note-form'>
-                <input type="text" class='input note-title' placeholder="title">
+                <input type='hidden' class="addID" value='0'>
+                <input type="text" class='input note-title' placeholder="title" required=true>
                 <textarea name="note" cols="20" rows="30" id='note' required=true></textarea>
                 <div class='saves-box'>
                     <label class='box'>
-                        <input type="radio" name='action' class='input save private' id='save-private' title='Save to Home' required checked>
+                        <input type="radio" name='action' class='input save private' id='save-private' title='Save to Home' value='private' required checked>
                         <img src="./images/save-private-icon.png" alt="Save Privately" title='Save to Home'>
                     </label>
                     <label class='box' for="#">
-                        <input type="radio" name='action' class='input save' id='save-public' title='Save to Home and Profile'>
+                        <input type="radio" name='action' class='input save' id='save-public' title='Save to Home and Profile' value='public'>
                         <img src="./images/save-public-icon.png" alt="Save Publicly" title='Save to Home and Profile'>
                     </label>
                     <!--            for v1, delete will have a pop up to confirm user's decision-->
                     <!--            for MVP, use alert to confirm-->
                     <label class='box' for="#">
-                        <input type="radio" name='action' class='input delete' id='delete' title='trash'>
+                        <input type="radio" name='action' class='input delete' id='delete' title='trash' value='trash'>
                         <img src="./images/trash-icon.png" alt="trash" title='trash'>
                     </label>
-                    <input type="submit" name='action' class='input execute show-home-section' value='execute'>
+                    <input type="submit" name='action' class='input execute' value='execute'>
 
                 </div>
             </form>

@@ -22,8 +22,9 @@ const emptyNote = {
     title: '',
     body: '',
     type: 'private',
-    user: account.username
+    username: account.username
 }
+
 const notes1 = [
     {
         id: '12',
@@ -61,7 +62,8 @@ function showLoginSection() {
     $('#profile-section').hide();
 }
 
-function showHomeSection() {
+function showHomeSection(username) {
+    getNotes(account.username);
     $('#home-navbar').show();
     $('#home-section').show();
     $('#login-navbar').hide();
@@ -137,7 +139,7 @@ function processRegistration(firstName, lastName, email, username, password, con
         });
 };
 
-//Define functions working in login.html
+//Define functions working in login section
 //receive login data, send data to database, direct to home page of the user or error
 function processLogin(username, password) {
     const userData = {
@@ -154,7 +156,8 @@ function processLogin(username, password) {
         }) //show login result
         .done(function (result) {
             account = result;
-            console.log(`account is ${result.username}`)
+            emptyNote.username = account.username
+            console.log(`account is ${account.username}`)
             getNotes(result.username);
             showHomeSection();
         })
@@ -178,7 +181,7 @@ function getNotes(username) {
         .done(function (notes) {
             console.log('notes are' + notes);
             adjustNotesIcon(notes);
-            //            adjustNotesAmount(notes);
+            adjustNotesAmount(notes);
 
         })
         .fail(function (jqXHR, error, errorThrown) {
@@ -187,7 +190,6 @@ function getNotes(username) {
             console.log(errorThrown);
             alert('Loading notes number has failed')
         });
-
 }
 
 //adjust notes icon base on the user
@@ -212,7 +214,7 @@ function adjustNotesIcon(notes) {
 
 
 function adjustNotesAmount(notes) {
-    console.log(`${account.username} note/(s/) is loaded`);
+    console.log(`${notes.username}'s note(s) is loaded`);
     let amountOfPublicNotes = function () {
         let count = 0;
         notes.forEach(note => {
@@ -220,15 +222,17 @@ function adjustNotesAmount(notes) {
                 count++
             }
         })
+        console.log(`There are ${count} of public notes`);
         return count
     };
     let amountOfPrivateNotes = function () {
         let count = 0;
-        account.notes.forEach(note => {
+        notes.forEach(note => {
             if (note.type == 'private') {
                 count++
             }
         })
+        console.log(`There are ${count} of private notes`);
         return count
     };
     //change DOM in #notification
@@ -390,47 +394,20 @@ $('.login').submit(event => {
     processLogin(username, password);
 });
 
-
-
-
-//Listeners in home
-//create note
-$('.addNote').click(event => {
-    $.ajax({
-            method: 'POST',
-            url: '/user/notes',
-            dataType: 'json',
-            data: JSON.stringify(emptyNote),
-            contentType: 'application/json'
-        })
-        //POST will respond an empty note with unique ID
-        .done(function (note) {
-            adjustEditor(note);
-            showEditorSection();
-        })
-        .fail(function (jqXHR, error, errorThrown) {
-            console.log(jqXHR);
-            console.log(error);
-            console.log(errorThrown);
-        });
-})
-
 //open editor with note when clicking a note icon
 $('.openNote-js').click(event => {
     let noteIDValue = $(this).parent().find(".note-id").val();
+    console.log(this, `ID selected is ${noteIDValue}`);
+    $.getJSON('/user/notes/' + thisID, adjustEditor);
 });
 
 //open editor with note when clicking a pen button
 $('.openNoteSmall-js').click(event => {
     let noteIDValue = $(this).parent().parent().find(".note-id").val();
-})
-
-//In home.html, when a small note is clicked, load editor with the note
-$('.openNote').click(event => {
-    const thisID = this.attr('id');
-    console.log(this, `ID selected is ${thisID}`);
+    console.log(this, `ID selected is ${noteIDValue}`);
     $.getJSON('/user/notes/' + thisID, adjustEditor);
 })
+
 //In home.html, when a save-to-public button is clicked, share the note selected to public
 $('.save-public-js').click(event => {
     const thisID = this.attr('id');
@@ -468,25 +445,53 @@ $('.delete-js').click(event => {
 //receive note
 $('#note-form').submit(event => {
     event.preventDefault();
-    //update one of the user notes
-    let note = account.notes[0]
-    note = {
-        id: '12',
-        title: `${$('.note-title').val()}`,
-        body: `${$('#note').val()}`
-    }
+    let id = $('.addID').val();
     //control API request of note execution in editor.html
-    $('#save-public').click(event => {
-        note.type = 'public'
-    });
-    $('#save-private').click(event => {
-        note.type = 'private'
-    });
-    $('#delete').click(event => {
-        note.type = 'trash'
-    });
-    console.log(note)
-    processNote(note);
+    //    let actionValue = $('input[name=action]:checked]', '#note-form').val();
+    //    document.getElementById('RadioButton').checked
+    let actionValue = $('input[name=action]:checked').val();
+    let titleValue = $('.note-title').val();
+    let bodyValue = $('#note').val();
+    let note = {
+        title: titleValue,
+        body: bodyValue,
+        type: actionValue,
+        username: account.username
+    }
+
+    console.log(`actionValue is ${actionValue}`);
+    console.log(`Note's title is ${titleValue}`);
+    console.log(`Note's body is ${bodyValue}`);
+    console.log(`Note's id is ${id}`);
+    console.log(`Note's user is ${account.username}`);
+    console.log(`note has ${note}`);
+    //if note is new (has no id), request POST
+    if (id == '0') {
+
+        $.ajax({
+                method: 'POST',
+                url: '/user/notes',
+                dataType: 'json',
+                data: JSON.stringify(note),
+                contentType: 'application/json'
+            })
+            //POST will respond an empty note with unique ID
+            .done(function (note) {
+                adjustEditor(note);
+                showHomeSection();
+            })
+            .fail(function (jqXHR, error, errorThrown) {
+                console.log(jqXHR);
+                console.log(error);
+                console.log(errorThrown);
+            });
+    }
+    //if note exists (has id), request PUT to edit it
+    else {
+        note.id = id
+        //update one of the user notes
+        //        processNote(note);
+    }
 });
 
 //Listeners in profile
