@@ -24,6 +24,20 @@ const emptyNote = {
     type: 'private',
     user: account.username
 }
+const notes1 = [
+    {
+        id: '12',
+        title: 'The Flash Beats Zoom',
+        body: 'In The Flash season 2, Flash beats Zoom on \'1 on 1\` fight. Flash created another of him by using time remnant',
+        type: 'private'
+    },
+    {
+        id: '12',
+        title: 'The Flash Beats Savatar',
+        body: 'In The Flash season 3, Flash beats Savatar by team work. Thanks to Killer Frost who changed her mind to help the Flash after helping Savatar throughout the season.',
+        type: 'public'
+    }
+]
 
 
 //Hide and show functions
@@ -162,8 +176,9 @@ function getNotes(username) {
             url: '/user/notes/' + username
         })
         .done(function (notes) {
-            adjustNotesIcon(notes);
-            adjustNotesAmount(notes);
+            console.log('notes are' + notes1);
+            adjustNotesIcon(notes1);
+            //            adjustNotesAmount(notes);
 
         })
         .fail(function (jqXHR, error, errorThrown) {
@@ -177,14 +192,17 @@ function getNotes(username) {
 
 //adjust notes icon base on the user
 function adjustNotesIcon(notes) {
-    notes.forEach.map(note => {
+    //    remove default notes icon
+    $('.default').remove();
+    notes.forEach(note => {
         $('#note1').after(`<div class='notes-icon'>
 <input type='hidden' class="note-id" value='${note.id}'>
-<a href="#" class='show-editor-section openNote' />
-<h3>${note.title}</h3>
-<p class='small-note'>${note.body.slice(1, 90)}</p>
+<a href="" class='show-editor-section openNote openNote-js'>
+<h3>${note.title.slice(0,11)}...</h3>
+<p class='small-note'>${note.body.slice(0, 140)}...</p>
+</a>
 <div class='function-container'>
-<a href='#' class='function-icon openNote'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
+<a href='#' class='function-icon openNoteSmall-js'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
 <a href='#' class='function-icon save-public-js'><img src="../images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></a>
 <a href='#' class='function-icon delete-js'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
 </div>
@@ -192,9 +210,6 @@ function adjustNotesIcon(notes) {
     });
 };
 
-$('.openNote').click(event => {
-    let noteIDValue = $(this).parent().parent().find(".note-id").val();
-})
 
 function adjustNotesAmount(notes) {
     console.log(`${account.username} note/(s/) is loaded`);
@@ -398,6 +413,16 @@ $('.addNote').click(event => {
             console.log(error);
             console.log(errorThrown);
         });
+})
+
+//open editor with note when clicking a note icon
+$('.openNote-js').click(event => {
+    let noteIDValue = $(this).parent().find(".note-id").val();
+});
+
+//open editor with note when clicking a pen button
+$('.openNoteSmall-js').click(event => {
+    let noteIDValue = $(this).parent().parent().find(".note-id").val();
 })
 
 //In home.html, when a small note is clicked, load editor with the note
