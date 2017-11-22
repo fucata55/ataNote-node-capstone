@@ -175,14 +175,15 @@ app.get('/user/notes/:user', (req, res) => {
     Note
         .find({
             username: req.params.user
-        }, (err, item) => {
+        }, (err, items) => {
             if (err) {
                 return res.status(500).json({
                     message: 'Internal server error'
                 });
             }
-            if (item) {
-                return res.status(200).json(item);
+            if (items) {
+                console.log(req.params.user, items)
+                return res.status(200).json(items);
             }
         });
 });

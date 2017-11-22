@@ -176,8 +176,8 @@ function getNotes(username) {
             url: '/user/notes/' + username
         })
         .done(function (notes) {
-            console.log('notes are' + notes1);
-            adjustNotesIcon(notes1);
+            console.log('notes are' + notes);
+            adjustNotesIcon(notes);
             //            adjustNotesAmount(notes);
 
         })
