@@ -207,45 +207,75 @@ app.post('/user/notes', (req, res) => {
                 return res.status(200).json(item);
             }
         });
+});
+
+app.get('/user/notes/', (req, res) => {
+    Note
+        .find()
+        .then((note) => {
+            return res.json(note);
+        })
+        .catch(function () {
+            console.error(err);
+            res.status(500).json({
+                message: 'Internal Server Error'
+            });
+        });
 })
 
 
-//app.get('/user/notes/:id', (req, res) => {
-//    Note
-//        .findById(req.params.id)
-//        .then((note) => {
-//            return res.json(note);
-//        })
-//        .catch(function (achievements) {
-//            console.error(err);
-//            res.status(500).json({
-//                message: 'Internal Server Error'
-//            });
-//
-//        })
-//})
-//
-//app.put('user/notes/:id', (req, res) => {
-//    let toUpdate = {};
-//    let updateableFields = ['title', 'body', 'type'];
-//    updateableFields.forEach(function (field) {
-//        if (field in req.body) {
-//            toUpdate[field] = req.body[field];
-//        }
-//    });
-//    Note
-//        .findByIdAndUpdate(req.params.id, {
-//            $set: toUpdate
-//        })
-//        .then(function (note) {
-//            return res.status(204).json(note);
-//        })
-//        .catch(function (err) {
-//            return res.status(500).json({
-//                message: 'Internal Server Error'
-//            });
-//        });
-//});
+app.get('/user/notes/:id', (req, res) => {
+    Note
+        .findById(req.params.id)
+        .then((note) => {
+            return res.json(note);
+        })
+        .catch(function () {
+            console.error(err);
+            res.status(500).json({
+                message: 'Internal Server Error'
+            });
+        });
+})
+
+app.put('user/notes/:id', (req, res) => {
+    let toUpdate = {};
+    let updateableFields = ['title', 'body', 'type'];
+    updateableFields.forEach(function (field) {
+        if (field in req.body) {
+            toUpdate[field] = req.body[field];
+        }
+    });
+    Note
+        .findByIdAndUpdate(req.params.id, {
+            $set: toUpdate
+        })
+        .then(function (note) {
+            return res.status(204).json(note);
+        })
+        .catch(function (err) {
+            return res.status(500).json({
+                message: 'Internal Server Error'
+            });
+        });
+});
+
+app.delete('user/notes/:id', (req, res) => {
+    Note
+        .findByIdAndRemove(req.params.id)
+        .then(() => {
+            return res.status(204).end();
+        })
+        .catch(function () {
+            console.error(err);
+            res.status(500).json({
+                message: 'Internal Server Error'
+            });
+        });
+});
+
+
+
 app.listen(process.env.PORT || 8082, () => console.log('app is listening'));
 
 //Get a note app.get('/user/notes/:id', (req, res) => {

@@ -198,23 +198,60 @@ function adjustNotesIcon(notes) {
     $('.default').remove();
     notes.forEach(note => {
         $('#note1').after(`<div class='notes-icon'>
-<input type='hidden' class="note-id" value='${note.id}'>
-<a href="" class='show-editor-section openNote openNote-js'>
+<input type='hidden' class='note-id' value='${note._id}'>
+<a data-contentId='${note._id}' class='openNote openNote-js'>
 <h3>${note.title.slice(0,11)}...</h3>
 <p class='small-note'>${note.body.slice(0, 140)}...</p>
 </a>
 <div class='function-container'>
-<a href='#' class='function-icon openNoteSmall-js'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
-<a href='#' class='function-icon save-public-js'><img src="../images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></a>
-<a href='#' class='function-icon delete-js'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
+
+<form class='edit-note-form'>
+<input type='hidden' class='edit-note-id' value='${note._id}'>
+<button type='submit' class='function-icon openNoteSmall-js'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></button>
+</form>
+
+<form class='save-public-note-form'>
+<input type='hidden' class='save-public-note-id' value='${note._id}'>
+<button type='submit' class='function-icon save-public-js'><img src="../images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></button>
+</form>
+
+<form class='delete-note-form'>
+<input type='hidden' class='delete-note-id' value='${note._id}'>
+<button type='submit' class='function-icon delete-js'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></button>
+</form>
+
+
 </div>
 </div>`)
     });
 };
 
+//$('button').click(function () {
+//    console.log('button clicked');
+//})
+//
+
+$(document).on('click', '.edit-note-form button', (event) => {
+    event.preventDefault();
+    //    console.log($(this).closest('.note-id'));
+    let selectedId = $(event.target).closest('form').find('.edit-note-id').val();
+    console.log(selectedId);
+    //    console.log('click', $(this).data(contentId));
+    //    let noteIDValue = $(this).parent().find('.notes-icon').data('contentId');
+    //    console.log(`ID selected is ${noteIDValue}`);
+    //    console.log($('h3'));
+})
+//$('.notes').on('click', '.function-icon', () => {
+//    console.log('click', 'this is', $(this).parent().parent().parent().find('.note-id').val());
+//    console.log($(this).parent());
+//    //    console.log('click', $(this).data(contentId));
+//    //    let noteIDValue = $(this).parent().find('.notes-icon').data('contentId');
+//    //    console.log(`ID selected is ${noteIDValue}`);
+//    //    console.log($('h3'));
+//})
 
 function adjustNotesAmount(notes) {
-    console.log(`${notes.username}'s note(s) is loaded`);
+    console.log(`${notes[0].username}'s note(s) is loaded`);
     let amountOfPublicNotes = function () {
         let count = 0;
         notes.forEach(note => {
@@ -257,39 +294,43 @@ function deleteNote(note) {
         });
 }
 
-//Define functions in editor.html
+//Define functions in editor section
 //receive note. ^Search "//receive note"
 
 //Make different request that determined by _note.type
 function processNote(_note) {
     const note = JSON.stringify(_note);
     console.log(_note);
-    if (_note.type === 'trash') {
+    //if a note type is trash, trash the note
+    if (_note.type == 'trash') {
+        console.log('deleting a note')
         $.ajax({
                 method: 'DELETE',
                 dataType: 'json',
                 contentType: 'application/json',
-                url: '/user/notes/' + _note.id,
+                url: '/user/notes/' + _note._id,
             })
-            .done(function () {
+            .done(function (res) {
                 console.log('Note deleted');
-                location.replace('./pages/home');
+                showHomeSection();
             })
             .fail(function (jqXHR, error, errorThrown) {
                 console.log(jqXHR);
                 console.log(error);
                 console.log(errorThrown);
             });
+        //if a note type is private or public, save the note as edited
     } else {
         $.ajax({
                 method: 'PUT',
                 dataType: 'json',
                 contentType: 'application/json',
                 data: note,
-                url: '/user/notes/' + _note.id,
+                url: '/user/notes/' + _note._id,
             })
             .done(function (data) {
-                console.log(`Note saved ${_note.type}`);
+                console.log(`Successful to save note ${_note.type}ly`);
+                showHomeSection();
             })
             .fail(function (jqXHR, error, errorThrown) {
                 console.log(jqXHR);
@@ -302,9 +343,10 @@ function processNote(_note) {
 //populate editor page from ID
 function adjustEditor(note) {
     console.log(`note is ${note}`);
-    $('.note-title').val(note.title).addClass(note.id);
-    $('textarea').val(note.body).addClass(note.id);
-    $("input[type='radio']").addClass(note.id);
+    $('.addID').val(note._id);
+    $('.note-title').val(note.title);
+    $('textarea').val(note.body);
+    showEditorSection();
 }
 
 
@@ -396,9 +438,25 @@ $('.login').submit(event => {
 
 //open editor with note when clicking a note icon
 $('.openNote-js').click(event => {
+    showEditorSection();
     let noteIDValue = $(this).parent().find(".note-id").val();
     console.log(this, `ID selected is ${noteIDValue}`);
-    $.getJSON('/user/notes/' + thisID, adjustEditor);
+    $.ajax({
+            method: 'GET',
+            url: '/user/notes/' + NoteIDValue,
+            dataType: 'json',
+            data: JSON.stringify(updateNoteObject),
+            contentType: 'application/json'
+        })
+        //POST will respond an empty note with unique ID
+        .done(function (note) {
+            adjustEditor(note);
+        })
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+        });
 });
 
 //open editor with note when clicking a pen button
@@ -453,10 +511,10 @@ $('#note-form').submit(event => {
     let titleValue = $('.note-title').val();
     let bodyValue = $('#note').val();
     let note = {
-        title: titleValue,
-        body: bodyValue,
-        type: actionValue,
-        username: account.username
+        'title': titleValue,
+        'body': bodyValue,
+        'type': actionValue,
+        'username': account.username
     }
 
     console.log(`actionValue is ${actionValue}`);
@@ -477,7 +535,6 @@ $('#note-form').submit(event => {
             })
             //POST will respond an empty note with unique ID
             .done(function (note) {
-                adjustEditor(note);
                 showHomeSection();
             })
             .fail(function (jqXHR, error, errorThrown) {
@@ -488,9 +545,27 @@ $('#note-form').submit(event => {
     }
     //if note exists (has id), request PUT to edit it
     else {
-        note.id = id
-        //update one of the user notes
-        //        processNote(note);
+
+        $.ajax({
+                method: 'GET',
+                url: '/user/notes',
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            //POST will respond an empty note with unique ID
+            .done(function (note) {
+                console.log(note._id);
+            })
+            .fail(function (jqXHR, error, errorThrown) {
+                console.log(jqXHR);
+                console.log(error);
+                console.log(errorThrown);
+            });
+
+
+        //        note._id = id;
+        console.log(`note to be processed is ${note}`)
+        processNote(note);
     }
 });
 
