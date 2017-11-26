@@ -173,7 +173,8 @@ app.post('/user/signin', (req, res) => {
 });
 
 //Retrieve user's note(s)
-app.get('/user/notes/:user', (req, res) => {
+app.get('/user/notes/all/:user', (req, res) => {
+    console.log('this is get user', req.params.user)
     Note
         .find({
             username: req.params.user
@@ -183,6 +184,7 @@ app.get('/user/notes/:user', (req, res) => {
                     message: 'Internal server error'
                 });
             }
+            console.log(items, "this is item");
             if (items) {
                 console.log(req.params.user, items)
                 return res.status(200).json(items);
@@ -226,28 +228,11 @@ app.get('/user/notes/', (req, res) => {
 })
 
 
-//app.get('/user/notes/:id', (req, res) => {
-//    //    console.log(req.params.id);
-//    console.log('running');
-//    Note
-//        .find({
-//            _id: ObjectId("5a1a48b284e89017708385d2")
-//        }, (err, items) => {
-//            if (err) {
-//                return res.status(500).json({
-//                    message: 'Internal server error'
-//                });
-//                if (item) {
-//                    return res.status(200).json(item);
-//                    console.log('stringfy note looks like', JSON.stringify(item))
-//                }
-//            }
-//        });
-//})
-app.get('/user/notes/:id', function (req, res) {
-    console.log(req.params.id);
+
+app.get('/user/notes/a/:id', function (req, res) {
+    console.log(req.params.id, "testing");
     Note
-        .find()
+        .findById(req.params.id)
         .then(note => {
             console.log(note);
             return res.json(note);

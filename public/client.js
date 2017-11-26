@@ -176,7 +176,7 @@ function getNotes(username) {
     //define the numbers of notes on public and private
     $.ajax({
             type: 'GET',
-            url: '/user/notes/' + username
+            url: '/user/notes/all/' + username
         })
         .done(function (notes) {
             console.log('notes are' + notes);
@@ -427,7 +427,7 @@ $(document).on('click', '.edit-note-form button', (event) => {
     };
     $.ajax({
             method: 'GET',
-            url: '/user/notes/' + selectedId,
+            url: '/user/notes/a/' + selectedId,
         })
         .done(function (note) {
             console.log(note, note[0], note.title);
