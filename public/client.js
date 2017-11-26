@@ -174,6 +174,7 @@ function processLogin(username, password) {
 function getNotes(username) {
     //populate home with user's note
     //define the numbers of notes on public and private
+
     $.ajax({
             type: 'GET',
             url: '/user/notes/all/' + username
@@ -196,8 +197,9 @@ function getNotes(username) {
 function adjustNotesIcon(notes) {
     //    remove default notes icon
     $('.default').remove();
+    $('.b').remove();
     notes.forEach(note => {
-        $('#note1').after(`<div class='notes-icon'>
+        $('#note1').after(`<div class='notes-icon b'>
 <input type='hidden' class='note-id' value='${note._id}'>
 <a data-contentId='${note._id}' class='openNote openNote-js'>
 <h3>${note.title.slice(0,11)}...</h3>
@@ -320,6 +322,9 @@ function processNote(_note) {
 //populate editor page from ID
 function adjustEditor(note) {
     console.log(`note is ${note}`);
+    $('.addID').val('');
+    $('.note-title').val('');
+    $('textarea').val('');
     $('.addID').val(note._id);
     $('.note-title').val(note.title);
     $('textarea').val(note.body);
@@ -374,6 +379,9 @@ $('show-registration-section').click(() => {
 })
 
 $('.show-editor-section').click(() => {
+//    $('.addID').val('');
+ //    $('.note-title').val('');
+ //    $('textarea').val('');
     showEditorSection();
 });
 
@@ -430,10 +438,8 @@ $(document).on('click', '.edit-note-form button', (event) => {
             url: '/user/notes/a/' + selectedId,
         })
         .done(function (note) {
-            console.log(note, note[0], note.title);
-            console.log(JSON.stringify(note));
+            console.log(note.title);
             adjustEditor(note);
-            showEditorSection();
         })
         .fail(function (jqXHR, error, errorThrown) {
             console.log(jqXHR);
@@ -452,14 +458,14 @@ $(document).on('click', '.save-public-note-form', (event) => {
     console.log(selectedId);
     $.ajax({
             method: 'PUT',
-            url: '/user/notes/' + selectedId,
+            url: '/user/notes/b/' + selectedId,
             dataType: 'json',
             data: JSON.stringify(updateNoteObject),
             contentType: 'application/json'
         })
         //POST will respond an empty note with unique ID
         .done(function (note) {
-            showProfileSection();
+            showHomeSection();
         })
         .fail(function (jqXHR, error, errorThrown) {
             console.log(jqXHR);
@@ -475,7 +481,7 @@ $(document).on('click', '.delete-note-form', (event) => {
     console.log(selectedId);
     $.ajax({
             method: 'DELETE',
-            url: '/user/notes/' + selectedId
+            url: '/user/notes/c/' + selectedId
         })
         .done(function (res) {
             console.log('Note deleted');

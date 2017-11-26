@@ -245,7 +245,7 @@ app.get('/user/notes/a/:id', function (req, res) {
         });
 });
 
-app.put('/user/notes/:id', (req, res) => {
+app.put('/user/notes/b/:id', (req, res) => {
     let toUpdate = {};
     let updateableFields = ['title', 'body', 'type'];
     updateableFields.forEach(function (field) {
@@ -267,8 +267,8 @@ app.put('/user/notes/:id', (req, res) => {
         });
 });
 
-app.delete('user/notes/:id', (req, res) => {
-    //    console.log(req.params.id);
+app.delete('/user/notes/c/:id', (req, res) => {
+    console.log(req.params.id);
     Note
         .findByIdAndRemove(req.params.id)
         .then(() => {
