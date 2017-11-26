@@ -347,3 +347,12 @@ nav {
     height: 160px;
     width: 225px;
 }
+
+.edit-note-form,
+.save-public-note-form,
+.delete-note-form {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0px 10px;
+}

@@ -26,6 +26,7 @@ app.use(express.static('public'));
 let server = undefined;
 
 function runServer(urlToUse) {
+    console.log(urlToUse);
     return new Promise((resolve, reject) => {
         mongoose.connect(urlToUse, err => {
             if (err) {
@@ -43,6 +44,7 @@ function runServer(urlToUse) {
 }
 
 if (require.main === module) {
+    console.log('Im running server');
     runServer(config.DATABASE_URL).catch(err => console.error(err));
 }
 
@@ -224,21 +226,41 @@ app.get('/user/notes/', (req, res) => {
 })
 
 
-app.get('/user/notes/:id', (req, res) => {
+//app.get('/user/notes/:id', (req, res) => {
+//    //    console.log(req.params.id);
+//    console.log('running');
+//    Note
+//        .find({
+//            _id: ObjectId("5a1a48b284e89017708385d2")
+//        }, (err, items) => {
+//            if (err) {
+//                return res.status(500).json({
+//                    message: 'Internal server error'
+//                });
+//                if (item) {
+//                    return res.status(200).json(item);
+//                    console.log('stringfy note looks like', JSON.stringify(item))
+//                }
+//            }
+//        });
+//})
+app.get('/user/notes/:id', function (req, res) {
+    console.log(req.params.id);
     Note
-        .findById(req.params.id)
-        .then((note) => {
+        .find()
+        .then(note => {
+            console.log(note);
             return res.json(note);
         })
-        .catch(function () {
+        .catch(function (note) {
             console.error(err);
             res.status(500).json({
                 message: 'Internal Server Error'
             });
         });
-})
+});
 
-app.put('user/notes/:id', (req, res) => {
+app.put('/user/notes/:id', (req, res) => {
     let toUpdate = {};
     let updateableFields = ['title', 'body', 'type'];
     updateableFields.forEach(function (field) {
@@ -261,6 +283,7 @@ app.put('user/notes/:id', (req, res) => {
 });
 
 app.delete('user/notes/:id', (req, res) => {
+    //    console.log(req.params.id);
     Note
         .findByIdAndRemove(req.params.id)
         .then(() => {
@@ -276,7 +299,7 @@ app.delete('user/notes/:id', (req, res) => {
 
 
 
-app.listen(process.env.PORT || 8082, () => console.log('app is listening'));
+
 
 //Get a note app.get('/user/notes/:id', (req, res) => {
 //
