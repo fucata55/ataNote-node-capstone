@@ -230,7 +230,7 @@ function adjustNotesIcon(notes) {
 
 
 function adjustNotesAmount(notes) {
-    console.log(`${notes[0].username}'s note(s) is loaded`);
+    //    console.log(`${notes[0].username}'s note(s) is loaded`);
     let amountOfPublicNotes = function () {
         let count = 0;
         notes.forEach(note => {
@@ -278,16 +278,17 @@ function deleteNote(note) {
 
 //Make different request that determined by _note.type
 function processNote(_note) {
-    const note = JSON.stringify(_note);
     console.log(_note);
+
     //if a note type is trash, trash the note
     if (_note.type == 'trash') {
+        console.log(_note);
         console.log('deleting a note')
         $.ajax({
                 method: 'DELETE',
                 dataType: 'json',
                 contentType: 'application/json',
-                url: '/user/notes/' + _note._id,
+                url: '/user/notes/c/' + _note._id,
             })
             .done(function (res) {
                 console.log('Note deleted');
@@ -304,8 +305,8 @@ function processNote(_note) {
                 method: 'PUT',
                 dataType: 'json',
                 contentType: 'application/json',
-                data: note,
-                url: '/user/notes/' + _note._id,
+                data: JSON.stringify(_note),
+                url: '/user/notes/b/' + _note._id
             })
             .done(function (data) {
                 console.log(`Successful to save note ${_note.type}ly`);
@@ -322,9 +323,6 @@ function processNote(_note) {
 //populate editor page from ID
 function adjustEditor(note) {
     console.log(`note is ${note}`);
-    $('.addID').val('');
-    $('.note-title').val('');
-    $('textarea').val('');
     $('.addID').val(note._id);
     $('.note-title').val(note.title);
     $('textarea').val(note.body);
@@ -379,9 +377,6 @@ $('show-registration-section').click(() => {
 })
 
 $('.show-editor-section').click(() => {
-//    $('.addID').val('');
- //    $('.note-title').val('');
- //    $('textarea').val('');
     showEditorSection();
 });
 
@@ -391,7 +386,13 @@ $('.show-login-section').click(() => {
 
 $('.show-profile-section').click(() => {
     showProfileSection();
-})
+});
+
+$('.addNote-js').click(() => {
+    $('.addID').val('0');
+    $('.note-title').val('');
+    $('textarea').val('');
+});
 
 //Listeners in index
 //receive user registration in landing-page.html and send it to process function
@@ -564,27 +565,21 @@ $('#note-form').submit(event => {
     }
     //if note exists (has id), request PUT to edit it
     else {
-
-        $.ajax({
-                method: 'GET',
-                url: '/user/notes',
-                dataType: 'json',
-                contentType: 'application/json'
-            })
-            //POST will respond an empty note with unique ID
-            .done(function (note) {
-                console.log(note._id);
-            })
-            .fail(function (jqXHR, error, errorThrown) {
-                console.log(jqXHR);
-                console.log(error);
-                console.log(errorThrown);
-            });
-
-
-        //        note._id = id;
-        console.log(`note to be processed is ${note}`)
-        processNote(note);
+        note._id = id;
+        processNote(note)
+        //        $.ajax({
+        //                method: 'GET',
+        //                url: '/user/notes/a/' + id,
+        //            })
+        //            .done(note => {
+        //                console.log(`note to be processed is ${note}`)
+        //                processNote(note);
+        //            })
+        //            .fail(function (jqXHR, error, errorThrown) {
+        //                console.log(jqXHR);
+        //                console.log(error);
+        //                console.log(errorThrown);
+        //            });
     }
 });
 
