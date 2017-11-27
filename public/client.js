@@ -212,10 +212,10 @@ function adjustNotesIcon(notes) {
 <button type='submit' class='function-icon openNoteSmall-js'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></button>
 </form>
 
-<form class='save-public-note-form'>
+<!--<form class='save-public-note-form'>
 <input type='hidden' class='save-public-note-id' value='${note._id}'>
 <button type='submit' class='function-icon save-public-js'><img src="../images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></button>
-</form>
+</form>-->
 
 <form class='delete-note-form'>
 <input type='hidden' class='delete-note-id' value='${note._id}'>

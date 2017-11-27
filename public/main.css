@@ -173,6 +173,10 @@ h3 {
     font-size: 45px;
 }
 
+a {
+    cursor: pointer;
+}
+
 .notes-icon {
     display: inline-block;
     border-radius: 5px 5px 40px 5px;
