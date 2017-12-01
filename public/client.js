@@ -25,21 +25,6 @@ const emptyNote = {
     username: account.username
 }
 
-const notes1 = [
-    {
-        id: '12',
-        title: 'The Flash Beats Zoom',
-        body: 'In The Flash season 2, Flash beats Zoom on \'1 on 1\` fight. Flash created another of him by using time remnant',
-        type: 'private'
-    },
-    {
-        id: '12',
-        title: 'The Flash Beats Savatar',
-        body: 'In The Flash season 3, Flash beats Savatar by team work. Thanks to Killer Frost who changed her mind to help the Flash after helping Savatar throughout the season.',
-        type: 'public'
-    }
-]
-
 
 //Hide and show functions
 function showRegistrationSection() {
@@ -84,7 +69,6 @@ function showEditorSection() {
 }
 
 function showProfileSection() {
-    $
     $('#home-navbar').show();
     $('#profile-section').show();
     $('#login-navbar').hide();
@@ -93,7 +77,12 @@ function showProfileSection() {
     $('#home-section').hide();
     $('#editor-section').hide();
 }
-//Define functions working in registration section
+
+function showWorldSection() {
+    getAllUsernames();
+}
+
+//Define functions working in *************************REGISTRATION SECTION*************************
 //return back regitration that doesn't have a consistent password
 //send user data to database to be registered
 function processRegistration(firstName, lastName, email, username, password, confirmPassword) {
@@ -125,7 +114,8 @@ function processRegistration(firstName, lastName, email, username, password, con
         .done(function (result) {
             //show registration result
             showLoginSection();
-            console.log('signup sucessful');
+            console.log('sign up sucessful');
+            alert: 'Sign up sucessful';
 
         })
         .fail(function (jqXHR, error, errorThrown) {
@@ -139,7 +129,7 @@ function processRegistration(firstName, lastName, email, username, password, con
         });
 };
 
-//Define functions working in login section
+//Define functions working in *************************LOGIN SECTION*************************
 //receive login data, send data to database, direct to home page of the user or error
 function processLogin(username, password) {
     const userData = {
@@ -170,7 +160,7 @@ function processLogin(username, password) {
         });
 };
 
-//Define functions in home section
+//Define functions in *************************HOME SECTION*************************
 function getNotes(username) {
     //populate home with user's note
     //define the numbers of notes on public and private
@@ -273,7 +263,7 @@ function deleteNote(note) {
         });
 }
 
-//Define functions in editor section
+//Define functions in *************************EDITOR SECTION*************************
 //receive note. ^Search "//receive note"
 
 //Make different request that determined by _note.type
@@ -308,7 +298,7 @@ function processNote(_note) {
                 data: JSON.stringify(_note),
                 url: '/user/notes/b/' + _note._id
             })
-            .done(function (data) {
+            .done(data => {
                 console.log(`Successful to save note ${_note.type}ly`);
                 showHomeSection();
             })
@@ -330,7 +320,7 @@ function adjustEditor(note) {
 }
 
 
-//Define functions in profile.html
+//Define functions in *************************PROFILE SECTION*************************
 //display username
 function displayUsername(account) {
     const username = `${account.username}`;
@@ -355,7 +345,35 @@ function adjustNotesIconPublic(account) {
     });
 };
 
-//Triggering functions starts below this line
+//Define functions in *************************WORLD SECTION*************************
+//Request all usernames
+function getAllUsernames() {
+    $.ajax({
+            method: 'GET',
+            url: '/users',
+        })
+        .done(data => {
+            console.log(data)
+            displayUsers(data);
+        })
+        .fail((jqXHR, error, errorThrown) => {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+        })
+}
+
+function displayUsers(users) {
+    console.log('displayUsers ran');
+    let usernames = [];
+    users.forEach(user => {
+        usernames.push(user.username)
+    });
+    usernames.sort();
+    console.log(usernames);
+}
+
+//Triggering functions starts below this line*************************TRIGGERS*************************
 
 //When page loads
 $('#login-navbar').show();
@@ -365,6 +383,7 @@ $('#login-section').hide();
 $('#home-section').hide();
 $('#editor-section').hide();
 $('#profile-section').hide();
+
 
 
 //Sections hide and show (USE the functions at AJAX done instead)
@@ -393,6 +412,10 @@ $('.addNote-js').click(() => {
     $('.note-title').val('');
     $('textarea').val('');
 });
+
+$('.show-world-section').click(() => {
+    showWorldSection();
+})
 
 //Listeners in index
 //receive user registration in landing-page.html and send it to process function
@@ -495,6 +518,7 @@ $(document).on('click', '.delete-note-form', (event) => {
         });
 })
 
+//Use when the whole note-icons are clickable in next update
 //open editor with note when clicking a note icon
 //$('.openNote-js').click(event => {
 //    showEditorSection();
@@ -566,21 +590,8 @@ $('#note-form').submit(event => {
     //if note exists (has id), request PUT to edit it
     else {
         note._id = id;
-        processNote(note)
-        //        $.ajax({
-        //                method: 'GET',
-        //                url: '/user/notes/a/' + id,
-        //            })
-        //            .done(note => {
-        //                console.log(`note to be processed is ${note}`)
-        //                processNote(note);
-        //            })
-        //            .fail(function (jqXHR, error, errorThrown) {
-        //                console.log(jqXHR);
-        //                console.log(error);
-        //                console.log(errorThrown);
-        //            });
-    }
-});
+        processNote(note);
+    };
+})
 
 //Listeners in profile

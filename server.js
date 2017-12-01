@@ -172,6 +172,23 @@ app.post('/user/signin', (req, res) => {
         });
 });
 
+//responding to get users
+//url '/users' method GET
+app.get('/users', (req, res) => {
+    User
+        .find()
+        .then(data => {
+            console.log(data);
+            return res.status(200).json(data);
+        })
+        .catch(() => {
+            console.error(err);
+            res.status(500).json({
+                message: 'Internal Server Error'
+            });
+        });
+})
+
 //Retrieve user's note(s)
 app.get('/user/notes/all/:user', (req, res) => {
     console.log('this is get user', req.params.user)
