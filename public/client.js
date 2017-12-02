@@ -370,8 +370,17 @@ function displayUsers(users) {
         usernames.push(user.username)
     });
     usernames.sort();
+    usernames.forEach(user => {
+        $('.ataNoteUsers').append(`
+<a class='ataNoteUser' id='${user}'>
+<img class='avatar' src="./images/avatar.png" alt="avatar">
+<p class='ataNoteUsername'>${user}</p>
+</a>`)
+    })
     console.log(usernames);
 }
+
+//function to show profile when ataNoteUser is clicked
 
 //Triggering functions starts below this line*************************TRIGGERS*************************
 

@@ -30,7 +30,8 @@ header {
 
 .home,
 .editor,
-.profile {
+.profile,
+.world {
     width: 20rem;
     margin-left: auto;
     margin-right: auto;
@@ -248,18 +249,66 @@ nav {
     max-height: 100%;
 }
 
+.addNote,
+.openNote {
+    text-decoration: none;
+    display: inline-block;
+    height: 160px;
+    width: 225px;
+}
+
+.edit-note-form,
+.save-public-note-form,
+.delete-note-form {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0px 10px;
+}
+
+.ataNoteUsers {
+    margin: 25px;
+}
+
+.ataNoteUser {
+    display: inline-block;
+    margin: 10px 10px;
+    border: solid 1px #bdc7d8;
+    border-radius: 5px;
+    padding: 5px 10px 10px;
+    width: 5rem;
+    text-align: left;
+    background-color: #e9ebee;
+}
+
+.ataNoteUsername {
+    display: inline-block;
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+.avatar {
+    vertical-align: middle
+}
+
 @media only screen and (max-width: 915px) {
-    .editor {
+    .editor,
+    .world,
+    .ataNoteUsers {
         width: 95%;
     }
+    .ataNoteUsers {
+        margin: 25px 0px;
+    }
     #note-form {
-        /*        width: 95%;*/
         margin: 0px auto;
     }
 }
 
 @media only screen and (max-width: 695px) {
-    .profile {
+    .profile,
+    .world,
+    {
         width: 100%
     }
 }
@@ -342,21 +391,4 @@ nav {
     .home {
         margin-top: 20px;
     }
-}
-
-.addNote,
-.openNote {
-    text-decoration: none;
-    display: inline-block;
-    height: 160px;
-    width: 225px;
-}
-
-.edit-note-form,
-.save-public-note-form,
-.delete-note-form {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin: 0px 10px;
 }
