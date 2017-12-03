@@ -308,3 +308,5 @@ app.delete('/user/notes/c/:id', (req, res) => {
 
 
 exports.app = app;
+exports.runServer = runServer;
+exports.closeServer = closeServer;

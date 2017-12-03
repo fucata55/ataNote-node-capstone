@@ -23,7 +23,7 @@ const {
 
 chai.use(chaiHttp);
 
-const usermame = 'demo'
+const username = 'demo'
 
 //Define functions
 function generateUser() {
@@ -56,7 +56,7 @@ function seedNote() {
 
 function tearDownDb() {
     console.warn('Deleting database');
-    return mongoose.connection.dropDataBase();
+    return mongoose.connection.dropDatabase();
 }
 
 
@@ -70,7 +70,7 @@ describe('ataNote APIs', () => {
             }));
     });
     beforeEach(() => {
-        return seeNote();
+        return seedNote();
     });
     describe('GET users endpoint', () => {
         it('should return all users in db', () => {
