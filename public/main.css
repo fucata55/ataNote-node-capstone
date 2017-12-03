@@ -92,7 +92,7 @@ legend {
     padding: 8px 10px;
     border: solid 1px #bdc7d8;
     margin-bottom: 15px;
-    width: 90%;
+    width: 85%;
     font-family: 'Karla', Sans-Serif;
     font-size: 16px;
 }
@@ -111,7 +111,7 @@ legend {
     width: 28%;
     font-family: 'Karla', Sans-Serif;
     font-size: 16px;
-    background: linear-gradient(#67ae55, #578843);
+    background-color: #365899;
     color: white;
 }
 
@@ -203,14 +203,14 @@ a {
 }
 
 .submit {
-    background: linear-gradient(#67ae55, #578843);
+    background-color: #365899;
     color: white;
 }
 
 #first-name,
 #last-name {
     display: inline-block;
-    width: 44%;
+    width: 41%;
 }
 
 nav {
