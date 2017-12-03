@@ -18,6 +18,10 @@ let account = {
     }]
 };
 
+const otherAccount = {
+    username: 'accountName'
+};
+
 const emptyNote = {
     title: '',
     body: '',
@@ -35,6 +39,7 @@ function showRegistrationSection() {
     $('#home-section').hide();
     $('#editor-section').hide();
     $('#profile-section').hide();
+    $('#world-section').hide();
 }
 
 function showLoginSection() {
@@ -45,6 +50,7 @@ function showLoginSection() {
     $('#home-section').hide();
     $('#editor-section').hide();
     $('#profile-section').hide();
+    $('#world-section').hide();
 }
 
 function showHomeSection(username) {
@@ -56,6 +62,7 @@ function showHomeSection(username) {
     $('#login-section').hide();
     $('#editor-section').hide();
     $('#profile-section').hide();
+    $('#world-section').hide();
 }
 
 function showEditorSection() {
@@ -66,6 +73,7 @@ function showEditorSection() {
     $('#login-section').hide();
     $('#home-section').hide();
     $('#profile-section').hide();
+    $('#world-section').hide();
 }
 
 function showProfileSection() {
@@ -76,10 +84,19 @@ function showProfileSection() {
     $('#login-section').hide();
     $('#home-section').hide();
     $('#editor-section').hide();
+    $('#world-section').hide();
 }
 
 function showWorldSection() {
     getAllUsernames();
+    $('#home-navbar').show();
+    $('#world-section').show();
+    $('#login-navbar').hide();
+    $('#regisration-section').show();
+    $('#login-section').hide();
+    $('#home-section').hide();
+    $('#editor-section').hide();
+    $('#profile-section').hide();
 }
 
 //Define functions working in *************************REGISTRATION SECTION*************************
@@ -317,8 +334,16 @@ function adjustEditor(note) {
     $('.note-title').val(note.title);
     $('textarea').val(note.body);
     showEditorSection();
+    $('.saves-box').show();
 }
 
+function adjustOtherEditor(note) {
+    console.log(`note is ${note}`);
+    $('.addID').val(note._id);
+    $('.note-title').val(note.title);
+    $('textarea').val(note.body);
+    $('.saves-box').hide()
+}
 
 //Define functions in *************************PROFILE SECTION*************************
 //display username
@@ -327,7 +352,11 @@ function displayUsername(account) {
     $('.username').text(username)
 }
 
-function adjustNotesIconPublic(account) {
+function displayOtherUsername(username) {;
+    $('.username').text(username)
+}
+
+function adjustNotesIconPublic(notes) {
 
     Object.keys(account.notes).map(note => {
         if (note.type === 'public') {
@@ -345,6 +374,33 @@ function adjustNotesIconPublic(account) {
     });
 };
 
+function adjustOthersProfile(notes) {
+    //console.log('adjustOthersProfile ran');
+    console.log(notes);
+    $('.e').remove();
+    $('.b').remove();
+    notes.forEach(note => {
+        console.log('adding notes run 1')
+        if (note.type == 'public') {
+            $('.f').after(`
+<div class='notes-icon b'>
+<input type='hidden' class='note-id' value='${note._id}'>
+<a data-contentId='${note._id}' class='openNote openNote-js'>
+<h3>${note.title.slice(0,11)}...</h3>
+<p class='small-note'>${note.body.slice(0, 140)}...</p>
+</a>
+<div class='function-container'>
+
+<form class='other'>
+<input type='hidden' class='edit-note-id' value='${note._id}'>
+<button type='submit' class='function-icon openNoteSmall-js'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></button>
+</form>
+
+</div>
+</div>`)
+        };
+    })
+}
 //Define functions in *************************WORLD SECTION*************************
 //Request all usernames
 function getAllUsernames() {
@@ -370,6 +426,7 @@ function displayUsers(users) {
         usernames.push(user.username)
     });
     usernames.sort();
+    $('.ataNoteUser').remove();
     usernames.forEach(user => {
         $('.ataNoteUsers').append(`
 <a class='ataNoteUser' id='${user}'>
@@ -381,6 +438,24 @@ function displayUsers(users) {
 }
 
 //function to show profile when ataNoteUser is clicked
+function getUserProfile(userSelected) {
+    $.ajax({
+            method: 'GET',
+            url: `/user/notes/all/${userSelected}`,
+        })
+        .done(data => {
+            otherAccount.username = userSelected;
+            console.log(userSelected, otherAccount.username);
+            displayOtherUsername(otherAccount.username);
+            adjustOthersProfile(data)
+            showProfileSection();
+        })
+        .fail((jqXHR, error, errorThrown) => {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+        })
+}
 
 //Triggering functions starts below this line*************************TRIGGERS*************************
 
@@ -392,6 +467,7 @@ $('#login-section').hide();
 $('#home-section').hide();
 $('#editor-section').hide();
 $('#profile-section').hide();
+$('#world-section').hide();
 
 
 
@@ -604,3 +680,33 @@ $('#note-form').submit(event => {
 })
 
 //Listeners in profile
+//Listeners in world
+$('.ataNoteUsers').on('click', '.ataNoteUser', event => {
+    let userSelected = $(event.target).closest('a').attr('id');
+    console.log(`the user selected is ${userSelected}`);
+    getUserProfile(userSelected);
+})
+
+$(document).on('click', '.other button', (event) => {
+    event.preventDefault();
+    console.log('correct trigger');
+    let selectedId = $(event.target).closest('form').find('.edit-note-id').val();
+    console.log(selectedId);
+    const _note = {
+        id: selectedId
+    };
+    $.ajax({
+            method: 'GET',
+            url: '/user/notes/a/' + selectedId,
+        })
+        .done(function (note) {
+            console.log(note.title);
+            adjustOtherEditor(note);
+            showEditorSection();
+        })
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+        });
+})

@@ -259,7 +259,8 @@ nav {
 
 .edit-note-form,
 .save-public-note-form,
-.delete-note-form {
+.delete-note-form,
+.other {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -307,15 +308,31 @@ nav {
 
 @media only screen and (max-width: 695px) {
     .profile,
-    .world,
-    {
-        width: 100%
+    .world {
+        width: 100%;
     }
 }
 
 @media only screen and (max-width: 600px) {
     .forms {
         width: 100%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .multi-buttons>nav {
+        width: 100%;
+        display: block;
+    }
+    .multi-buttons>.nav-item {
+        display: block;
+        text-align: center;
+        margin: 5px 0px;
+    }
+    .multi-buttons {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
     }
 }
 
@@ -351,9 +368,11 @@ nav {
 }
 
 @media only screen and (max-width: 408px) {
+    /*
     .multi-buttons {
         height: 130px;
     }
+*/
     .multi-buttons>nav {
         width: 100%
     }
@@ -369,10 +388,30 @@ nav {
     }
 }
 
+@media only screen and (max-width: 345px) {
+    .nav-item {
+        display: block;
+        text-align: center;
+        margin: 5px 0px;
+    }
+    .menu {
+        width: 100%;
+    }
+    #login-navbar {
+        height: 140px;
+    }
+    #login-navbar>a {
+        display: block;
+        text-align: center;
+    }
+}
+
 @media only screen and (max-width: 311px) {
+    /*
     .multi-buttons {
         height: 175px;
     }
+*/
     .nav-item {
         display: block;
         text-align: center;

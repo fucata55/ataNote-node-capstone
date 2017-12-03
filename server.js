@@ -201,7 +201,6 @@ app.get('/user/notes/all/:user', (req, res) => {
                     message: 'Internal server error'
                 });
             }
-            console.log(items, "this is item");
             if (items) {
                 console.log(req.params.user, items)
                 return res.status(200).json(items);
