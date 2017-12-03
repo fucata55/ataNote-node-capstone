@@ -219,10 +219,10 @@ function adjustNotesIcon(notes) {
 <button type='submit' class='function-icon openNoteSmall-js'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></button>
 </form>
 
-<!--<form class='save-public-note-form'>
+<form class='save-public-note-form'>
 <input type='hidden' class='save-public-note-id' value='${note._id}'>
 <button type='submit' class='function-icon save-public-js'><img src="../images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></button>
-</form>-->
+</form>
 
 <form class='delete-note-form'>
 <input type='hidden' class='delete-note-id' value='${note._id}'>
@@ -333,8 +333,8 @@ function adjustEditor(note) {
     $('.addID').val(note._id);
     $('.note-title').val(note.title);
     $('textarea').val(note.body);
-    showEditorSection();
     $('.saves-box').show();
+    showEditorSection();
 }
 
 function adjustOtherEditor(note) {
@@ -348,7 +348,7 @@ function adjustOtherEditor(note) {
 //Define functions in *************************PROFILE SECTION*************************
 //display username
 function displayUsername(account) {
-    const username = `${account.username}`;
+    const username = account.username;
     $('.username').text(username)
 }
 
@@ -356,32 +356,67 @@ function displayOtherUsername(username) {;
     $('.username').text(username)
 }
 
-function adjustNotesIconPublic(notes) {
+function adjustNotesIconPublic(username) {
+    $.ajax({
+            type: 'GET',
+            url: '/user/notes/all/' + username
+        })
+        .done(function (notes) {
+            //            console.log(`username is ${username}`);
+            //            console.log('adjustNotesIconPublic ran');
+            displayPublicNotes(notes);
+        })
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+            alert('Loading notes number has failed')
+        });
+};
 
-    Object.keys(account.notes).map(note => {
-        if (note.type === 'public') {
-            $('.profile notes').after(`<div class='notes-icon public'>
+function displayPublicNotes(notes) {
+    console.log('displayPublicNotes ran')
+    $('.e').remove();
+    $('.h').remove();
+    $('.b').remove();
+    console.log(notes);
+    notes.forEach(note => {
+        if (note.type == 'public') {
+            $('.g').append(`<div class='notes-icon public h'>
 <h3>${note.title}</h3>
 <p class='small-note'>${note.body}</p>
 <div class='function-container'>
-<a href="#" class='function-icon'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
-<a href="#" class='function-icon'><img src="../images/save-private-icon.png" alt="save note to home icon" title='move note to home' /></a>
-<a href="#" class='function-icon'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
+<form class='edit-note-form'>
+<input type='hidden' class='edit-note-id' value='${note._id}'>
+<button type='submit' class='function-icon openNoteSmall-js'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></button>
+</form>
+
+<form class='save-private-note-form'>
+<input type='hidden' class='save-private-note-id' value='${note._id}'>
+<button type='submit' class='function-icon save-private-js'><img src="../images/save-private-icon.png" alt="save note to home icon" title='move note to home' /></button>
+</form>
+
+<form class='delete-note-form'>
+<input type='hidden' class='delete-note-id' value='${note._id}'>
+<button type='submit' class='function-icon delete-js'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></button>
+</form>
 </div>
 </div>`)
         }
-        console.log(`note is private`)
     });
-};
+}
 
 function adjustOthersProfile(notes) {
     //console.log('adjustOthersProfile ran');
     console.log(notes);
     $('.e').remove();
     $('.b').remove();
+    $('.h').remove();
+    const publicNotes = [];
     notes.forEach(note => {
         console.log('adding notes run 1')
         if (note.type == 'public') {
+            publicNotes.push(note);
             $('.f').after(`
 <div class='notes-icon b'>
 <input type='hidden' class='note-id' value='${note._id}'>
@@ -400,6 +435,10 @@ function adjustOthersProfile(notes) {
 </div>`)
         };
     })
+    console.log(publicNotes);
+    if (publicNotes.length == 0) {
+        $('.g').append(`<p class='h'>User doesn't have a note in public yet</p>`);
+    }
 }
 //Define functions in *************************WORLD SECTION*************************
 //Request all usernames
@@ -481,6 +520,7 @@ $('show-registration-section').click(() => {
 })
 
 $('.show-editor-section').click(() => {
+    $('.saves-box').show();
     showEditorSection();
 });
 
@@ -489,6 +529,8 @@ $('.show-login-section').click(() => {
 });
 
 $('.show-profile-section').click(() => {
+    displayUsername(account);
+    adjustNotesIconPublic(account.username);
     showProfileSection();
 });
 
@@ -558,11 +600,36 @@ $(document).on('click', '.edit-note-form button', (event) => {
 })
 
 //Save note to public
-$(document).on('click', '.save-public-note-form', (event) => {
+$(document).on('click', '.save-public-note-form', event => {
     event.preventDefault();
     let selectedId = $(event.target).closest('form').find('.save-public-note-id').val();
     const updateNoteObject = {
         type: 'public'
+    }
+    console.log(selectedId);
+    $.ajax({
+            method: 'PUT',
+            url: '/user/notes/b/' + selectedId,
+            dataType: 'json',
+            data: JSON.stringify(updateNoteObject),
+            contentType: 'application/json'
+        })
+        //POST will respond an empty note with unique ID
+        .done(function (note) {
+            showHomeSection();
+        })
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+        });
+})
+
+$(document).on('click', '.save-private-note-form', event => {
+    event.preventDefault();
+    let selectedId = $(event.target).closest('form').find('.save-private-note-id').val();
+    const updateNoteObject = {
+        type: 'private'
     }
     console.log(selectedId);
     $.ajax({

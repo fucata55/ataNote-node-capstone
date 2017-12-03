@@ -228,6 +228,8 @@ nav {
 
 .username {
     color: rgb(34, 190, 234);
+    display: block;
+    margin: 0px 0px 30px 0px;
 }
 
 .function-container {
@@ -260,15 +262,24 @@ nav {
 .edit-note-form,
 .save-public-note-form,
 .delete-note-form,
-.other {
+.other,
+.save-private-note-form {
     display: inline-block;
     width: 20px;
     height: 20px;
     margin: 0px 10px;
 }
 
+button>img {
+    cursor: pointer;
+}
+
 .ataNoteUsers {
     margin: 25px;
+}
+
+.h {
+    font-size: 16px;
 }
 
 .ataNoteUser {
