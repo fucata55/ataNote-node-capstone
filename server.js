@@ -229,29 +229,29 @@ app.post('/user/notes', (req, res) => {
         });
 });
 
-app.get('/user/notes/', (req, res) => {
-    Note
-        .find()
-        .then((note) => {
-            return res.json(note);
-        })
-        .catch(function () {
-            console.error(err);
-            res.status(500).json({
-                message: 'Internal Server Error'
-            });
-        });
-})
+//app.get('/user/notes/', (req, res) => {
+//    Note
+//        .find()
+//        .then((note) => {
+//            return res.status(200).json(note);
+//        })
+//        .catch(function () {
+//            console.error(err);
+//            res.status(500).json({
+//                message: 'Internal Server Error'
+//            });
+//        });
+//})
 
 
 
 app.get('/user/notes/a/:id', function (req, res) {
-    console.log(req.params.id, "testing");
+    //    console.log(req.params.id, "testing");
     Note
         .findById(req.params.id)
         .then(note => {
             console.log(note);
-            return res.json(note);
+            return res.status(200).json(note);
         })
         .catch(function (note) {
             console.error(err);

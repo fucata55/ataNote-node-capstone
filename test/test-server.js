@@ -51,7 +51,8 @@ function seedNote() {
     for (let i = 0; i < 10; i++) {
         notes.push(generateNote())
     }
-    return Note.insertMany(notes)
+    return Note.insertMany(notes);
+    console.log(`notes are ${notes}`);
 }
 
 function tearDownDb() {
@@ -72,18 +73,88 @@ describe('ataNote APIs', () => {
     beforeEach(() => {
         return seedNote();
     });
-    describe('GET users endpoint', () => {
+    describe('GET endpoints', () => {
         it('should return all users in db', () => {
-            let res;
             return chai.request(app)
                 .get('/users')
-                .then((_res) => {
-                    res = _res;
+                .then((res) => {
                     res.should.have.status(200);
-                    res.body.should.have.length.of.at.least(1);
+                    //                    res.body.should.have.length.of.at.least(1);
+                });
+        });
+        it('should return a note of a user', () => {
+            Note
+                .findOne()
+                .then(note => {
+                    return chai.request(app)
+                        .get(`/user/notes/a/${note._id}`)
+                })
+                .then(res => {
+                    res.should.have.status(200);
+                    res.should.be.a.json;
+                })
+        });
+        it('should return all notes of a user', () => {
+            return chai.request(app)
+                .get('/user/notes/all/' + 'demo2')
+                .then((res) => {
+                    res.should.have.status(200);
+                    //                       res.body.should.have.length.of.at.least(1);
                 });
         });
     });
+    describe('POST notes endpoint', () => {
+        it('should create a note', () => {
+            return chai.request(app)
+                .post('/user/notes')
+                .send(generateNote())
+                .then((res) => {
+                    res.should.have.status(200);
+                    //res.body.should.be.json;
+                });
+        });
+    });
+    describe('PUT note endpoint', () => {
+        it('should update a field of a note', () => {
+            const updateNoteObject = {
+                type: 'public'
+            };
+            return Note
+                .findOne()
+                .then(note => {
+                    updateNoteObject._id = note._id;
+                    return chai.request(app)
+                        .put(`/user/notes/b/${note._id}`)
+                        .send(updateNoteObject);
+                })
+                .then((res) => {
+                    res.should.have.status(204);
+                    return Note.findById(updateNoteObject._id);
+                })
+                .then((note) => {
+                    note.type.should.equal(updateNoteObject.type);
+                })
+        })
+    })
+    describe('DELETE note endpoint', () => {
+        it('should delete a note', () => {
+            let note;
+            return Note
+                .findOne()
+                .then((_note) => {
+                    note = _note;
+                    return chai.request(app).delete(`/user/notes/c/${note._id}`);
+                })
+                .then((res) => {
+                    res.should.have.status(204);
+                    return Note.findById(note._id);
+                })
+                .then((_note) => {
+                    should.not.exist(_note);
+                });
+        });
+    });
+
     afterEach(() => {
         return tearDownDb();
     });
