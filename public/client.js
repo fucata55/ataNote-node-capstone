@@ -243,7 +243,7 @@ function adjustNotesAmount(notes) {
                 count++
             }
         })
-        console.log(`There are ${count} of public notes`);
+        //        console.log(`There are ${count} of public notes`);
         return count
     };
     let amountOfPrivateNotes = function () {
@@ -253,7 +253,7 @@ function adjustNotesAmount(notes) {
                 count++
             }
         })
-        console.log(`There are ${count} of private notes`);
+        //        console.log(`There are ${count} of private notes`);
         return count
     };
     //change DOM in #notification
@@ -562,7 +562,6 @@ $('.login').submit(event => {
     event.preventDefault();
     const username = $('#login-username').val();
     const password = $('#login-password').val();
-    console.log(`username and password are ${username} ${password}`);
     processLogin(username, password);
 });
 

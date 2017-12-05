@@ -135,8 +135,8 @@ describe('ataNote APIs', () => {
                     note.type.should.equal(updateNoteObject.type);
                 })
         })
-    })
-    describe('DELETE note endpoint', () => {
+    });
+    describe('note endpoint', () => {
         it('should delete a note', () => {
             let note;
             return Note
