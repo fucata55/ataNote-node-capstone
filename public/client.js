@@ -153,7 +153,6 @@ function processLogin(username, password) {
         username: username,
         password: password
     };
-    console.log(userData);
     $.ajax({
             type: 'POST',
             url: '/user/signin',
@@ -187,7 +186,7 @@ function getNotes(username) {
             url: '/user/notes/all/' + username
         })
         .done(function (notes) {
-            console.log('notes are' + notes);
+            //console.log('notes are' + notes);
             adjustNotesIcon(notes);
             adjustNotesAmount(notes);
 
@@ -237,7 +236,6 @@ function adjustNotesIcon(notes) {
 
 
 function adjustNotesAmount(notes) {
-    //    console.log(`${notes[0].username}'s note(s) is loaded`);
     let amountOfPublicNotes = function () {
         let count = 0;
         notes.forEach(note => {
@@ -285,11 +283,10 @@ function deleteNote(note) {
 
 //Make different request that determined by _note.type
 function processNote(_note) {
-    console.log(_note);
+    //console.log(_note);
 
     //if a note type is trash, trash the note
     if (_note.type == 'trash') {
-        console.log(_note);
         console.log('deleting a note')
         $.ajax({
                 method: 'DELETE',
@@ -329,20 +326,24 @@ function processNote(_note) {
 
 //populate editor page from ID
 function adjustEditor(note) {
-    console.log(`note is ${note}`);
+    //console.log(`note is ${note}`);
     $('.addID').val(note._id);
     $('.note-title').val(note.title);
     $('textarea').val(note.body);
     $('.saves-box').show();
+    $('textarea').prop('disabled', false);
+    $('.note-title').prop('disabled', false);
     showEditorSection();
 }
 
 function adjustOtherEditor(note) {
-    console.log(`note is ${note}`);
+    //console.log(`OTHER note is ${note}`);
     $('.addID').val(note._id);
     $('.note-title').val(note.title);
     $('textarea').val(note.body);
-    $('.saves-box').hide()
+    $('.saves-box').hide();
+    $('textarea').attr('disabled', 'disabled');
+    $('.note-title').attr('disabled', 'disabled');
 }
 
 //Define functions in *************************PROFILE SECTION*************************
@@ -362,8 +363,6 @@ function adjustNotesIconPublic(username) {
             url: '/user/notes/all/' + username
         })
         .done(function (notes) {
-            //            console.log(`username is ${username}`);
-            //            console.log('adjustNotesIconPublic ran');
             displayPublicNotes(notes);
         })
         .fail(function (jqXHR, error, errorThrown) {
@@ -407,14 +406,11 @@ function displayPublicNotes(notes) {
 }
 
 function adjustOthersProfile(notes) {
-    //console.log('adjustOthersProfile ran');
-    console.log(notes);
     $('.e').remove();
     $('.b').remove();
     $('.h').remove();
     const publicNotes = [];
     notes.forEach(note => {
-        console.log('adding notes run 1')
         if (note.type == 'public') {
             publicNotes.push(note);
             $('.f').after(`
@@ -435,7 +431,6 @@ function adjustOthersProfile(notes) {
 </div>`)
         };
     })
-    console.log(publicNotes);
     if (publicNotes.length == 0) {
         $('.g').append(`<p class='h'>User doesn't have a note in public yet</p>`);
     }
@@ -448,7 +443,6 @@ function getAllUsernames() {
             url: '/users',
         })
         .done(data => {
-            console.log(data)
             displayUsers(data);
         })
         .fail((jqXHR, error, errorThrown) => {
@@ -459,7 +453,6 @@ function getAllUsernames() {
 }
 
 function displayUsers(users) {
-    console.log('displayUsers ran');
     let usernames = [];
     users.forEach(user => {
         usernames.push(user.username)
@@ -473,7 +466,6 @@ function displayUsers(users) {
 <p class='ataNoteUsername'>${user}</p>
 </a>`)
     })
-    console.log(usernames);
 }
 
 //function to show profile when ataNoteUser is clicked
@@ -521,6 +513,8 @@ $('show-registration-section').click(() => {
 
 $('.show-editor-section').click(() => {
     $('.saves-box').show();
+    $('textarea').prop('disabled', false);
+    $('.note-title').prop('disabled', false);
     showEditorSection();
 });
 
@@ -580,7 +574,6 @@ $('.login').submit(event => {
 $(document).on('click', '.edit-note-form button', (event) => {
     event.preventDefault();
     let selectedId = $(event.target).closest('form').find('.edit-note-id').val();
-    console.log(selectedId);
     const _note = {
         id: selectedId
     };
@@ -589,7 +582,6 @@ $(document).on('click', '.edit-note-form button', (event) => {
             url: '/user/notes/a/' + selectedId,
         })
         .done(function (note) {
-            console.log(note.title);
             adjustEditor(note);
         })
         .fail(function (jqXHR, error, errorThrown) {
@@ -606,7 +598,6 @@ $(document).on('click', '.save-public-note-form', event => {
     const updateNoteObject = {
         type: 'public'
     }
-    console.log(selectedId);
     $.ajax({
             method: 'PUT',
             url: '/user/notes/b/' + selectedId,
@@ -631,7 +622,6 @@ $(document).on('click', '.save-private-note-form', event => {
     const updateNoteObject = {
         type: 'private'
     }
-    console.log(selectedId);
     $.ajax({
             method: 'PUT',
             url: '/user/notes/b/' + selectedId,
@@ -654,7 +644,6 @@ $(document).on('click', '.save-private-note-form', event => {
 $(document).on('click', '.delete-note-form', (event) => {
     event.preventDefault();
     let selectedId = $(event.target).closest('form').find('.delete-note-id').val();
-    console.log(selectedId);
     $.ajax({
             method: 'DELETE',
             url: '/user/notes/c/' + selectedId
@@ -713,12 +702,12 @@ $('#note-form').submit(event => {
         'username': account.username
     }
 
-    console.log(`actionValue is ${actionValue}`);
-    console.log(`Note's title is ${titleValue}`);
-    console.log(`Note's body is ${bodyValue}`);
-    console.log(`Note's id is ${id}`);
-    console.log(`Note's user is ${account.username}`);
-    console.log(`note has ${note}`);
+    //    console.log(`actionValue is ${actionValue}`);
+    //    console.log(`Note's title is ${titleValue}`);
+    //    console.log(`Note's body is ${bodyValue}`);
+    //    console.log(`Note's id is ${id}`);
+    //    console.log(`Note's user is ${account.username}`);
+    //    console.log(`note has ${note}`);
     //if note is new (has no id), request POST
     if (id == '0') {
 
@@ -750,15 +739,13 @@ $('#note-form').submit(event => {
 //Listeners in world
 $('.ataNoteUsers').on('click', '.ataNoteUser', event => {
     let userSelected = $(event.target).closest('a').attr('id');
-    console.log(`the user selected is ${userSelected}`);
+    //    console.log(`the user selected is ${userSelected}`);
     getUserProfile(userSelected);
 })
 
 $(document).on('click', '.other button', (event) => {
     event.preventDefault();
-    console.log('correct trigger');
     let selectedId = $(event.target).closest('form').find('.edit-note-id').val();
-    console.log(selectedId);
     const _note = {
         id: selectedId
     };
