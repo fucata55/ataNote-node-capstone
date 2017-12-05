@@ -30,7 +30,8 @@ header {
 
 .home,
 .editor,
-.profile {
+.profile,
+.world {
     width: 20rem;
     margin-left: auto;
     margin-right: auto;
@@ -91,7 +92,7 @@ legend {
     padding: 8px 10px;
     border: solid 1px #bdc7d8;
     margin-bottom: 15px;
-    width: 90%;
+    width: 85%;
     font-family: 'Karla', Sans-Serif;
     font-size: 16px;
 }
@@ -110,7 +111,7 @@ legend {
     width: 28%;
     font-family: 'Karla', Sans-Serif;
     font-size: 16px;
-    background: linear-gradient(#67ae55, #578843);
+    background-color: #365899;
     color: white;
 }
 
@@ -165,6 +166,18 @@ label>input:checked+img {
     text-align: center;
 }
 
+h3 {
+    font-size: 30px;
+}
+
+.a {
+    font-size: 45px;
+}
+
+a {
+    cursor: pointer;
+}
+
 .notes-icon {
     display: inline-block;
     border-radius: 5px 5px 40px 5px;
@@ -185,19 +198,19 @@ label>input:checked+img {
     font-family: 'Karla', Sans-Serif;
     font-size: 16px;
     width: 4.5rem;
-    height: 150px;
+    height: 110px;
     display: block;
 }
 
 .submit {
-    background: linear-gradient(#67ae55, #578843);
+    background-color: #365899;
     color: white;
 }
 
 #first-name,
 #last-name {
     display: inline-block;
-    width: 44%;
+    width: 41%;
 }
 
 nav {
@@ -215,10 +228,11 @@ nav {
 
 .username {
     color: rgb(34, 190, 234);
+    display: block;
+    margin: 0px 0px 30px 0px;
 }
 
 .function-container {
-    padding-top: 10px;
     padding-right: 25px;
     height: 20px;
     text-align: center;
@@ -237,25 +251,99 @@ nav {
     max-height: 100%;
 }
 
+.addNote,
+.openNote {
+    text-decoration: none;
+    display: inline-block;
+    height: 160px;
+    width: 225px;
+}
+
+.edit-note-form,
+.save-public-note-form,
+.delete-note-form,
+.other,
+.save-private-note-form {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0px 10px;
+}
+
+button>img {
+    cursor: pointer;
+}
+
+.ataNoteUsers {
+    margin: 25px;
+}
+
+.h {
+    font-size: 16px;
+}
+
+.ataNoteUser {
+    display: inline-block;
+    margin: 10px 10px;
+    border: solid 1px #bdc7d8;
+    border-radius: 5px;
+    padding: 5px 10px 10px;
+    width: 5rem;
+    text-align: left;
+    background-color: #e9ebee;
+}
+
+.ataNoteUsername {
+    display: inline-block;
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+.avatar {
+    vertical-align: middle
+}
+
 @media only screen and (max-width: 915px) {
-    .editor {
+    .editor,
+    .world,
+    .ataNoteUsers {
         width: 95%;
     }
+    .ataNoteUsers {
+        margin: 25px 0px;
+    }
     #note-form {
-        /*        width: 95%;*/
         margin: 0px auto;
     }
 }
 
 @media only screen and (max-width: 695px) {
-    .profile {
-        width: 100%
+    .profile,
+    .world {
+        width: 100%;
     }
 }
 
 @media only screen and (max-width: 600px) {
     .forms {
         width: 100%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .multi-buttons>nav {
+        width: 100%;
+        display: block;
+    }
+    .multi-buttons>.nav-item {
+        display: block;
+        text-align: center;
+        margin: 5px 0px;
+    }
+    .multi-buttons {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
     }
 }
 
@@ -291,9 +379,11 @@ nav {
 }
 
 @media only screen and (max-width: 408px) {
+    /*
     .multi-buttons {
         height: 130px;
     }
+*/
     .multi-buttons>nav {
         width: 100%
     }
@@ -309,10 +399,30 @@ nav {
     }
 }
 
+@media only screen and (max-width: 345px) {
+    .nav-item {
+        display: block;
+        text-align: center;
+        margin: 5px 0px;
+    }
+    .menu {
+        width: 100%;
+    }
+    #login-navbar {
+        height: 140px;
+    }
+    #login-navbar>a {
+        display: block;
+        text-align: center;
+    }
+}
+
 @media only screen and (max-width: 311px) {
+    /*
     .multi-buttons {
         height: 175px;
     }
+*/
     .nav-item {
         display: block;
         text-align: center;

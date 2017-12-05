@@ -10,30 +10,174 @@
 </head>
 
 <body>
-    <header>
-        <a href="landing-page.html"><img src='./images/logo.png' class='small-logo' /></a>
+    <header id='login-navbar' class='login-navbar'>
+        <a href="" class='show-registration-section'><img src='./images/logo.png' class='small-logo' /></a>
         <nav class='menu'>
             <ul>
-                <li class='nav-item'><a class='nav-item-link help' href="./login.html">Sign In</a></li>
+                <li class='nav-item'><a class='nav-item-link help show-login-section'>Sign In</a></li>
+                <li class='nav-item'><a class='nav-item-link help show-registration-section' href="">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+    <header class='multi-buttons' id='home-navbar'>
+        <a href="#" class='show-home-section'><img src='./images/logo.png' class='small-logo' id='home' /></a>
+        <nav class='menu'>
+            <ul>
+                <li class='nav-item'><a class='nav-item-link help show-editor-section addNote-js'>Editor</a></li>
+                <li class='nav-item'><a class='nav-item-link help show-profile-section'>Profile</a></li>
+                <li class='nav-item'><a class='nav-item-link help  show-world-section show-login-navbar'>World</a></li>
+                <li class='nav-item'><a class='nav-item-link help  show-login-section show-login-navbar'>Sign Out</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <!--    For V1, add Sliding home page with button to click like ExploRestaurant project For MVP, Straight to registration-->
-        <form class='forms' id='registration' action="#">
-            <!--
+        <section id='registration-section'>
+            <!--    For V1, add Sliding home page with button to click like ExploRestaurant project For MVP, Straight to registration-->
+            <form class='forms' id='registration'>
+                <!--
        For V1, Add margin-bottom for each input box for red text
        adjust margin as red text going.
        For MVP, just add pop up alert when error
 -->
-            <input type="text" class='input' id='first-name' required='true' placeholder="First Name">
-            <input type="text" class='input' id='last-name' required='true ' placeholder="Last Name">
-            <input type="email" class='input' id='email' required='true ' placeholder="Email">
-            <input type="text" class='input' id='username' required='true ' placeholder="Username" title='Username has to be at least contain 6 characters '>
-            <input type="text" class='input' id='password' required='true ' placeholder="Password" title='Password has to be at least contain 6 characters '>
-            <input type="text" class='input' id='confirmPasword' required='true ' placeholder="Re-enter Password" title='Both passwords must match '>
-            <input type="submit" class='input submit' value="Sign Up">
-        </form>
+                <legend>Sign up to organize and share your thoughts</legend>
+                <legend>Designed for smart note takers</legend>
+                <input type="text" class='input' id='first-name' required='true' placeholder="First Name">
+                <input type="text" class='input' id='last-name' required='true ' placeholder="Last Name">
+                <input type="email" class='input' id='email' required='true ' placeholder="Email">
+                <input type="text" class='input' id='username' required='true ' placeholder="Username" title='Username has to be at least contain 6 characters '>
+                <input type="password" class='input' id='password' required='true ' placeholder="Password" title='Password has to be at least contain 6 characters '>
+                <input type="password" class='input' id='confirmPassword' required='true ' placeholder="Re-enter Password" title='Both passwords must match '>
+                <input type="submit" class='input submit' value="Sign Up">
+            </form>
+        </section>
+        <section id='login-section'>
+            <!--        for v.1, add margin bottom for error message-->
+            <!--        for MVP, display alert for error-->
+            <form class='forms login'>
+                <input type="text" class='input' id='login-username' required='true' placeholder="User">
+                <input type="password" class='input' id='login-password' required='true' placeholder="Password">
+                <input type="submit" class='input submit' value="Sign in">
+                <a class='help show-registration-section' href="">Need an account?</a>
+            </form>
+        </section>
+        <section id='home-section' class='home'>
+            <!--       for V1, adjust "s" on "note" with the number of note. Singular or plural.-->
+            <!--       for MVP, keep the "notes" wheter its singular or plural-->
+            <p class='help' id='notification'>You have<span class='number-public-notes'>0</span> notes on public and <span class='number-private-notes'>0</span> notes private
+            </p>
+            <!--        for v1, add css to trim rigth bottom corner of the box. notes saved public are blue, private are green. Text displays have "..." if notes are longer than 20 characters-->
+            <!--        for MVP, plain box display 20 character of the note.-->
+            <!--        for v1, adjust small-note height to fit title inside-->
+            <!--        for MVP, only small-note-->
+            <div class='notes'>
+
+                <div class='notes-icon show-editor-section testDiv addNote-js' id='note1'>
+                    <a href="#" class='testAchor'>
+                        <h3 class='a'>Add note</h3>
+                    </a>
+                </div>
+                <div class='notes-icon default'>
+                    <a href="#" class='show-editor-section ' />
+                    <p class='small-note'>it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with </p>
+                    <div class='function-container'>
+                        <button type='button' class='function-icon show-editor-section'><img src="./images/edit-icon.png" alt="edit note icon" title='edit note' /></button>
+                        <button type='button' class='function-icon show-profile-section' val='123'><img src="./images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></button>
+                        <button type='button' class='function-icon'><img src="./images/trash-icon.png" alt="delete note icon" title='delete note' /></button>
+                    </div>
+                </div>
+                <div class='notes-icon default'>
+                    <p class='small-note'>t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <div class='function-container'>
+                        <a href="#" class='function-icon'><img src="./images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
+                        <a href="#" class='function-icon'><img src="./images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></a>
+                        <a href="#" class='function-icon'><img src="./images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class='editor' id='editor-section'>
+            <form action="#" id='note-form'>
+                <input type='hidden' class="addID" value='0'>
+                <input type="text" class='input note-title' placeholder="title" required=true>
+                <textarea name="note" cols="20" rows="30" id='note' required=true></textarea>
+                <div class='saves-box'>
+                    <label class='box'>
+                        <input type="radio" name='action' class='input save private' id='save-private' title='Save to Home' value='private' required checked>
+                        <img src="./images/save-private-icon.png" alt="Save Privately" title='Save to Home'>
+                    </label>
+                    <label class='box' for="#">
+                        <input type="radio" name='action' class='input save' id='save-public' title='Save to Home and Profile' value='public'>
+                        <img src="./images/save-public-icon.png" alt="Save Publicly" title='Save to Home and Profile'>
+                    </label>
+                    <!--            for v1, delete will have a pop up to confirm user's decision-->
+                    <!--            for MVP, use alert to confirm-->
+                    <label class='box' for="#">
+                        <input type="radio" name='action' class='input delete' id='delete' title='trash' value='trash'>
+                        <img src="./images/trash-icon.png" alt="trash" title='trash'>
+                    </label>
+                    <input type="submit" name='action' class='input execute' value='execute'>
+
+                </div>
+            </form>
+        </section>
+        <section class='profile' id='profile-section'>
+            <!--       for V1, generate image and add to html-->
+            <!--       for MVP, just username-->
+            <div class='profile notes f g'><span class='username'>Username 1</span></div>
+            <!--        for v1, add css to trim rigth bottom corner of the box. notes saved public are blue, private are green. Text displays have "..." if notes are longer than 20 characters-->
+            <!--        for MVP, plain box display 20 character of the note.-->
+            <div class='notes-icon public e'>
+                <p class='small-note'>it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with </p>
+                <div class='function-container'>
+                    <a href="#" class='function-icon'><img src="./images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
+                    <a href="#" class='function-icon'><img src="./images/save-private-icon.png" alt="save note to home icon" title='move note to home' /></a>
+                    <a href="#" class='function-icon'><img src="./images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
+                </div>
+            </div>
+            <div class='notes-icon public e'>
+                <p class='small-note'>t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                <div class='function-container'>
+                    <a href="#" class='function-icon'><img src="./images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
+                    <a href="#" class='function-icon'><img src="./images/save-private-icon.png" alt="save note to home icon" title='move note to home' /></a>
+                    <a href="#" class='function-icon'><img src="./images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
+                </div>
+            </div>
+            <div class='notes-icon public e'>
+                <p class='small-note'>t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                <div class='function-container'>
+                    <a href="#" class='function-icon'><img src="./images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
+                    <a href="#" class='function-icon'><img src="./images/save-private-icon.png" alt="save note to home icon" title='move note to home' /></a>
+                    <a href="#" class='function-icon'><img src="./images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
+                </div>
+            </div>
+            <div class='notes-icon public e'>
+                <p class='small-note'>t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                <div class='function-container'>
+                    <a href="#" class='function-icon'><img src="./images/edit-icon.png" alt="edit note icon" title='edit note' /></a>
+                    <a href="#" class='function-icon'><img src="./images/save-private-icon.png" alt="save note to home icon" title='move note to home' /></a>
+                    <a href="#" class='function-icon'><img src="./images/trash-icon.png" alt="delete note icon" title='delete note' /></a>
+                </div>
+            </div>
+        </section>
+
+        <section class='world' id='world-section'>
+            <h3>ataNote Users</h3>
+            <div class='ataNoteUsers'>
+                <a class='ataNoteUser'>
+                    <img class='avatar' src="./images/avatar.png" alt="avatar">
+                    <p class='ataNoteUsername'>username</p>
+                </a>
+                <a class='ataNoteUser'>
+                    <img class='avatar' src="./images/avatar.png" alt="avatar">
+                    <p class='ataNoteUsername'>username</p>
+                </a>
+                <a class='ataNoteUser'>
+                    <img class='avatar' src="./images/avatar.png" alt="avatar">
+                    <p class='ataNoteUsername'>username</p>
+                </a>
+            </div>
+        </section>
+
     </main>
 
     <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
