@@ -62,8 +62,7 @@ AS A LOGGED-IN USER
 ![UI Flow handwritten draft](https://github.com/Marjona6/not-just-luck-thinkful-full-stack-capstone/blob/master/public/img/wf03.jpg)
 
 ## Working Prototype
-Find a working prototype with Node at http://not-just-luck.herokuapp.com/ .
-Find a working prototype with React front end at https://marjona6.github.io/not-just-luck-thinkful-full-stack-capstone-react/build .
+Find a working prototype with Node at https://atanote-node-capstone.herokuapp.com/ .
 
 ## Functionality
 * When they first set up their account, users are guided through a setup process in which they will be asked to describe an achievement or success they have accomplished and to specify which skills and character traits were required in order to achieve it (for example, negotiation, interpersonal skills, planning, forethought, JavaScript, Python, classical guitar, persistence, juggling). The app will provide users with a default list of general skills and traits from which users can select all relevant ones, and (PLANNED FUTURE ADDITIONAL FEATURE) users should also be able to add and specify their own skills or traits to add to the list (for example, job-specific skills like jQuery or project management).

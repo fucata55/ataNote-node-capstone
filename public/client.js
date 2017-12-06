@@ -378,12 +378,13 @@ function displayPublicNotes(notes) {
     $('.e').remove();
     $('.h').remove();
     $('.b').remove();
-    console.log(notes);
     notes.forEach(note => {
         if (note.type == 'public') {
             $('.g').append(`<div class='notes-icon public h'>
-<h3>${note.title}</h3>
-<p class='small-note'>${note.body}</p>
+<a class='openNote openNote-js'>
+<h3>${note.title.slice(0,11)}...</h3>
+<p class='small-note'>${note.body.slice(0, 140)}...</p>
+</a>
 <div class='function-container'>
 <form class='edit-note-form'>
 <input type='hidden' class='edit-note-id' value='${note._id}'>
