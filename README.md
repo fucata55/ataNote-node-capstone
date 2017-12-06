@@ -87,6 +87,10 @@ ataNote was built as two separate parts.
 ## Development Roadmap
 Planned additional features and improvements will allow users to:
 * Fork other user's notes
+* Upload a profile picture
+* Upload attachements to editor
+* Able to leave a comment
+* Able to send messages to other users
 * Two users work on the same note in real time
 * Share a note to specific user
 * Search a user
