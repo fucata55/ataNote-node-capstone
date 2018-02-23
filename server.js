@@ -61,7 +61,7 @@ function closeServer() {
 }
 
 
-//responding user registration
+//Registering user
 app.post('/user/signup', (req, res) => {
     console.log(req.body.firstName, req.body.lastName, req.body.email, req.body.username, req.body.password);
     //check if username used to registered unique in database
@@ -131,7 +131,7 @@ app.post('/user/signup', (req, res) => {
         });
 });
 
-//responding user login
+//Loging user
 app.post('/user/signin', (req, res) => {
     User
         .findOne({
@@ -139,7 +139,7 @@ app.post('/user/signin', (req, res) => {
         }, (err, items) => {
             if (err) {
                 return res.status(500).json({
-                    message: "Internal server error"
+                    message: 'Internal server error'
                 })
             }
             if (!items) {
@@ -164,7 +164,7 @@ app.post('/user/signin', (req, res) => {
                         console.log('login successful');
                         console.log(items)
                         var logInTime = new Date();
-                        console.log("User logged in: " + req.body.username + ' at ' + logInTime);
+                        console.log('User logged in: ' + req.body.username + ' at ' + logInTime);
                         return res.status(200).json(items)
                     }
                 });
@@ -172,8 +172,7 @@ app.post('/user/signin', (req, res) => {
         });
 });
 
-//responding to get users
-//url '/users' method GET
+//Finding other users
 app.get('/users', (req, res) => {
     User
         .find()
@@ -189,7 +188,7 @@ app.get('/users', (req, res) => {
         });
 })
 
-//Retrieve user's note(s)
+//Retrieving notes
 app.get('/user/notes/all/:user', (req, res) => {
     console.log('this is get user', req.params.user)
     Note
@@ -208,7 +207,7 @@ app.get('/user/notes/all/:user', (req, res) => {
         });
 });
 
-//Save notes in db
+//Saving notes in db
 app.post('/user/notes', (req, res) => {
     Note
         .create({
@@ -229,24 +228,8 @@ app.post('/user/notes', (req, res) => {
         });
 });
 
-//app.get('/user/notes/', (req, res) => {
-//    Note
-//        .find()
-//        .then((note) => {
-//            return res.status(200).json(note);
-//        })
-//        .catch(function () {
-//            console.error(err);
-//            res.status(500).json({
-//                message: 'Internal Server Error'
-//            });
-//        });
-//})
-
-
-
+//Retrieving user's note
 app.get('/user/notes/a/:id', function (req, res) {
-    //    console.log(req.params.id, "testing");
     Note
         .findById(req.params.id)
         .then(note => {
@@ -261,6 +244,7 @@ app.get('/user/notes/a/:id', function (req, res) {
         });
 });
 
+//Updating a note
 app.put('/user/notes/b/:id', (req, res) => {
     let toUpdate = {};
     let updateableFields = ['title', 'body', 'type'];
@@ -283,6 +267,7 @@ app.put('/user/notes/b/:id', (req, res) => {
         });
 });
 
+//Deleting a note
 app.delete('/user/notes/c/:id', (req, res) => {
     console.log(req.params.id);
     Note
@@ -297,15 +282,6 @@ app.delete('/user/notes/c/:id', (req, res) => {
             });
         });
 });
-
-
-
-
-
-//Get a note app.get('/user/notes/:id', (req, res) => {
-//
-//})
-
 
 exports.app = app;
 exports.runServer = runServer;

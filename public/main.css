@@ -1,10 +1,9 @@
-/*CSS Reset*/
-
 * {
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
+    font-family: 'Rubik', Sans-Serif;
+    font-size: 45px;
     box-sizing: border-box;
     -webkit-margin-before: 0px;
     -webkit-margin-after: 0px;
@@ -16,9 +15,9 @@
     -webkit-padding-end: 0px;
 }
 
-* {
-    font-family: 'Rubik', Sans-Serif;
-    font-size: 45px;
+nav {
+    display: inline-block;
+    float: right;
 }
 
 header {
@@ -26,6 +25,39 @@ header {
     padding-left: 10px;
     padding-top: 10px;
     padding-right: 15px;
+}
+
+textarea {
+    font-family: 'Karla', Sans-Serif;
+    Font-size: 16px;
+    border-radius: 5px;
+    padding: 15px;
+    border: solid 1px #bdc7d8;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 90%
+}
+
+legend {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+label>input:checked+img {
+    border: 2px solid #67ae55;
+}
+
+h3 {
+    font-size: 30px;
+}
+
+a {
+    cursor: pointer;
+}
+
+button>img {
+    cursor: pointer;
 }
 
 .home,
@@ -44,18 +76,6 @@ header {
     width: 15rem;
 }
 
-textarea {
-    font-family: 'Karla', Sans-Serif;
-    Font-size: 16px;
-    border-radius: 5px;
-    padding: 15px;
-    border: solid 1px #bdc7d8;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    width: 90%
-}
-
 .forms {
     text-align: center;
     margin-top: 60px;
@@ -67,21 +87,11 @@ textarea {
     border-radius: 5px;
 }
 
-legend {
-    margin-bottom: 10px;
-    font-size: 20px;
-}
-
 .help {
     display: block;
     font-size: 20px;
     color: rgb(34, 190, 234);
     text-decoration: none;
-}
-
-#notification {
-    text-align: center;
-    margin-bottom: 20px;
 }
 
 .input {
@@ -115,67 +125,12 @@ legend {
     color: white;
 }
 
-label>input:checked+img {
-    border: 2px solid #67ae55;
-}
-
-
-/*
-.save {
-    display: inline;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 5px;
-    padding: 8px 10px;
-    border: solid 1px #bdc7d8;
-    margin-bottom: 15px;
-    width: 28%;
-    font-family: 'Karla', Sans-Serif;
-    font-size: 16px;
-    background: linear-gradient(#67ae55, #578843);
-    color: white;
-}
-*/
-
-
-/*
-.private {
-    background: linear-gradient(#3469D1, #2851A1)
-}
-*/
-
-
-/*
-.delete {
-    display: inline;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 5px;
-    padding: 8px 10px;
-    border: solid 1px #bdc7d8;
-    margin-bottom: 15px;
-    width: 28%;
-    font-family: 'Karla', Sans-Serif;
-    font-size: 16px;
-    background: linear-gradient(#fA3e3e, #a82a2a);
-    color: white;
-}
-*/
-
 .saves-box {
     text-align: center;
 }
 
-h3 {
-    font-size: 30px;
-}
-
 .a {
     font-size: 45px;
-}
-
-a {
-    cursor: pointer;
 }
 
 .notes-icon {
@@ -205,17 +160,6 @@ a {
 .submit {
     background-color: #365899;
     color: white;
-}
-
-#first-name,
-#last-name {
-    display: inline-block;
-    width: 41%;
-}
-
-nav {
-    display: inline-block;
-    float: right;
 }
 
 .nav-item {
@@ -270,10 +214,6 @@ nav {
     margin: 0px 10px;
 }
 
-button>img {
-    cursor: pointer;
-}
-
 .ataNoteUsers {
     margin: 25px;
 }
@@ -302,6 +242,18 @@ button>img {
 .avatar {
     vertical-align: middle
 }
+
+#first-name,
+#last-name {
+    display: inline-block;
+    width: 41%;
+}
+
+#notification {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 
 @media only screen and (max-width: 915px) {
     .editor,
@@ -379,11 +331,6 @@ button>img {
 }
 
 @media only screen and (max-width: 408px) {
-    /*
-    .multi-buttons {
-        height: 130px;
-    }
-*/
     .multi-buttons>nav {
         width: 100%
     }
@@ -418,11 +365,6 @@ button>img {
 }
 
 @media only screen and (max-width: 311px) {
-    /*
-    .multi-buttons {
-        height: 175px;
-    }
-*/
     .nav-item {
         display: block;
         text-align: center;

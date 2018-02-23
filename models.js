@@ -23,7 +23,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    //edit password system with passport
     password: {
         type: String,
         required: false

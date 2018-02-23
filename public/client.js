@@ -1,34 +1,15 @@
-//define account from login or register, and use it in home, profile, editor HTMLs
 let account = {
-    firstName: 'Stephen',
-    lastName: 'Fucata',
-    username: 'Fucata',
-    password: 'Thinkful',
-    confirmPassword: 'Thinkful',
-    notes: [{
-            id: '12',
-            title: 'The Flash Beats Zoom',
-            body: 'In The Flash season 2, Flash beats Zoom on \'1 on 1\` fight. Flash created another of him by using time remnant',
-            type: 'private'
-    },
-        {
-            title: 'The Flash Beats Savatar',
-            body: 'In The Flash season 3, Flash beats Savatar by team work. Thanks to Killer Frost who changed her mind to help the Flash after helping Savatar throughout the season.',
-            type: 'public'
-    }]
-};
-
-const otherAccount = {
+    username: 'fucata'
+}
+let otherAccount = {
     username: 'accountName'
 };
-
-const emptyNote = {
+let emptyNote = {
     title: '',
     body: '',
     type: 'private',
     username: account.username
 }
-
 
 //Hide and show functions
 function showRegistrationSection() {
@@ -99,18 +80,16 @@ function showWorldSection() {
     $('#profile-section').hide();
 }
 
-//Define functions working in *************************REGISTRATION SECTION*************************
-//return back regitration that doesn't have a consistent password
-//send user data to database to be registered
+//Defining functions working in *************************REGISTRATION SECTION*************************
+
+//Registering user
 function processRegistration(firstName, lastName, email, username, password, confirmPassword) {
     if (password !== confirmPassword) {
         console.error('password does not match');
-        alert("please enter matching passwords");
-        //clear passwords input box if they submitted unmatched
+        alert('please enter matching passwords');
         $('#password').val('');
         $('#confirmPassword').val('')
     }
-    console.log('start registering');
     const userData = {
         firstName: firstName,
         lastName: lastName,
@@ -118,8 +97,6 @@ function processRegistration(firstName, lastName, email, username, password, con
         username: username,
         password: password
     };
-    //set url to POST request.
-    //set endpoint at server.js
     $.ajax({
             type: 'POST',
             url: '/user/signup',
@@ -127,27 +104,23 @@ function processRegistration(firstName, lastName, email, username, password, con
             data: JSON.stringify(userData),
             contentType: 'application/json'
         })
-        //expect request POST will respond user data
-        .done(function (result) {
-            //show registration result
+        .done(result => {
             showLoginSection();
             console.log('sign up sucessful');
             alert: 'Sign up sucessful';
-
         })
-        .fail(function (jqXHR, error, errorThrown) {
+        .fail(jqXHR, error, errorThrown => {
             alert(jqXHR.responseJSON.message);
             console.log(jqXHR);
             console.log(jqXHR.responseJSON.message);
             console.log(error);
             console.log(errorThrown);
-            //            $('#username').val('');
-
         });
 };
 
-//Define functions working in *************************LOGIN SECTION*************************
-//receive login data, send data to database, direct to home page of the user or error
+//Defining functions working in *************************LOGIN SECTION*************************
+
+//Receiving login data, sending data to database, directing user to home page or error
 function processLogin(username, password) {
     const userData = {
         username: username,
@@ -159,11 +132,10 @@ function processLogin(username, password) {
             dataType: 'json',
             data: JSON.stringify(userData),
             contentType: 'application/json'
-        }) //show login result
-        .done(function (result) {
+        })
+        .done(result => {
             account = result;
             emptyNote.username = account.username
-            console.log(`account is ${account.username}`)
             getNotes(result.username);
             showHomeSection();
         })
@@ -176,17 +148,16 @@ function processLogin(username, password) {
         });
 };
 
-//Define functions in *************************HOME SECTION*************************
-function getNotes(username) {
-    //populate home with user's note
-    //define the numbers of notes on public and private
+//Defining functions in *************************HOME SECTION*************************
 
+//Populating home with user's note
+//Defining the numbers of notes on public and private
+function getNotes(username) {
     $.ajax({
             type: 'GET',
             url: '/user/notes/all/' + username
         })
         .done(function (notes) {
-            //console.log('notes are' + notes);
             adjustNotesIcon(notes);
             adjustNotesAmount(notes);
 
@@ -199,9 +170,8 @@ function getNotes(username) {
         });
 }
 
-//adjust notes icon base on the user
+//Adjusting notes icon base on the user
 function adjustNotesIcon(notes) {
-    //    remove default notes icon
     $('.default').remove();
     $('.b').remove();
     notes.forEach(note => {
@@ -215,17 +185,17 @@ function adjustNotesIcon(notes) {
 
 <form class='edit-note-form'>
 <input type='hidden' class='edit-note-id' value='${note._id}'>
-<button type='submit' class='function-icon openNoteSmall-js'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></button>
+<button type='submit' class='function-icon openNoteSmall-js'><img src='../images/edit-icon.png' alt='edit note icon' title='edit note' /></button>
 </form>
 
 <form class='save-public-note-form'>
 <input type='hidden' class='save-public-note-id' value='${note._id}'>
-<button type='submit' class='function-icon save-public-js'><img src="../images/save-public-icon.png" alt="save note to profile icon" title='move note to profile' /></button>
+<button type='submit' class='function-icon save-public-js'><img src='../images/save-public-icon.png' alt='save note to profile icon' title='move note to profile' /></button>
 </form>
 
 <form class='delete-note-form'>
 <input type='hidden' class='delete-note-id' value='${note._id}'>
-<button type='submit' class='function-icon delete-js'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></button>
+<button type='submit' class='function-icon delete-js'><img src='../images/trash-icon.png' alt='delete note icon' title='delete note' /></button>
 </form>
 
 
@@ -234,7 +204,7 @@ function adjustNotesIcon(notes) {
     });
 };
 
-
+//Giving amount of notes
 function adjustNotesAmount(notes) {
     let amountOfPublicNotes = function () {
         let count = 0;
@@ -243,7 +213,6 @@ function adjustNotesAmount(notes) {
                 count++
             }
         })
-        //        console.log(`There are ${count} of public notes`);
         return count
     };
     let amountOfPrivateNotes = function () {
@@ -253,10 +222,8 @@ function adjustNotesAmount(notes) {
                 count++
             }
         })
-        //        console.log(`There are ${count} of private notes`);
         return count
     };
-    //change DOM in #notification
     $('.number-public-notes').empty();
     $('.number-public-notes').append(amountOfPublicNotes);
     $('.number-private-notes').empty();
@@ -264,11 +231,11 @@ function adjustNotesAmount(notes) {
 }
 
 
-//delete note
+//Deleting a note
 function deleteNote(note) {
     $.ajax({
-            type: "DELETE",
-            url: "/user/notes" + note._id,
+            type: 'DELETE',
+            url: '/user/notes' + note._id,
         })
         .done()
         .fail(function (jqXHR, error, errorThrown) {
@@ -278,13 +245,11 @@ function deleteNote(note) {
         });
 }
 
-//Define functions in *************************EDITOR SECTION*************************
-//receive note. ^Search "//receive note"
+//Defining functions in *************************EDITOR SECTION*************************
 
-//Make different request that determined by _note.type
+//Updating note status
+//Making different request that determined by _note.type
 function processNote(_note) {
-    //console.log(_note);
-
     //if a note type is trash, trash the note
     if (_note.type == 'trash') {
         console.log('deleting a note')
@@ -324,9 +289,8 @@ function processNote(_note) {
     }
 }
 
-//populate editor page from ID
+//Populating editor page from ID
 function adjustEditor(note) {
-    //console.log(`note is ${note}`);
     $('.addID').val(note._id);
     $('.note-title').val(note.title);
     $('textarea').val(note.body);
@@ -336,8 +300,8 @@ function adjustEditor(note) {
     showEditorSection();
 }
 
+//Customizing editor view for others' notes
 function adjustOtherEditor(note) {
-    //console.log(`OTHER note is ${note}`);
     $('.addID').val(note._id);
     $('.note-title').val(note.title);
     $('textarea').val(note.body);
@@ -347,16 +311,19 @@ function adjustOtherEditor(note) {
 }
 
 //Define functions in *************************PROFILE SECTION*************************
-//display username
+
+//Displaying username
 function displayUsername(account) {
     const username = account.username;
     $('.username').text(username)
 }
 
+//Displaying other username
 function displayOtherUsername(username) {;
     $('.username').text(username)
 }
 
+//Getting notes of a user
 function adjustNotesIconPublic(username) {
     $.ajax({
             type: 'GET',
@@ -373,8 +340,8 @@ function adjustNotesIconPublic(username) {
         });
 };
 
+//Displaying notes that shared to public
 function displayPublicNotes(notes) {
-    console.log('displayPublicNotes ran')
     $('.e').remove();
     $('.h').remove();
     $('.b').remove();
@@ -388,17 +355,17 @@ function displayPublicNotes(notes) {
 <div class='function-container'>
 <form class='edit-note-form'>
 <input type='hidden' class='edit-note-id' value='${note._id}'>
-<button type='submit' class='function-icon openNoteSmall-js'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></button>
+<button type='submit' class='function-icon openNoteSmall-js'><img src='../images/edit-icon.png' alt='edit note icon' title='edit note' /></button>
 </form>
 
 <form class='save-private-note-form'>
 <input type='hidden' class='save-private-note-id' value='${note._id}'>
-<button type='submit' class='function-icon save-private-js'><img src="../images/save-private-icon.png" alt="save note to home icon" title='move note to home' /></button>
+<button type='submit' class='function-icon save-private-js'><img src='../images/save-private-icon.png' alt='save note to home icon' title='move note to home' /></button>
 </form>
 
 <form class='delete-note-form'>
 <input type='hidden' class='delete-note-id' value='${note._id}'>
-<button type='submit' class='function-icon delete-js'><img src="../images/trash-icon.png" alt="delete note icon" title='delete note' /></button>
+<button type='submit' class='function-icon delete-js'><img src='../images/trash-icon.png' alt='delete note icon' title='delete note' /></button>
 </form>
 </div>
 </div>`)
@@ -406,6 +373,7 @@ function displayPublicNotes(notes) {
     });
 }
 
+//Displaying other users' note that shared to public
 function adjustOthersProfile(notes) {
     $('.e').remove();
     $('.b').remove();
@@ -425,7 +393,7 @@ function adjustOthersProfile(notes) {
 
 <form class='other'>
 <input type='hidden' class='edit-note-id' value='${note._id}'>
-<button type='submit' class='function-icon openNoteSmall-js'><img src="../images/edit-icon.png" alt="edit note icon" title='edit note' /></button>
+<button type='submit' class='function-icon openNoteSmall-js'><img src='../images/edit-icon.png' alt='edit note icon' title='edit note' /></button>
 </form>
 
 </div>
@@ -436,8 +404,10 @@ function adjustOthersProfile(notes) {
         $('.g').append(`<p class='h'>User doesn't have a note in public yet</p>`);
     }
 }
+
 //Define functions in *************************WORLD SECTION*************************
-//Request all usernames
+
+//Getting all usernames
 function getAllUsernames() {
     $.ajax({
             method: 'GET',
@@ -453,6 +423,7 @@ function getAllUsernames() {
         })
 }
 
+//Displaying all users
 function displayUsers(users) {
     let usernames = [];
     users.forEach(user => {
@@ -463,13 +434,13 @@ function displayUsers(users) {
     usernames.forEach(user => {
         $('.ataNoteUsers').append(`
 <a class='ataNoteUser' id='${user}'>
-<img class='avatar' src="./images/avatar.png" alt="avatar">
+<img class='avatar' src='./images/avatar.png' alt='avatar'>
 <p class='ataNoteUsername'>${user}</p>
 </a>`)
     })
 }
 
-//function to show profile when ataNoteUser is clicked
+//Displaying a user's profile
 function getUserProfile(userSelected) {
     $.ajax({
             method: 'GET',
@@ -503,7 +474,7 @@ $('#world-section').hide();
 
 
 
-//Sections hide and show (USE the functions at AJAX done instead)
+//Sections hide and show
 $('.show-home-section').click(() => {
     showHomeSection();
 })
@@ -540,8 +511,8 @@ $('.show-world-section').click(() => {
 })
 
 //Listeners in index
-//receive user registration in landing-page.html and send it to process function
-//input values will not be null because HTML <input required: true>
+//Receiving user registration in landing-page.html and send it to process function
+//Input values will not be null because HTML <input required: true>
 $('#registration').submit(event => {
     event.preventDefault();
     const firstName = $('#first-name').val();
@@ -550,14 +521,11 @@ $('#registration').submit(event => {
     const username = $('#username').val();
     const password = $('#password').val();
     const confirmPassword = $('#confirmPassword').val();
-    console.log(`Your first name is ${firstName}, last name is ${lastName}, email is ${email}, username is ${username}, and pasword is secret`);
     processRegistration(firstName, lastName, email, username, password, confirmPassword);
 });
 
-
-
 //Listeners in login
-//receive login data, send data to database, direct to home page of the user or error
+//Receving login data, send data to database, direct to home page of the user or error
 //input values will not be null because HTML <input required: true>
 $('.login').submit(event => {
     event.preventDefault();
@@ -566,11 +534,7 @@ $('.login').submit(event => {
     processLogin(username, password);
 });
 
-
-
-//Listeners in home
-
-//Open note in editor
+//When editing note in editor
 $(document).on('click', '.edit-note-form button', (event) => {
     event.preventDefault();
     let selectedId = $(event.target).closest('form').find('.edit-note-id').val();
@@ -591,7 +555,7 @@ $(document).on('click', '.edit-note-form button', (event) => {
         });
 })
 
-//Save note to public
+//When saving note to public
 $(document).on('click', '.save-public-note-form', event => {
     event.preventDefault();
     let selectedId = $(event.target).closest('form').find('.save-public-note-id').val();
@@ -605,7 +569,6 @@ $(document).on('click', '.save-public-note-form', event => {
             data: JSON.stringify(updateNoteObject),
             contentType: 'application/json'
         })
-        //POST will respond an empty note with unique ID
         .done(function (note) {
             showHomeSection();
         })
@@ -616,6 +579,7 @@ $(document).on('click', '.save-public-note-form', event => {
         });
 })
 
+//When saving note privately
 $(document).on('click', '.save-private-note-form', event => {
     event.preventDefault();
     let selectedId = $(event.target).closest('form').find('.save-private-note-id').val();
@@ -629,7 +593,6 @@ $(document).on('click', '.save-private-note-form', event => {
             data: JSON.stringify(updateNoteObject),
             contentType: 'application/json'
         })
-        //POST will respond an empty note with unique ID
         .done(function (note) {
             showHomeSection();
         })
@@ -640,7 +603,7 @@ $(document).on('click', '.save-private-note-form', event => {
         });
 })
 
-//Delete note
+//When deleting a note
 $(document).on('click', '.delete-note-form', (event) => {
     event.preventDefault();
     let selectedId = $(event.target).closest('form').find('.delete-note-id').val();
@@ -659,39 +622,11 @@ $(document).on('click', '.delete-note-form', (event) => {
         });
 })
 
-//Use when the whole note-icons are clickable in next update
-//open editor with note when clicking a note icon
-//$('.openNote-js').click(event => {
-//    showEditorSection();
-//    let noteIDValue = $(this).parent().find(".note-id").val();
-//    console.log(this, `ID selected is ${noteIDValue}`);
-//    $.ajax({
-//            method: 'GET',
-//            url: '/user/notes/' + NoteIDValue,
-//            dataType: 'json',
-//            data: JSON.stringify(updateNoteObject),
-//            contentType: 'application/json'
-//        })
-//        //POST will respond an empty note with unique ID
-//        .done(function (note) {
-//            adjustEditor(note);
-//        })
-//        .fail(function (jqXHR, error, errorThrown) {
-//            console.log(jqXHR);
-//            console.log(error);
-//            console.log(errorThrown);
-//        });
-//});
-
-
 //Listeners in editor
-//receive note
+//Receiving note
 $('#note-form').submit(event => {
     event.preventDefault();
     let id = $('.addID').val();
-    //control API request of note execution in editor.html
-    //    let actionValue = $('input[name=action]:checked]', '#note-form').val();
-    //    document.getElementById('RadioButton').checked
     let actionValue = $('input[name=action]:checked').val();
     let titleValue = $('.note-title').val();
     let bodyValue = $('#note').val();
@@ -701,14 +636,6 @@ $('#note-form').submit(event => {
         'type': actionValue,
         'username': account.username
     }
-
-    //    console.log(`actionValue is ${actionValue}`);
-    //    console.log(`Note's title is ${titleValue}`);
-    //    console.log(`Note's body is ${bodyValue}`);
-    //    console.log(`Note's id is ${id}`);
-    //    console.log(`Note's user is ${account.username}`);
-    //    console.log(`note has ${note}`);
-    //if note is new (has no id), request POST
     if (id == '0') {
 
         $.ajax({
@@ -718,7 +645,6 @@ $('#note-form').submit(event => {
                 data: JSON.stringify(note),
                 contentType: 'application/json'
             })
-            //POST will respond an empty note with unique ID
             .done(function (note) {
                 showHomeSection();
             })
@@ -728,7 +654,6 @@ $('#note-form').submit(event => {
                 console.log(errorThrown);
             });
     }
-    //if note exists (has id), request PUT to edit it
     else {
         note._id = id;
         processNote(note);
@@ -739,10 +664,10 @@ $('#note-form').submit(event => {
 //Listeners in world
 $('.ataNoteUsers').on('click', '.ataNoteUser', event => {
     let userSelected = $(event.target).closest('a').attr('id');
-    //    console.log(`the user selected is ${userSelected}`);
     getUserProfile(userSelected);
 })
 
+//When opening a note
 $(document).on('click', '.other button', (event) => {
     event.preventDefault();
     let selectedId = $(event.target).closest('form').find('.edit-note-id').val();
