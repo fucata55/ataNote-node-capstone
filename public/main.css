@@ -5,6 +5,7 @@
     font-family: 'Rubik', Sans-Serif;
     font-size: 45px;
     box-sizing: border-box;
+    outline: 0;
     -webkit-margin-before: 0px;
     -webkit-margin-after: 0px;
     -webkit-margin-start: 0px;
@@ -54,6 +55,7 @@ h3 {
 
 a {
     cursor: pointer;
+    text-decoration: none;
 }
 
 button>img {

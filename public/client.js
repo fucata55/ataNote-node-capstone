@@ -109,7 +109,7 @@ function processRegistration(firstName, lastName, email, username, password, con
             console.log('sign up sucessful');
             alert: 'Sign up sucessful';
         })
-        .fail(jqXHR, error, errorThrown => {
+        .fail((jqXHR, error, errorThrown) => {
             alert(jqXHR.responseJSON.message);
             console.log(jqXHR);
             console.log(jqXHR.responseJSON.message);
@@ -139,7 +139,7 @@ function processLogin(username, password) {
             getNotes(result.username);
             showHomeSection();
         })
-        .fail(function (jqXHR, error, errorThrown) {
+        .fail((jqXHR, error, errorThrown) => {
             alert('invalid user and password combination')
             console.log(jqXHR);
             console.log(error);
@@ -157,12 +157,12 @@ function getNotes(username) {
             type: 'GET',
             url: '/user/notes/all/' + username
         })
-        .done(function (notes) {
+        .done(notes => {
             adjustNotesIcon(notes);
             adjustNotesAmount(notes);
 
         })
-        .fail(function (jqXHR, error, errorThrown) {
+        .fail((jqXHR, error, errorThrown) => {
             console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
@@ -206,7 +206,7 @@ function adjustNotesIcon(notes) {
 
 //Giving amount of notes
 function adjustNotesAmount(notes) {
-    let amountOfPublicNotes = function () {
+    let amountOfPublicNotes = () => {
         let count = 0;
         notes.forEach(note => {
             if (note.type == 'public') {
@@ -215,7 +215,7 @@ function adjustNotesAmount(notes) {
         })
         return count
     };
-    let amountOfPrivateNotes = function () {
+    let amountOfPrivateNotes = () => {
         let count = 0;
         notes.forEach(note => {
             if (note.type == 'private') {
@@ -238,7 +238,7 @@ function deleteNote(note) {
             url: '/user/notes' + note._id,
         })
         .done()
-        .fail(function (jqXHR, error, errorThrown) {
+        .fail((jqXHR, error, errorThrown) => {
             console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
@@ -259,11 +259,11 @@ function processNote(_note) {
                 contentType: 'application/json',
                 url: '/user/notes/c/' + _note._id,
             })
-            .done(function (res) {
+            .done(res => {
                 console.log('Note deleted');
                 showHomeSection();
             })
-            .fail(function (jqXHR, error, errorThrown) {
+            .fail((jqXHR, error, errorThrown) => {
                 console.log(jqXHR);
                 console.log(error);
                 console.log(errorThrown);
@@ -281,7 +281,7 @@ function processNote(_note) {
                 console.log(`Successful to save note ${_note.type}ly`);
                 showHomeSection();
             })
-            .fail(function (jqXHR, error, errorThrown) {
+            .fail((jqXHR, error, errorThrown) => {
                 console.log(jqXHR);
                 console.log(error);
                 console.log(errorThrown);
@@ -329,10 +329,10 @@ function adjustNotesIconPublic(username) {
             type: 'GET',
             url: '/user/notes/all/' + username
         })
-        .done(function (notes) {
+        .done(notes => {
             displayPublicNotes(notes);
         })
-        .fail(function (jqXHR, error, errorThrown) {
+        .fail((jqXHR, error, errorThrown) => {
             console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
@@ -545,10 +545,10 @@ $(document).on('click', '.edit-note-form button', (event) => {
             method: 'GET',
             url: '/user/notes/a/' + selectedId,
         })
-        .done(function (note) {
+        .done(note => {
             adjustEditor(note);
         })
-        .fail(function (jqXHR, error, errorThrown) {
+        .fail((jqXHR, error, errorThrown) => {
             console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
@@ -569,10 +569,10 @@ $(document).on('click', '.save-public-note-form', event => {
             data: JSON.stringify(updateNoteObject),
             contentType: 'application/json'
         })
-        .done(function (note) {
+        .done(note =>{
             showHomeSection();
         })
-        .fail(function (jqXHR, error, errorThrown) {
+        .fail((jqXHR, error, errorThrown) => {
             console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
@@ -593,10 +593,10 @@ $(document).on('click', '.save-private-note-form', event => {
             data: JSON.stringify(updateNoteObject),
             contentType: 'application/json'
         })
-        .done(function (note) {
+        .done(note => {
             showHomeSection();
         })
-        .fail(function (jqXHR, error, errorThrown) {
+        .fail((jqXHR, error, errorThrown) => {
             console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
@@ -611,11 +611,11 @@ $(document).on('click', '.delete-note-form', (event) => {
             method: 'DELETE',
             url: '/user/notes/c/' + selectedId
         })
-        .done(function (res) {
+        .done(res => {
             console.log('Note deleted');
             showHomeSection();
         })
-        .fail(function (jqXHR, error, errorThrown) {
+        .fail((jqXHR, error, errorThrown) => {
             console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
@@ -645,10 +645,10 @@ $('#note-form').submit(event => {
                 data: JSON.stringify(note),
                 contentType: 'application/json'
             })
-            .done(function (note) {
+            .done(note => {
                 showHomeSection();
             })
-            .fail(function (jqXHR, error, errorThrown) {
+            .fail((jqXHR, error, errorThrown) => {
                 console.log(jqXHR);
                 console.log(error);
                 console.log(errorThrown);
@@ -678,12 +678,12 @@ $(document).on('click', '.other button', (event) => {
             method: 'GET',
             url: '/user/notes/a/' + selectedId,
         })
-        .done(function (note) {
+        .done(note => {
             console.log(note.title);
             adjustOtherEditor(note);
             showEditorSection();
         })
-        .fail(function (jqXHR, error, errorThrown) {
+        .fail((jqXHR, error, errorThrown) => {
             console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
