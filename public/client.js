@@ -106,8 +106,7 @@ function processRegistration(firstName, lastName, email, username, password, con
         })
         .done(result => {
             showLoginSection();
-            console.log('sign up sucessful');
-            alert: 'Sign up sucessful';
+            alert('Sign up sucessful');
         })
         .fail((jqXHR, error, errorThrown) => {
             alert(jqXHR.responseJSON.message);
@@ -479,7 +478,7 @@ $('.show-home-section').click(() => {
     showHomeSection();
 })
 
-$('show-registration-section').click(() => {
+$('.show-registration-section').click(() => {
     showRegistrationSection();
 })
 
