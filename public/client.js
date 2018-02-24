@@ -14,13 +14,13 @@ let emptyNote = {
 //Hide and show functions
 function showRegistrationSection() {
     $('#login-navbar').show();
-    $('#regisration-section').show();
+    $('#registration-section').show();
     $('#home-navbar').hide();
     $('#login-section').hide();
     $('#home-section').hide();
     $('#editor-section').hide();
     $('#profile-section').hide();
-    $('#world-section').hide();
+    $('#users-section').hide();
 }
 
 function showLoginSection() {
@@ -31,7 +31,7 @@ function showLoginSection() {
     $('#home-section').hide();
     $('#editor-section').hide();
     $('#profile-section').hide();
-    $('#world-section').hide();
+    $('#users-section').hide();
 }
 
 function showHomeSection(username) {
@@ -43,7 +43,7 @@ function showHomeSection(username) {
     $('#login-section').hide();
     $('#editor-section').hide();
     $('#profile-section').hide();
-    $('#world-section').hide();
+    $('#users-section').hide();
 }
 
 function showEditorSection() {
@@ -54,7 +54,7 @@ function showEditorSection() {
     $('#login-section').hide();
     $('#home-section').hide();
     $('#profile-section').hide();
-    $('#world-section').hide();
+    $('#users-section').hide();
 }
 
 function showProfileSection() {
@@ -65,13 +65,13 @@ function showProfileSection() {
     $('#login-section').hide();
     $('#home-section').hide();
     $('#editor-section').hide();
-    $('#world-section').hide();
+    $('#users-section').hide();
 }
 
-function showWorldSection() {
+function showUsersSection() {
     getAllUsernames();
     $('#home-navbar').show();
-    $('#world-section').show();
+    $('#users-section').show();
     $('#login-navbar').hide();
     $('#regisration-section').show();
     $('#login-section').hide();
@@ -404,7 +404,7 @@ function adjustOthersProfile(notes) {
     }
 }
 
-//Define functions in *************************WORLD SECTION*************************
+//Define functions in *************************USERS SECTION*************************
 
 //Getting all usernames
 function getAllUsernames() {
@@ -469,7 +469,7 @@ $('#login-section').hide();
 $('#home-section').hide();
 $('#editor-section').hide();
 $('#profile-section').hide();
-$('#world-section').hide();
+$('#users-section').hide();
 
 
 
@@ -505,8 +505,8 @@ $('.addNote-js').click(() => {
     $('textarea').val('');
 });
 
-$('.show-world-section').click(() => {
-    showWorldSection();
+$('.show-users-section').click(() => {
+    showUsersSection();
 })
 
 //Listeners in index
@@ -660,7 +660,7 @@ $('#note-form').submit(event => {
 })
 
 //Listeners in profile
-//Listeners in world
+//Listeners in users
 $('.ataNoteUsers').on('click', '.ataNoteUser', event => {
     let userSelected = $(event.target).closest('a').attr('id');
     getUserProfile(userSelected);
