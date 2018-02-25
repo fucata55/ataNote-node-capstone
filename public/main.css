@@ -257,6 +257,15 @@ button>img {
     margin-bottom: 20px;
 }
 
+#registration-section,
+#login-section {
+    background: url(./images/tron-wallpaper.jpg) no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    padding-top: 10%;
+
+}
+
 @media only screen and (max-width: 915px) {
     .editor,
     .users,
