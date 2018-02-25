@@ -16,10 +16,6 @@
     -webkit-padding-end: 0px;
 }
 
-html {
-    background: url(./images/tron-wallpaper.jpg) no-repeat center center fixed;
-    background-size: cover
-}
 nav {
     display: inline-block;
     float: right;
@@ -85,7 +81,6 @@ button>img {
 
 .forms {
     text-align: center;
-    margin-top: 60px;
     width: 600px;
     margin-left: auto;
     margin-right: auto;
@@ -261,7 +256,6 @@ button>img {
     text-align: center;
     margin-bottom: 20px;
 }
-
 
 @media only screen and (max-width: 915px) {
     .editor,
