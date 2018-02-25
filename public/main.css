@@ -16,6 +16,10 @@
     -webkit-padding-end: 0px;
 }
 
+html {
+    background: url(./images/tron-wallpaper.jpg) no-repeat center center fixed;
+    background-size: cover
+}
 nav {
     display: inline-block;
     float: right;

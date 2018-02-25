@@ -447,7 +447,6 @@ function getUserProfile(userSelected) {
         })
         .done(data => {
             otherAccount.username = userSelected;
-            console.log(userSelected, otherAccount.username);
             displayOtherUsername(otherAccount.username);
             adjustOthersProfile(data)
             showProfileSection();
