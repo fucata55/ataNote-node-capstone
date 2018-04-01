@@ -280,6 +280,12 @@ button>img {
     }
 }
 
+@media only screen and (max-width: 900px) {
+    .home {
+        width: 100%;
+    }
+}
+
 @media only screen and (max-width: 695px) {
     .profile,
     .users {
@@ -335,12 +341,6 @@ button>img {
     }
 }
 
-@media only screen and (max-width: 900px) {
-    .home {
-        width: 100%;
-    }
-}
-
 @media only screen and (max-width: 408px) {
     .multi-buttons>nav {
         width: 100%
@@ -355,9 +355,6 @@ button>img {
         width: 100%;
         text-align: center;
     }
-}
-
-@media only screen and (max-width: 345px) {
     .nav-item {
         display: block;
         text-align: center;
@@ -372,14 +369,6 @@ button>img {
     #login-navbar>a {
         display: block;
         text-align: center;
-    }
-}
-
-@media only screen and (max-width: 311px) {
-    .nav-item {
-        display: block;
-        text-align: center;
-        margin-top: 5px;
     }
     #notification {
         font-size: 16px;
